@@ -24,7 +24,14 @@ function GridBackdrop() {
 
 export function HeroScreen2() {
   return (
-    <div className="relative min-h-[100svh] w-full overflow-hidden border border-black/5 bg-gradient-to-b from-[#F6F8FF] to-white p-6 shadow-xl " style={{ alignContent: 'center' }}>
+    <div
+      className="relative min-h-[100svh] w-full overflow-hidden border border-black/5 p-6 shadow-xl"
+      style={{
+        alignContent: "center",
+        background:
+          "linear-gradient(to bottom, var(--primary-soft), var(--background))",
+      }}
+    >
       <GridBackdrop />
       <div className="relative flex h-full flex-col items-center">
         <div className="flex-1 w-full flex flex-col items-center justify-center">
@@ -42,7 +49,13 @@ export function HeroScreen2() {
           </motion.div>
         </div>
         {/* Hero Content */}
-        <div className="text-center z-10 bg-white/80 shadow-lg backdrop-blur-xl rounded-3xl p-6">
+        <div
+          className="z-10 rounded-3xl p-6 text-center shadow-lg backdrop-blur-xl"
+          style={{
+            background:
+              "linear-gradient(to bottom right, color-mix(in srgb, var(--primary) 10%, white), color-mix(in srgb, var(--primary) 4%, white))",
+          }}
+        >
           <div className="text-[42px] font-extrabold leading-[1.05] tracking-tight text-zinc-900">
             <motion.h1
               className="text-balance text-3xl font-extrabold leading-[1.08] tracking-tight text-zinc-950 dark:text-zinc-50 sm:text-4xl"
@@ -79,7 +92,12 @@ export function HeroScreen2() {
         <div className="mt-8 relative pb-2 pt-2">
           <button
             type="button"
-            className="mx-auto flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-600 to-blue-600 px-5 py-3 text-[13px] font-extrabold text-white shadow-md ring-1 ring-white/10"
+            className="mx-auto flex items-center gap-2 rounded-xl px-5 py-3 text-[13px] font-extrabold shadow-md ring-1 ring-white/10"
+            style={{
+              background:
+                "linear-gradient(to bottom right, var(--primary), color-mix(in srgb, var(--primary) 82%, #0f172a))",
+              color: "var(--primary-foreground)",
+            }}
           >
             <span className="inline-flex h-5 w-5 items-center justify-center rounded-md bg-white/15">
               <SparklesIcon />

@@ -42,9 +42,14 @@ export function Navbar({
       >
         <div
           className={`flex items-center justify-between rounded-3xl border px-4 py-3 shadow-sm backdrop-blur-xl transition ${scrolled
-            ? "border-white/12 bg-white/65 dark:border-white/15 dark:bg-zinc-950/55"
-            : "border-white/10 bg-white/55 dark:border-white/15 dark:bg-zinc-950/45"
+            ? "border-white/12 dark:border-white/15"
+            : "border-white/10 dark:border-white/15"
             }`}
+          style={{
+            background: scrolled
+              ? "color-mix(in srgb, var(--primary) 12%, white)"
+              : "color-mix(in srgb, var(--primary) 8%, white)",
+          }}
         >
           <div className="flex items-center gap-3">
               <div className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 ring-1 ring-blue-500/20 shadow-sm">
@@ -79,7 +84,11 @@ export function Navbar({
             <button
               type="button"
               onClick={onPrimaryCTA}
-              className="hidden rounded-2xl bg-zinc-950 px-4 py-2.5 text-sm font-semibold text-white shadow-sm ring-1 ring-white/10 transition hover:shadow-md hover:shadow-zinc-950/20 dark:bg-white dark:text-zinc-950 md:inline-flex"
+              className="hidden rounded-2xl px-4 py-2.5 text-sm font-semibold shadow-sm ring-1 ring-white/10 transition hover:shadow-md md:inline-flex"
+              style={{
+                background: "var(--primary)",
+                color: "var(--primary-foreground)",
+              }}
             >
               Book Free Demo
             </button>
@@ -101,7 +110,11 @@ export function Navbar({
             <button
               type="button"
               onClick={onPrimaryCTA}
-              className="rounded-2xl bg-zinc-950 px-3 py-2 text-xs font-semibold text-white transition hover:opacity-95 dark:bg-white dark:text-zinc-950"
+              className="rounded-2xl px-3 py-2 text-xs font-semibold transition hover:opacity-95"
+              style={{
+                background: "var(--primary)",
+                color: "var(--primary-foreground)",
+              }}
             >
               Demo
             </button>

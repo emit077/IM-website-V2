@@ -76,57 +76,59 @@ export function TrustScaleSection({
   );
 
   return (
-    <section className="mx-auto max-w-6xl px-4 pt-16">
-      <Reveal>
-        <div className="grid gap-6 md:grid-cols-3">
-          <div className="rounded-[2rem] border border-white/12 bg-white/45 p-6 shadow-sm backdrop-blur-xl dark:border-white/15 dark:bg-zinc-950/25">
-            <SectionHeader
-              eyebrow="Trust & scale"
-              title="Learn with verified mentors"
-              subtitle="Trusted by families across India. Built for academic results."
-            />
-          </div>
-          <div className="col-span-2 md:col-span-2">
-            <div className="grid gap-4 sm:grid-cols-3">
-              {stats.map((s) => (
-                <AnimatedCounter
-                  key={s.label}
-                  value={s.value}
-                  suffix={s.suffix}
-                  label={s.label}
-                />
-              ))}
+    <section className=" bg-blue-50 py-16">
+      <div className="mx-auto max-w-6xl px-4 ">
+        <Reveal>
+          <div className="grid gap-6 md:grid-cols-3">
+            <div className="rounded-[2rem] border border-white/12 bg-white/45 p-6 shadow-sm backdrop-blur-xl dark:border-white/15 dark:bg-zinc-950/25">
+              <SectionHeader
+                eyebrow="Trust & scale"
+                title="Learn with verified mentors"
+                subtitle="Trusted by families across India. Built for academic results."
+              />
             </div>
+            <div className="col-span-2 md:col-span-2">
+              <div className="grid gap-4 sm:grid-cols-3">
+                {stats.map((s) => (
+                  <AnimatedCounter
+                    key={s.label}
+                    value={s.value}
+                    suffix={s.suffix}
+                    label={s.label}
+                  />
+                ))}
+              </div>
 
-            <div className="mt-6 rounded-[2rem] border border-white/12 bg-white/45 p-6 shadow-sm backdrop-blur-xl dark:border-white/15 dark:bg-zinc-950/25">
-              <div className="flex items-start gap-4">
-                <div className="rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 p-3 text-blue-700 ring-1 ring-blue-500/15 dark:text-blue-200">
-                  <ShieldIcon />
-                </div>
-                <div>
-                  <div className="text-lg font-extrabold text-zinc-950 dark:text-zinc-50">
-                    Verified & performance-reviewed tutors
+              <div className="mt-6 rounded-[2rem] border border-white/12 bg-white/45 p-6 shadow-sm backdrop-blur-xl dark:border-white/15 dark:bg-zinc-950/25">
+                <div className="flex items-start gap-4">
+                  <div className="rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 p-3 text-blue-700 ring-1 ring-blue-500/15 dark:text-blue-200">
+                    <ShieldIcon />
                   </div>
-                  <div className="mt-2 text-sm font-semibold leading-relaxed text-zinc-600 dark:text-zinc-300">
-                    We match students with mentors who teach clearly, track progress
-                    weekly, and keep learning on schedule.
-                  </div>
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      onClick={onBookFreeDemo}
-                      className="inline-flex h-11 items-center justify-center rounded-2xl bg-zinc-950 px-5 text-sm font-extrabold text-white ring-1 ring-white/10 transition hover:opacity-95 dark:bg-white dark:text-zinc-950"
-                    >
-                      Book Free Demo
-                      <ArrowRightIcon />
-                    </button>
+                  <div>
+                    <div className="text-lg font-extrabold text-zinc-950 dark:text-zinc-50">
+                      Verified & performance-reviewed tutors
+                    </div>
+                    <div className="mt-2 text-sm font-semibold leading-relaxed text-zinc-600 dark:text-zinc-300">
+                      We match students with mentors who teach clearly, track progress
+                      weekly, and keep learning on schedule.
+                    </div>
+                    <div className="mt-4">
+                      <button
+                        type="button"
+                        onClick={onBookFreeDemo}
+                        className="inline-flex h-11 items-center justify-center rounded-2xl bg-zinc-950 px-5 text-sm font-extrabold text-white ring-1 ring-white/10 transition hover:opacity-95 dark:bg-white dark:text-zinc-950"
+                      >
+                        Book Free Demo
+                        <ArrowRightIcon />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </Reveal>
+        </Reveal>
+      </div>
     </section>
   );
 }

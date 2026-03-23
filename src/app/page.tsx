@@ -843,15 +843,7 @@ export default function Home() {
       />
 
       <HeroScreen2 />
-      {/* <HeroScreen /> */}
-      <IMSmartSearchBar
-        onSearch={({ subject, grade, location, mode }) => {
-          const place = location.trim() ? ` in ${location.trim()}` : "";
-          setToast(
-            `Searching verified ${mode.toLowerCase()} tutors for ${subject}, ${grade}${place}.`
-          );
-        }}
-      />
+
 
       <main className="pb-24">
         <TrustScaleSection
@@ -876,7 +868,15 @@ export default function Home() {
           </Reveal>
           <HowItWorks />
         </section>
-
+        {/* <HeroScreen /> */}
+        <IMSmartSearchBar
+          onSearch={({ subject, grade, location, mode }) => {
+            const place = location.trim() ? ` in ${location.trim()}` : "";
+            setToast(
+              `Searching verified ${mode.toLowerCase()} tutors for ${subject}, ${grade}${place}.`
+            );
+          }}
+        />
         <section id="tutors" className="mx-auto max-w-6xl px-4 pt-16">
           <Reveal>
             <SectionHeader

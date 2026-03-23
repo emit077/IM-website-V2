@@ -43,24 +43,24 @@ function ServicesGrid() {
   ];
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ">
       {services.map((s) => (
         <motion.div
           key={s.title}
           whileHover={{ y: -6, boxShadow: "0 18px 60px rgba(59,130,246,0.18)" }}
           transition={{ duration: 0.25, ease: [0.2, 0.8, 0.2, 1] }}
-          className="group rounded-[2rem] border border-white/12 bg-white/45 p-6 shadow-sm backdrop-blur-xl transition dark:border-white/15 dark:bg-zinc-950/25"
+          className="group rounded-[2rem] border border-blue-200/40 bg-white/10 p-6 shadow-sm backdrop-blur-xl transition"
         >
-          <div className="rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 p-3 text-blue-700 ring-1 ring-blue-500/15 transition group-hover:text-blue-500 dark:text-blue-200">
+          <div className="rounded-2xl bg-gradient-to-br from-white/20 to-blue-200/20 p-3 text-white ring-1 ring-white/20 transition">
             {s.icon}
           </div>
-          <div className="mt-4 text-lg font-extrabold text-zinc-950 dark:text-zinc-50">
+          <div className="mt-4 text-lg font-extrabold text-white">
             {s.title}
           </div>
-          <div className="mt-2 text-sm font-semibold leading-relaxed text-zinc-600 dark:text-zinc-300">
+          <div className="mt-2 text-sm font-semibold leading-relaxed text-blue-50/95">
             {s.desc}
           </div>
-          <div className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-blue-700 transition group-hover:text-blue-600 dark:text-blue-200">
+          <div className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-white transition group-hover:text-blue-100">
             Explore{" "}
             <span className="translate-y-[1px]">
               <ArrowRightIcon />
@@ -74,19 +74,22 @@ function ServicesGrid() {
 
 export function ServicesSection() {
   return (
-    <section id="services" className="mx-auto max-w-6xl px-4 pt-16">
-      <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
-        <div className="lg:col-span-5">
-          <Reveal>
-            <SectionHeader
-              eyebrow="Services"
-              title="Flexible tutoring formats"
-              subtitle="Choose home or online—Indian Mentors matches verified mentors with a clear plan."
-            />
-          </Reveal>
-        </div>
-        <div className="lg:col-span-12">
-          <ServicesGrid />
+    <section id="services" className=" border border-blue-200/40 " style={{ background: "linear-gradient(135deg, var(--primary) 0%, #1d4ed8 60%, #1e40af 100%)" }}>
+      <div className="mx-auto max-w-6xl px-4 py-16">
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
+          <div className="lg:col-span-5">
+            <Reveal>
+              <SectionHeader
+                eyebrow="Services"
+                title="Flexible tutoring formats"
+                subtitle="Choose home or online - Indian Mentors matches verified mentors with a clear plan."
+                tone="onBlue"
+              />
+            </Reveal>
+          </div>
+          <div className="lg:col-span-12">
+            <ServicesGrid />
+          </div>
         </div>
       </div>
     </section>

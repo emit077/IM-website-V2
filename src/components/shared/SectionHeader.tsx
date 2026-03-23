@@ -7,9 +7,15 @@ export type SectionHeaderProps = {
   eyebrow: string;
   title: string;
   subtitle?: string;
+  tone?: "default" | "onBlue";
 };
 
-export function SectionHeader({ eyebrow, title, subtitle }: SectionHeaderProps) {
+export function SectionHeader({
+  eyebrow,
+  title,
+  subtitle,
+  tone = "default",
+}: SectionHeaderProps) {
   const dashIdx = title.lastIndexOf("—");
   const spaceIdx = title.lastIndexOf(" ");
 
@@ -28,22 +34,41 @@ export function SectionHeader({ eyebrow, title, subtitle }: SectionHeaderProps) 
         ? title.slice(spaceIdx + 1)
         : title;
 
+  const isOnBlue = tone === "onBlue";
+
   return (
     <div className="text-left">
-      <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/55 px-4 py-2 text-xs font-extrabold tracking-wide text-zinc-950 backdrop-blur-xl dark:border-white/15 dark:bg-zinc-950/25 dark:text-zinc-50">
+      <div
+        className={[
+          "inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-extrabold tracking-wide backdrop-blur-xl",
+          isOnBlue
+            ? "border border-white/25 bg-white/10 text-white"
+            : "border border-white/12 bg-white/55 text-zinc-950 dark:border-white/15 dark:bg-zinc-950/25 dark:text-zinc-50",
+        ].join(" ")}
+      >
         <SparklesIcon />
         {eyebrow}
       </div>
 
-      <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50 sm:text-4xl">
+      <h2
+        className={[
+          "mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl",
+          isOnBlue ? "text-white" : "text-zinc-950 dark:text-zinc-50",
+        ].join(" ")}
+      >
         {before}
-        <span className="relative z-[1] inline-block text-blue-800 dark:text-[#ff8a3d]">
+        <span
+          className={[
+            "relative z-[1] inline-block",
+            isOnBlue ? "text-blue-100" : "text-blue-800 dark:text-[#ff8a3d]",
+          ].join(" ")}
+        >
           {highlighted}
 
           {/* Single smooth curved underline behind the highlighted word. */}
           <svg
             aria-hidden="true"
-            className="absolute -bottom-1 left-0 right-0 h-[10px] w-full -z-10"
+            className="absolute -bottom-1 left-0 right-0 h-[10px] w-full -z-10 bottom-[-7px]"
             viewBox="0 0 120 12"
             preserveAspectRatio="none"
           >
@@ -60,7 +85,12 @@ export function SectionHeader({ eyebrow, title, subtitle }: SectionHeaderProps) 
       </h2>
 
       {subtitle ? (
-        <p className="mt-3 max-w-2xl text-lg font-semibold leading-relaxed text-zinc-600 dark:text-zinc-300">
+        <p
+          className={[
+            "mt-3 max-w-2xl text-lg font-semibold leading-relaxed",
+            isOnBlue ? "text-blue-100" : "text-zinc-600 dark:text-zinc-300",
+          ].join(" ")}
+        >
           {subtitle}
         </p>
       ) : null}
