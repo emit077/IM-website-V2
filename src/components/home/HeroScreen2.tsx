@@ -25,7 +25,7 @@ function GridBackdrop() {
 export function HeroScreen2() {
   return (
     <div
-      className="relative min-h-[100svh] w-full overflow-hidden border border-black/5 p-6 shadow-xl"
+      className="relative min-h-[100svh] w-full overflow-hidden border border-black/5 p-6 "
       style={{
         alignContent: "center",
         background:

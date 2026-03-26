@@ -17,8 +17,11 @@ function NavLink({ href, label }: { href: string; label: string }) {
 
 export function Navbar({
   onPrimaryCTA,
+  fixedClassName = "top-0",
 }: {
   onPrimaryCTA: () => void;
+  /** e.g. `top-[42px]` when a bar sits above the nav */
+  fixedClassName?: string;
 }) {
   const [scrolled, setScrolled] = useState(false);
 
@@ -34,7 +37,7 @@ export function Navbar({
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: [0.2, 0.8, 0.2, 1] }}
-      className="fixed top-0 z-40 w-full"
+      className={`fixed z-40 w-full ${fixedClassName}`}
     >
       <div
         className={`mx-auto w-full max-w-6xl px-4 transition ${scrolled ? "pt-2" : "pt-3"
@@ -52,15 +55,15 @@ export function Navbar({
           }}
         >
           <div className="flex items-center gap-3">
-              <div className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 ring-1 ring-blue-500/20 shadow-sm">
-                <Image
-                  src="/assets/logo/im-logo-mini.png"
-                  alt="Indian Mentors"
-                  fill
-                  sizes="40px"
-                  className="object-contain p-2"
-                  priority
-                />
+            <div className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 ring-1 ring-blue-500/20 shadow-sm">
+              <Image
+                src="/assets/logo/im-logo-mini.png"
+                alt="Indian Mentors"
+                fill
+                sizes="40px"
+                className="object-contain p-2"
+                priority
+              />
             </div>
             <div className="leading-tight">
               <div className="text-sm font-extrabold tracking-wide text-zinc-950 dark:text-zinc-50">

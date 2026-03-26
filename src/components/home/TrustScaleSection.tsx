@@ -76,7 +76,7 @@ export function TrustScaleSection({
   );
 
   return (
-    <section className=" bg-blue-50 py-16">
+    <section className=" bg-blue-50 py-16 shadow-xl ">
       <div className="mx-auto max-w-6xl px-4 ">
         <Reveal>
           <div className="grid gap-6 md:grid-cols-3">

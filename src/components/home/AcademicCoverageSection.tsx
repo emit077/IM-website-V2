@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Reveal } from "./scrollUtils";
 import { SectionHeader } from "@/components/shared/SectionHeader";
-import { CheckMiniIcon } from "@/components/shared/SvgIcons";
+import { ArrowRightIcon, CheckMiniIcon } from "@/components/shared/SvgIcons";
 
 function CoverageTabs() {
   const tabs = [
@@ -47,37 +47,40 @@ function CoverageTabs() {
   const selected = tabs.find((t) => t.id === active)!;
 
   return (
-    <div className="rounded-[2rem] border border-white/12 bg-white/45 p-4 shadow-sm backdrop-blur-xl dark:border-white/15 dark:bg-zinc-950/25">
-      <div className="flex gap-2 overflow-x-auto pb-2">
+    <div className="rounded-3xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-zinc-900/40 sm:p-5">
+      <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-1 dark:border-white/10 dark:bg-zinc-900">
+        <div className="grid min-w-[320px] grid-cols-3 gap-1">
         {tabs.map((t) => (
           <button
             key={t.id}
             type="button"
             onClick={() => setActive(t.id)}
-            className={`rounded-2xl px-4 py-2 text-sm font-extrabold transition ${t.id === active
-                ? "bg-gradient-to-br from-blue-600 to-blue-600 text-white shadow-md"
-                : "border border-black/10 bg-white/60 text-zinc-900 hover:bg-white dark:border-white/15 dark:bg-white/5 dark:text-zinc-50"
-              }`}
+            className={`rounded-xl px-3 py-2 text-sm font-bold transition sm:px-4 ${
+              t.id === active
+                ? "bg-blue-600 text-white shadow-sm"
+                : "text-zinc-700 hover:bg-white dark:text-zinc-200 dark:hover:bg-white/5"
+            }`}
           >
             {t.label}
           </button>
         ))}
+        </div>
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-12 lg:items-start">
+      <div className="mt-5 grid gap-5 lg:grid-cols-12 lg:items-start">
         <Reveal delay={0.05}>
-          <div className="lg:col-span-5">
-            <div className="text-2xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50">
+          <div className="lg:col-span-4">
+            <div className="text-xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50 sm:text-2xl">
               {selected.title}
             </div>
-            <div className="mt-2 text-sm font-semibold leading-relaxed text-zinc-600 dark:text-zinc-300">
+            <div className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
               Your mentor builds a plan around your syllabus, pace, and exam
               readiness.
             </div>
           </div>
         </Reveal>
 
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-8">
           <AnimatePresence mode="wait">
             <motion.ul
               key={selected.id}
@@ -85,15 +88,15 @@ function CoverageTabs() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{
-                duration: 0.25,
+                duration: 0.2,
                 ease: [0.2, 0.8, 0.2, 1],
               }}
-              className="grid gap-2 sm:grid-cols-2"
+              className="divide-y divide-zinc-200 rounded-2xl border border-zinc-200 bg-zinc-50 dark:divide-white/10 dark:border-white/10 dark:bg-zinc-900/40"
             >
               {selected.bullets.map((b) => (
                 <li
                   key={b}
-                  className="flex items-start gap-2 rounded-2xl border border-black/5 bg-white/60 px-4 py-3 text-sm font-semibold text-zinc-700 dark:border-white/10 dark:bg-white/5 dark:text-zinc-200"
+                  className="flex items-start gap-2 px-4 py-3 text-sm text-zinc-700 dark:text-zinc-200"
                 >
                   <CheckMiniIcon />
                   <span>{b}</span>
@@ -102,6 +105,16 @@ function CoverageTabs() {
             </motion.ul>
           </AnimatePresence>
         </div>
+      </div>
+
+      <div className="mt-4 flex justify-end">
+        <a
+          href="#contact"
+          className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-bold text-blue-700 transition hover:bg-blue-100 dark:border-blue-400/30 dark:bg-blue-500/10 dark:text-blue-200 dark:hover:bg-blue-500/20"
+        >
+          Talk to an academic advisor
+          <ArrowRightIcon />
+        </a>
       </div>
     </div>
   );
