@@ -49,7 +49,7 @@ export function SmartSearchBar({
     mode: "Online" | "Home";
   }) => void;
 }) {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const [subject, setSubject] = useState("Mathematics");
   const [grade, setGrade] = useState("Grade 6-8");
   const [location, setLocation] = useState("");
@@ -58,10 +58,7 @@ export function SmartSearchBar({
   const reduced = useReducedMotion();
 
   useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth < 768) setExpanded(true);
-      else setExpanded(false);
-    };
+    const onResize = () => setExpanded(true);
     onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
@@ -69,9 +66,8 @@ export function SmartSearchBar({
 
   return (
     <div
-      className=" top-[88px] z-30 mx-auto max-w-6xl px-4"
+      className=" top-[88px] z-30 mx-auto px-4"
       onMouseEnter={() => setExpanded(true)}
-      onMouseLeave={() => setExpanded(false)}
     >
       <motion.form
         initial={false}
@@ -79,7 +75,6 @@ export function SmartSearchBar({
         transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
         className="mt-6 w-full rounded-[2rem] border border-white/12 bg-white/55 p-3 shadow-sm backdrop-blur-xl dark:border-white/15 dark:bg-zinc-950/35"
         onFocusCapture={() => setExpanded(true)}
-        onBlurCapture={() => setExpanded(false)}
         onSubmit={(e) => {
           e.preventDefault();
           onSearch({ subject, grade, location, mode });
@@ -162,7 +157,7 @@ export function SmartSearchBar({
               <motion.button
                 type="submit"
                 whileTap={{ scale: 0.98 }}
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-zinc-950 px-4 text-sm font-semibold text-white shadow-sm ring-1 ring-white/10 transition hover:shadow-md hover:shadow-zinc-950/20 dark:bg-white dark:text-zinc-950"
+                className=" inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm ring-1 ring-white/10 transition hover:shadow-md hover:shadow-zinc-950/20 dark:bg-white dark:text-zinc-950"
                 animate={
                   reduced
                     ? undefined

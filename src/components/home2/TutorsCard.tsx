@@ -1,5 +1,8 @@
 "use client";
 
+import { useMemo, useState } from "react";
+import { SmartSearchBar as IMSmartSearchBar } from "@/components/home/SmartSearchBar";
+
 type Tutor = {
     name: string;
     location: string;
@@ -29,6 +32,19 @@ const tutors: Tutor[] = [
         image: "https://i.pravatar.cc/400?img=5",
         pricePerHour: 1000,
         featured: true,
+    },
+    {
+        name: "Aarav Sharma",
+        location: "Noida, Uttar Pradesh, India",
+        subjects: ["Maths", "Physics", "Chemistry"],
+        languages: ["Hindi (Native)", "English (Fluent)"],
+        bio: "JEE Foundation Tutor | 8 years of experience | Problem Solving | Algebra | Trigonometry | Calculus",
+        rating: 4.8,
+        reviews: 11200,
+        classes: 120,
+        students: 52,
+        image: "https://i.pravatar.cc/400?img=12",
+        pricePerHour: 1100,
     },
     {
         name: "Aarav Sharma",
@@ -83,69 +99,115 @@ function UserIcon() {
     );
 }
 
+type SearchPayload = {
+    subject: string;
+    grade: string;
+    location: string;
+    mode: "Online" | "Home";
+};
+
+function normalizeSubject(subject: string) {
+    const s = subject.toLowerCase();
+    if (s === "mathematics") return "maths";
+    if (s === "social science") return "social";
+    return s;
+}
+
 export function TutorsCard() {
+    const [search, setSearch] = useState<SearchPayload>({
+        subject: "Mathematics",
+        grade: "Grade 6-8",
+        location: "",
+        mode: "Online",
+    });
+
+    const filteredTutors = useMemo(() => {
+        const subjectNeedle = normalizeSubject(search.subject);
+        const locationNeedle = search.location.trim().toLowerCase();
+
+        return tutors.filter((tutor) => {
+            const subjectHit = tutor.subjects.some((s) =>
+                s.toLowerCase().includes(subjectNeedle)
+            );
+            const locationHit = locationNeedle
+                ? tutor.location.toLowerCase().includes(locationNeedle)
+                : true;
+            return subjectHit && locationHit;
+        });
+    }, [search]);
+
     return (
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {tutors.map((tutor) => (
-                <article
-                    key={tutor.name}
-                    className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
-                >
-                    <div className="relative bg-blue-600 px-6 pb-5 pt-4 text-white">
-                        <div className="mx-auto h-20 w-20 overflow-hidden rounded-full border-4 border-white/90 bg-white shadow">
-                            <img src={tutor.image} alt={tutor.name} className="h-full w-full object-cover" />
-                        </div>
-                        <h3 className="mt-3 text-center text-1xl font-semibold">
-                            {tutor.name} <span className="text-green-300">✓</span>
-                        </h3>
-                        <p className="mx-auto mt-2 w-fit rounded-lg bg-white/20 px-3 py-1 text-xs font-medium">
-                            {tutor.location}
-                        </p>
-                        <p className="mt-3 text-center text-sm">{tutor.subjects.join(" | ")}</p>
-                    </div>
+        <div className="space-y-5">
+            <IMSmartSearchBar onSearch={setSearch} />
 
-                    <div className="grid grid-cols-3 gap-2 bg-slate-100 px-4 py-3 text-center">
-                        <div>
-                            <p className="flex items-center justify-center gap-1 text-xl font-semibold text-slate-900">
-                                {tutor.rating} <StarIcon />
-                            </p>
-                            <p className="text-xs text-slate-500">{Math.floor(tutor.reviews / 1000)}k Reviews</p>
-                        </div>
-                        <div>
-                            <p className="flex items-center justify-center gap-1 text-xl font-semibold text-slate-900">
-                                {tutor.classes} <ClockIcon />
-                            </p>
-                            <p className="text-xs text-slate-500">Hrs Classes</p>
-                        </div>
-                        <div>
-                            <p className="flex items-center justify-center gap-1 text-xl font-semibold text-slate-900">
-                                {tutor.students} <UserIcon />
-                            </p>
-                            <p className="text-xs text-slate-500">Students</p>
-                        </div>
-                    </div>
-
-                    <div className="space-y-3 p-5">
-                        <p className="text-xs text-slate-700">
-                            {tutor.languages.join(", ")}
-                        </p>
-                        <p className="line-clamp-3 text-[14px] leading-relaxed text-slate-500">{tutor.bio}</p>
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <span className="text-2xl font-bold text-slate-900">₹{tutor.pricePerHour}</span>
-                                <span className="ml-1 text-sm text-slate-500">/hour</span>
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+                {filteredTutors.map((tutor) => (
+                    <article
+                        key={tutor.name}
+                        className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+                    >
+                        <div className="relative bg-blue-600 px-6 pb-5 pt-4 text-white">
+                            <div className="mx-auto h-20 w-20 overflow-hidden rounded-full border-4 border-white/90 bg-white shadow">
+                                <img src={tutor.image} alt={tutor.name} className="h-full w-full object-cover" />
                             </div>
-                            {tutor.featured ? <span className="text-xs font-semibold text-green-500">↗ Popular Tutor</span> : null}
+                            <h3 className="mt-3 text-center text-1xl font-semibold">
+                                {tutor.name} <span className="text-green-300">✓</span>
+                            </h3>
+                            <p className="mx-auto mt-2 w-fit rounded-lg bg-white/20 px-3 py-1 text-xs font-medium">
+                                {tutor.location}
+                            </p>
+                            <p className="mt-3 text-center text-sm">{tutor.subjects.join(" | ")}</p>
                         </div>
-                        <button
-                            type="button"
-                            className="mt-1 inline-flex w-full items-center justify-center rounded-md border border-blue-600 bg-white px-4 py-2 text-1xl font-medium text-blue-600 transition hover:bg-blue-50"
-                        >
-                            Know More
-                        </button>
-                    </div>
-                </article>
-            ))}
+
+                        <div className="grid grid-cols-3 gap-2 bg-slate-100 px-4 py-3 text-center">
+                            <div>
+                                <p className="flex items-center justify-center gap-1 text-xl font-semibold text-slate-900">
+                                    {tutor.rating} <StarIcon />
+                                </p>
+                                <p className="text-xs text-slate-500">{Math.floor(tutor.reviews / 1000)}k Reviews</p>
+                            </div>
+                            <div>
+                                <p className="flex items-center justify-center gap-1 text-xl font-semibold text-slate-900">
+                                    {tutor.classes} <ClockIcon />
+                                </p>
+                                <p className="text-xs text-slate-500">Hrs Classes</p>
+                            </div>
+                            <div>
+                                <p className="flex items-center justify-center gap-1 text-xl font-semibold text-slate-900">
+                                    {tutor.students} <UserIcon />
+                                </p>
+                                <p className="text-xs text-slate-500">Students</p>
+                            </div>
+                        </div>
+
+                        <div className="space-y-3 p-5">
+                            <p className="text-xs text-slate-700">
+                                {tutor.languages.join(", ")}
+                            </p>
+                            <p className="line-clamp-3 text-[14px] leading-relaxed text-slate-500">{tutor.bio}</p>
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <span className="text-2xl font-bold text-slate-900">₹{tutor.pricePerHour}</span>
+                                    <span className="ml-1 text-sm text-slate-500">/hour</span>
+                                </div>
+                                {tutor.featured ? <span className="text-xs font-semibold text-green-500">↗ Popular Tutor</span> : null}
+                            </div>
+                            <button
+                                type="button"
+                                className="mt-1 inline-flex w-full items-center justify-center rounded-md border border-blue-600 bg-white px-4 py-2 text-1xl font-medium text-blue-600 transition hover:bg-blue-50"
+                            >
+                                Know More
+                            </button>
+                        </div>
+                    </article>
+                ))}
+            </div>
+
+            {filteredTutors.length === 0 ? (
+                <p className="rounded-2xl border border-slate-200 bg-white px-4 py-5 text-center text-sm text-slate-500">
+                    No mentors found for this search. Try changing subject, mode, or location.
+                </p>
+            ) : null}
         </div>
     );
 }
