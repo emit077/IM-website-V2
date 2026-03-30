@@ -5,6 +5,11 @@ import { LandingPageNavbar } from "./LandingPageNavbar";
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { TutorsCard } from "@/components/home2/TutorsCard";
+import { VideoTestimonialsSection } from "@/components/home2/VideoTestimonialsSection";
+import { TeacherRecruitmentSection } from "@/components/home2/TeacherRecruitmentSection";
+import { ChannelPartnerSection } from "@/components/home2/ChannelPartnerSection";
+import { StudentEnrollmentProcessSection } from "@/components/home2/StudentEnrollmentProcessSection";
+import { TrustScaleSection } from "@/components/home2/TrustScaleSection";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -385,118 +390,12 @@ export default function LandingPage1() {
       className={`${poppins.className} min-h-screen bg-[#F8F9FA] text-slate-900`}
     >
       <LandingPageNavbar />
-      <HeroSlider className="h-[150px] sm:h-[320px] md:h-[600px]" />
 
-      {/* <div className="relative overflow-hidden bg-blue-700 pb-24 pt-28 md:pb-13 md:pt-24">
-        <div
-          className="pointer-events-none absolute -right-24 top-1/4 h-[420px] w-[420px] rounded-full opacity-35 md:right-0"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(255,255,255,0.55) 1.5px, transparent 1.5px)",
-            backgroundSize: "14px 14px",
-            maskImage:
-              "radial-gradient(circle at center, black 35%, transparent 70%)",
-            WebkitMaskImage:
-              "radial-gradient(circle at center, black 35%, transparent 70%)",
-          }}
-        />
+      <HeroSlider className="relative z-0 h-[150px] sm:h-[320px] md:h-[600px]" />
 
-        <div className="relative z-10 mx-auto grid max-w-[1200px] items-center gap-10 px-4 pt-10 md:grid-cols-2 md:gap-8 md:pt-10 lg:gap-14">
-          <div className="max-w-xl">
-            <p className="mb-3 text-xs font-bold tracking-[0.1em] text-white/90 md:text-sm pt-10">
-              India’s Trusted Platform for Verified Home & Online Tutors
-            </p>
-            <h1 className="text-3xl font-extrabold leading-tight text-[#FFD600] sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]">
-              Personalised Learning for {" "}
-              <span className="relative inline-block whitespace-nowrap text-white">
-                Academic
-                <svg
-                  className="pointer-events-none absolute -bottom-1 left-0 w-full text-white bottom-[-10px]"
-                  viewBox="0 0 200 12"
-                  preserveAspectRatio="none"
-                  aria-hidden
-                >
-                  <path
-                    d="M4 8C50 2 150 2 196 8"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="5"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </span>{" "}
-              Success
-            </h1>
-
-            <form
-              className="mt-8 flex flex-col overflow-hidden rounded-full bg-white p-1.5 shadow-xl shadow-black/10 sm:flex-row sm:items-stretch"
-              action="#"
-              role="search"
-            >
-              <div className="flex shrink-0 items-center px-3 sm:px-4">
-                <label htmlFor="landing-service" className="sr-only">
-                  Service
-                </label>
-                <select
-                  id="landing-service"
-                  name="service"
-                  className="max-w-[150px] cursor-pointer bg-transparent py-3 text-sm font-medium text-slate-600 outline-none sm:max-w-[170px]"
-                  defaultValue="all"
-                >
-                  <option value="all">All Services</option>
-                  <option value="home">Home Tutor</option>
-                  <option value="online">Online Tutor</option>
-                  <option value="shadow">Shadow Tutor</option>
-                  <option value="travel">Travel Tutor</option>
-                  <option value="live-in">Live-In Tutor</option>
-                </select>
-              </div>
-              <span className="hidden w-px self-stretch bg-slate-200 sm:block" />
-              <input
-                type="search"
-                name="q"
-                placeholder="Find Your Courses..."
-                className="min-w-0 flex-1 px-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none"
-              />
-              <button
-                type="submit"
-                className="flex shrink-0 items-center justify-center gap-2 rounded-full bg-[#FFD600] px-6 py-3 text-sm font-bold text-neutral-900 shadow-sm transition hover:bg-[#ffcc00]"
-              >
-                <svg
-                  className="h-5 w-5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                >
-                  <circle cx="11" cy="11" r="7" />
-                  <path d="M20 20l-4-4" strokeLinecap="round" />
-                </svg>
-                Search
-              </button>
-            </form>
-          </div>
-
-          <div className="relative flex justify-center md:justify-end">
-            <div className="relative w-full max-w-md lg:max-w-lg">
-              <div className="relative overflow-hidden rounded-3xl">
-                <Image
-                  src="/assets/landing-page-1/hero.png"
-                  alt="Students with study materials"
-                  width={540}
-                  height={620}
-                  className="h-auto w-full object-cover object-top"
-                  priority
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
-      {/* Floating services strip (same layout as category cards) */}
-      <div className="relative z-20 -mt-14 px-4">
-        <div className="mx-auto max-w-[1200px] rounded-3xl bg-white p-6 shadow-[0_20px_50px_rgba(15,23,42,0.12)] md:p-6">
+      {/* Floating services strip below hero; z-20 overlaps bottom of hero (z-0) */}
+      <div className="relative z-20 mx-auto mt-[-30px] max-w-[1200px] px-4">
+        <div className="rounded-3xl bg-white p-6 shadow-[0_20px_50px_rgba(15,23,42,0.12)] md:p-6">
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5 lg:gap-4">
             {services.map((s) => (
               <a
@@ -526,6 +425,9 @@ export default function LandingPage1() {
         </div>
       </div>
 
+
+      <TrustScaleSection onBookFreeDemo={() => { }} />
+
       <section
         id="services"
         className="scroll-mt-36 px-4 pb-20 pt-16 md:scroll-mt-32 md:pt-20"
@@ -545,6 +447,13 @@ export default function LandingPage1() {
           <TutorsCard />
         </div>
       </section>
+
+
+
+      <TeacherRecruitmentSection />
+      <ChannelPartnerSection />
+      <StudentEnrollmentProcessSection />
+      <VideoTestimonialsSection />
     </div>
   );
 }

@@ -520,3 +520,70 @@ export function MessageIcon() {
   );
 }
 
+/** Hero / stats: learners & study */
+export function BookOpenStatIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-6 w-6"
+      aria-hidden="true"
+    >
+      <path d="M2 3h6a4 4 0 0 1 4 4v14a2 2 0 0 0-2-2H2z" />
+      <path d="M22 3h-6a4 4 0 0 0-4 4v14a2 2 0 0 1 2-2h8z" />
+      <path d="M6.5 9.5H9" />
+      <path d="M6.5 12.5h5" />
+      <path d="M15 9.5h2.5" />
+      <path d="M13.5 12.5h5" />
+    </svg>
+  );
+}
+
+/** Hero / stats: teaching & mentors */
+export function ChalkboardStatIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-6 w-6"
+      aria-hidden="true"
+    >
+      <path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z" />
+      <path d="M9 4V3" />
+      <path d="M15 4V3" />
+      <path d="M7 21h10" />
+      <path d="M12 17v4" />
+      <path d="M7 9h4" />
+      <path d="M7 12h10" />
+    </svg>
+  );
+}
+
+/** Hero / stats: live / online classes */
+export function LiveSessionStatIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-6 w-6"
+      aria-hidden="true"
+    >
+      <rect x="2" y="5" width="20" height="13" rx="2" />
+      <path d="m10 10.5 5 3.25-5 3.25v-6.5z" fill="currentColor" stroke="none" />
+      <path d="M7 19h10" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
