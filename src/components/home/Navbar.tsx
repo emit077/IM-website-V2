@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { withBasePath } from "@/lib/withBasePath";
 
 function NavLink({ href, label }: { href: string; label: string }) {
   return (
@@ -57,7 +58,7 @@ export function Navbar({
           <div className="flex items-center gap-3">
             <div className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 ring-1 ring-blue-500/20 shadow-sm">
               <Image
-                src="/assets/logo/im-logo-mini.png"
+                src={withBasePath("/assets/logo/im-logo-mini.png")}
                 alt="Indian Mentors"
                 fill
                 sizes="40px"

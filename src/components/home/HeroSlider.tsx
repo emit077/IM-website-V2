@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { withBasePath } from "@/lib/withBasePath";
 
 type Slide = {
     src: string;
@@ -22,15 +23,15 @@ export function HeroSlider({
     const slides = useMemo<Slide[]>(
         () => [
             {
-                src: "/assets/home/hero_carousel/webslide1.jpg",
+                src: withBasePath("/assets/home/hero_carousel/webslide1.jpg"),
                 alt: "Hero carousel slide 1",
             },
             {
-                src: "/assets/home/hero_carousel/webslide2.jpg",
+                src: withBasePath("/assets/home/hero_carousel/webslide2.jpg"),
                 alt: "Hero carousel slide 2",
             },
             {
-                src: "/assets/home/hero_carousel/webslide3.jpg",
+                src: withBasePath("/assets/home/hero_carousel/webslide3.jpg"),
                 alt: "Hero carousel slide 3",
             },
         ],

@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 import { LandingPageNavbar } from "./LandingPageNavbar";
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { withBasePath } from "@/lib/withBasePath";
 import { TutorsCard } from "@/components/home2/TutorsCard";
 import { VideoTestimonialsSection } from "@/components/home2/VideoTestimonialsSection";
 import { TeacherRecruitmentSection } from "@/components/home2/TeacherRecruitmentSection";
@@ -115,15 +116,15 @@ export function HeroSlider({
   const slides = useMemo<Slide[]>(
     () => [
       {
-        src: "/assets/home/hero_carousel/webslide1.jpg",
+        src: withBasePath("/assets/home/hero_carousel/webslide1.jpg"),
         alt: "Hero carousel slide 1",
       },
       {
-        src: "/assets/home/hero_carousel/webslide2.jpg",
+        src: withBasePath("/assets/home/hero_carousel/webslide2.jpg"),
         alt: "Hero carousel slide 2",
       },
       {
-        src: "/assets/home/hero_carousel/webslide3.jpg",
+        src: withBasePath("/assets/home/hero_carousel/webslide3.jpg"),
         alt: "Hero carousel slide 3",
       },
     ],
@@ -287,7 +288,7 @@ export function HeroSlider({
                   <div className="relative w-full max-w-md lg:max-w-lg">
                     <div className="relative overflow-hidden rounded-3xl">
                       <Image
-                        src="/assets/landing-page-1/hero.png"
+                        src={withBasePath("/assets/landing-page-1/hero.png")}
                         alt="Students with study materials"
                         width={540}
                         height={620}
