@@ -1,9 +1,9 @@
 1:"$Sreact.fragment"
 2:I[47257,["/IM-website-V2/_next/static/chunks/ff1a16fafef87110.js","/IM-website-V2/_next/static/chunks/d2be314c3ece3fbe.js"],"ClientPageRoot"]
-3:I[52683,["/IM-website-V2/_next/static/chunks/4dcc933dcbfdb4cf.js","/IM-website-V2/_next/static/chunks/dda0bf00d617db92.js","/IM-website-V2/_next/static/chunks/043dae077d6f6a2a.js"],"default"]
+3:I[52683,["/IM-website-V2/_next/static/chunks/4dcc933dcbfdb4cf.js","/IM-website-V2/_next/static/chunks/fb968ea4f1536377.js","/IM-website-V2/_next/static/chunks/cea1581cab406be2.js"],"default"]
 6:I[97367,["/IM-website-V2/_next/static/chunks/ff1a16fafef87110.js","/IM-website-V2/_next/static/chunks/d2be314c3ece3fbe.js"],"OutletBoundary"]
 7:"$Sreact.suspense"
-0:{"buildId":"-2Ss-USALpYWML5i_DOis","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/IM-website-V2/_next/static/chunks/4dcc933dcbfdb4cf.js","async":true}],["$","script","script-1",{"src":"/IM-website-V2/_next/static/chunks/dda0bf00d617db92.js","async":true}],["$","script","script-2",{"src":"/IM-website-V2/_next/static/chunks/043dae077d6f6a2a.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
+0:{"buildId":"hv0PT1sUXR7K5U4Fj6fab","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/IM-website-V2/_next/static/chunks/4dcc933dcbfdb4cf.js","async":true}],["$","script","script-1",{"src":"/IM-website-V2/_next/static/chunks/fb968ea4f1536377.js","async":true}],["$","script","script-2",{"src":"/IM-website-V2/_next/static/chunks/cea1581cab406be2.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
 4:{}
 5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
 8:null
