@@ -11,6 +11,7 @@ import { TeacherRecruitmentSection } from "@/components/home2/TeacherRecruitment
 import { ChannelPartnerSection } from "@/components/home2/ChannelPartnerSection";
 import { StudentEnrollmentProcessSection } from "@/components/home2/StudentEnrollmentProcessSection";
 import { TrustScaleSection } from "@/components/home2/TrustScaleSection";
+import { ExploreCoursesSection } from "@/components/home2/ExploreCoursesSection";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -426,6 +427,7 @@ export default function LandingPage1() {
         </div>
       </div>
 
+      <ExploreCoursesSection />
 
       <TrustScaleSection onBookFreeDemo={() => { }} />
 
