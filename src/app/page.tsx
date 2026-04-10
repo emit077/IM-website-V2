@@ -1,969 +1,424 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useInView,
-} from "framer-motion";
-import { Navbar as IMNavbar } from "@/components/home/Navbar";
-import { SmartSearchBar as IMSmartSearchBar } from "@/components/home/SmartSearchBar";
-import { WhatsAppButton as IMWhatsAppButton } from "@/components/home/WhatsAppButton";
-import { HeroScreen2 } from "@/components/home/HeroScreen2";
-import { HeroScreen } from "@/components/home/HeroScreen";
-import { TrustScaleSection } from "@/components/home/TrustScaleSection";
-import { ServicesSection } from "@/components/home/ServicesSection";
-import { AcademicCoverageSection } from "@/components/home/AcademicCoverageSection";
-import { ERPDashboardSection } from "@/components/home/ERPDashboardSection";
-import { SectionHeader } from "@/components/shared/SectionHeader";
-import {
-  ArrowRightIcon,
-  CheckMiniIcon,
-  ChartIcon,
-  MessageIcon,
-  ShieldIcon,
-  SparklesIcon,
-  TargetIcon,
-  PlayIcon,
-} from "@/components/shared/SvgIcons";
+import { Poppins } from "next/font/google";
+import { Navbar } from "@/app/home/Navbar";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion, useInView } from "framer-motion";
+import { withBasePath } from "@/lib/withBasePath";
+import { TutorsCard } from "@/app/home/TutorsCard";
+import { VideoTestimonialsSection } from "@/app/home/VideoTestimonialsSection";
+import { TeacherRecruitmentSection } from "@/app/home/TeacherRecruitmentSection";
+import { ChannelPartnerSection } from "@/app/home/ChannelPartnerSection";
+import { StudentEnrollmentProcessSection } from "@/app/home/StudentEnrollmentProcessSection";
+import { TrustScaleSection } from "@/app/home/TrustScaleSection";
+import { ExploreCoursesSection } from "@/app/home/ExploreCoursesSection";
 
-type Tutor = {
-  name: string;
-  badge: string;
-  subjects: string[];
-  rating: number;
-  reviews: number;
-  focus: string;
-};
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
 
-type PricingPlan = {
-  name: string;
-  priceLabel: string;
-  highlights: string[];
-  cta: string;
-  mostPopular?: boolean;
-};
+/* ─── service types ─────────────────────────────────────────── */
+const services = [
+  {
+    title: "Home Tutor",
+    tagline: "1-on-1 at your pace",
+    iconBg: "bg-[#B39DDB]",
+    icon: (
+      <path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-10.5z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    ),
+  },
+  {
+    title: "Online Tutor",
+    tagline: "Live classes anywhere",
+    iconBg: "bg-[#FF8A65]",
+    icon: (
+      <>
+        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" fill="none" stroke="currentColor" strokeWidth="1.5" />
+      </>
+    ),
+  },
+  {
+    title: "Shadow Tutor",
+    tagline: "Extra focus & depth",
+    iconBg: "bg-[#F48FB1]",
+    icon: (
+      <>
+        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.5" />
+        <path d="m12 7 5 5-5 5-5-5 5-5z" fill="currentColor" stroke="none" />
+      </>
+    ),
+  },
+  {
+    title: "Travel Tutor",
+    tagline: "Mentors at your location",
+    iconBg: "bg-[#4DB6AC]",
+    icon: (
+      <>
+        <path d="M6 17h12M4 17V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10" fill="none" stroke="currentColor" strokeWidth="1.5" />
+        <circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
+        <circle cx="16" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M8 7h8M8 11h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </>
+    ),
+  },
+  {
+    title: "Live-In Tutor",
+    tagline: "Daily immersive coaching",
+    iconBg: "bg-[#64B5F6]",
+    icon: (
+      <>
+        <path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-10.5z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 12v6M9 15h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </>
+    ),
+  },
+];
 
-function useReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const onChange = () => setReduced(mq.matches);
-    onChange();
-    mq.addEventListener?.("change", onChange);
-    return () => mq.removeEventListener?.("change", onChange);
-  }, []);
-  return reduced;
+/* ─── hero floating stat card ───────────────────────────────── */
+function FloatCard({ icon, value, label, delay }: { icon: string; value: string; label: string; delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      className="flex items-center gap-3 rounded-2xl border border-sky-100 bg-white/95 px-4 py-3 shadow-[0_8px_24px_rgba(14,165,233,0.12)] backdrop-blur-sm"
+    >
+      <span className="text-2xl">{icon}</span>
+      <div>
+        <p className="text-base font-extrabold leading-none text-[#1a2744]">{value}</p>
+        <p className="mt-0.5 text-xs font-semibold text-slate-500">{label}</p>
+      </div>
+    </motion.div>
+  );
 }
 
-function Reveal({
-  children,
-  delay = 0,
-  y = 18,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  y?: number;
-}) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+/* ─── animated count-up ─────────────────────────────────────── */
+function useCountUp(target: number, play: boolean) {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    if (!play) return;
+    let raf = 0;
+    const t0 = performance.now();
+    const ms = 1100;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - t0) / ms);
+      setN(Math.round(target * (1 - (1 - t) ** 3)));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [play, target]);
+  return n;
+}
+
+function AnimatedStat({ value, suffix, label }: { value: number; suffix: string; label: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const n = useCountUp(value, inView);
   return (
-    <div ref={ref}>
-      <motion.div
-        initial={{ opacity: 0, y }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1], delay }}
+    <div ref={ref} className="text-center">
+      <p className="text-2xl font-extrabold tabular-nums text-[#1a2744] sm:text-3xl">
+        {new Intl.NumberFormat("en-IN").format(n)}<span className="text-sky-500">{suffix}</span>
+      </p>
+      <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-slate-500">{label}</p>
+    </div>
+  );
+}
+
+/* ─── hero search bar ────────────────────────────────────────── */
+function HeroSearch() {
+  return (
+    <form
+      className="flex flex-col overflow-hidden rounded-2xl border border-sky-100 bg-white p-1.5 shadow-[0_12px_40px_rgba(14,165,233,0.14)] ring-1 ring-sky-100/80 sm:flex-row sm:items-stretch sm:rounded-full"
+      action="#"
+      role="search"
+      aria-label="Find a tutor"
+    >
+      <div className="flex shrink-0 items-center px-3 sm:px-4">
+        <label htmlFor="hero-service" className="sr-only">Service type</label>
+        <select
+          id="hero-service"
+          name="service"
+          className="cursor-pointer bg-transparent py-3 text-sm font-semibold text-slate-700 outline-none"
+          defaultValue="all"
+        >
+          <option value="all">All Services</option>
+          <option value="home">Home Tutor</option>
+          <option value="online">Online Tutor</option>
+          <option value="shadow">Shadow Tutor</option>
+          <option value="travel">Travel Tutor</option>
+          <option value="live-in">Live-In Tutor</option>
+        </select>
+      </div>
+      <span className="hidden w-px self-stretch bg-sky-100 sm:block" aria-hidden />
+      <input
+        type="search"
+        name="q"
+        placeholder="Subject, grade, or location…"
+        className="min-w-0 flex-1 px-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none"
+      />
+      <button
+        type="submit"
+        className="flex shrink-0 items-center justify-center gap-2 rounded-full bg-sky-500 px-6 py-3 text-sm font-bold text-white shadow-md shadow-sky-400/30 transition hover:bg-sky-600 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 focus-visible:ring-offset-2"
       >
-        {children}
+        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
+          <circle cx="11" cy="11" r="7" /><path d="M20 20l-4-4" strokeLinecap="round" />
+        </svg>
+        <span>Find Tutor</span>
+      </button>
+    </form>
+  );
+}
+
+/* ─── hero section ───────────────────────────────────────────── */
+function Hero() {
+  return (
+    <section
+      aria-label="Hero"
+      className="relative overflow-hidden bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-100 pb-32 pt-28 md:pb-24 md:pt-36"
+    >
+      {/* Ambient blobs */}
+      <div className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full bg-sky-200/30 blur-[100px]" aria-hidden />
+      <div className="pointer-events-none absolute -right-24 bottom-0 h-[400px] w-[400px] rounded-full bg-indigo-200/25 blur-[80px]" aria-hidden />
+
+      {/* Dot lattice */}
+      <div
+        className="pointer-events-none absolute right-0 top-0 h-full w-1/2 opacity-40"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(56,189,248,0.35) 1.5px, transparent 1.5px)",
+          backgroundSize: "22px 22px",
+        }}
+        aria-hidden
+      />
+
+      <div className="relative z-10 mx-auto max-w-[1200px] px-4">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+
+          {/* ── Left column ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {/* Trust pill */}
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-sky-200/70 bg-white/80 px-4 py-1.5 text-xs font-bold text-sky-700 shadow-sm backdrop-blur-sm">
+              <span className="flex h-2 w-2 rounded-full bg-sky-400">
+                <span className="h-2 w-2 animate-ping rounded-full bg-sky-400 opacity-75" />
+              </span>
+              India&apos;s #1 Verified Tutor Platform
+            </div>
+
+            {/* Headline */}
+            <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight text-[#1a2744] sm:text-5xl lg:text-[3.5rem]">
+              Find the Perfect<br />
+              <span className="relative mt-1 inline-block">
+                <span className="relative z-10 bg-gradient-to-r from-sky-500 to-blue-600 bg-clip-text text-transparent">
+                  Tutor for Your Child
+                </span>
+                <svg
+                  className="absolute -bottom-2 left-0 w-full text-sky-300/60"
+                  viewBox="0 0 400 14"
+                  preserveAspectRatio="none"
+                  aria-hidden
+                >
+                  <path d="M4 10C100 3 300 3 396 10" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
+                </svg>
+              </span>
+            </h1>
+
+            <p className="mt-5 max-w-lg text-base font-medium leading-relaxed text-slate-600 sm:text-lg">
+              Verified home &amp; online tutors across India. Personalised sessions, weekly progress reports, and a free demo before you commit.
+            </p>
+
+            {/* Search */}
+            <div className="mt-7">
+              <HeroSearch />
+            </div>
+
+            {/* CTAs */}
+            <div className="mt-5 flex flex-wrap items-center gap-3">
+              <Link
+                href="/parent-student"
+                className="inline-flex h-12 items-center gap-2 rounded-full bg-[#1a2744] px-7 text-sm font-bold text-white shadow-lg shadow-slate-900/20 transition hover:bg-[#243560] hover:shadow-xl"
+              >
+                Book Free Demo
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
+                  <path d="M5 12h12m-5-5 5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
+              <Link
+                href="#services"
+                className="inline-flex h-12 items-center gap-2 rounded-full border border-sky-200 bg-white/80 px-7 text-sm font-bold text-sky-700 shadow-sm backdrop-blur-sm transition hover:border-sky-300 hover:bg-white hover:shadow-md"
+              >
+                Browse Tutors
+              </Link>
+            </div>
+
+            {/* Trust badges */}
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
+              {[
+                { icon: "🛡️", text: "100% Verified Tutors" },
+                { icon: "📅", text: "Free Demo Session" },
+                { icon: "⚡", text: "Match in 24 Hours" },
+              ].map(({ icon, text }) => (
+                <div key={text} className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+                  <span>{icon}</span>
+                  <span>{text}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* ── Right column — image + floating cards ── */}
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            className="relative hidden lg:block"
+          >
+            {/* Main image */}
+            <div className="relative overflow-hidden rounded-[2rem] shadow-[0_32px_80px_rgba(14,165,233,0.18)] ring-2 ring-sky-200/60">
+              <Image
+                src={withBasePath("/assets/landing-page-1/hero.png")}
+                alt="Students learning with Indian Mentors tutors"
+                width={560}
+                height={640}
+                className="h-auto w-full object-cover object-top"
+                priority
+              />
+              {/* Gradient overlay at bottom */}
+              <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-sky-50/60 to-transparent" />
+            </div>
+
+            {/* Floating stat cards */}
+            <div className="absolute -left-8 top-10">
+              <FloatCard icon="🎓" value="50,000+" label="Active Students" delay={0.45} />
+            </div>
+            <div className="absolute -right-6 top-1/3">
+              <FloatCard icon="⭐" value="4.9 / 5" label="Average Rating" delay={0.55} />
+            </div>
+            <div className="absolute -bottom-4 left-8">
+              <FloatCard icon="✅" value="500,000+" label="Verified Tutors" delay={0.65} />
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── services strip ────────────────────────────────────────── */
+function ServicesStrip() {
+  return (
+    <div className="relative z-20 mx-auto -mt-10 max-w-[1200px] px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55, ease: "easeOut", delay: 0.3 }}
+        className="rounded-3xl border border-sky-100 bg-white/98 p-5 shadow-[0_24px_60px_rgba(14,165,233,0.10)] backdrop-blur-sm md:p-6"
+      >
+        <p className="mb-4 text-[10px] font-extrabold uppercase tracking-[0.22em] text-sky-500">
+          What we offer
+        </p>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          {services.map((s, i) => (
+            <motion.a
+              key={s.title}
+              href="#services"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35 + i * 0.06, duration: 0.45 }}
+              className="group flex flex-col items-center gap-2.5 rounded-2xl border border-transparent bg-sky-50/60 px-3 py-5 text-center transition duration-200 hover:-translate-y-1 hover:border-sky-200/70 hover:bg-white hover:shadow-lg hover:shadow-sky-100/80"
+            >
+              <span className={`flex h-12 w-12 items-center justify-center rounded-xl ${s.iconBg} text-white shadow-md ring-2 ring-white/50 transition group-hover:scale-110 group-hover:shadow-lg`}>
+                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden>{s.icon}</svg>
+              </span>
+              <div>
+                <p className="text-sm font-bold text-[#1a2744]">{s.title}</p>
+                <p className="mt-0.5 text-xs text-slate-500">{s.tagline}</p>
+              </div>
+            </motion.a>
+          ))}
+        </div>
       </motion.div>
     </div>
   );
 }
 
-function InViewMount({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  return <div ref={ref}>{inView ? children : null}</div>;
-}
-
-function Toast({
-  message,
-  onClose,
-}: {
-  message: string;
-  onClose: () => void;
-}) {
-  useEffect(() => {
-    const t = window.setTimeout(onClose, 3800);
-    return () => window.clearTimeout(t);
-  }, [onClose]);
+/* ─── inline social proof bar ────────────────────────────────── */
+function ProofBar() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 10 }}
-      transition={{ duration: 0.25 }}
-      className="pointer-events-auto w-[min(520px,calc(100vw-32px))] rounded-2xl border border-white/10 bg-white/85 p-4 shadow-xl backdrop-blur-xl dark:border-white/15 dark:bg-zinc-950/60"
-      role="status"
-      aria-live="polite"
-    >
-      <div className="flex items-start gap-3">
-        <div className="mt-0.5 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 p-2 text-blue-700 dark:text-blue-200">
-          <SparklesIcon />
-        </div>
-        <div className="flex-1">
-          <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-            Request received
-          </div>
-          <div className="mt-1 text-sm text-zinc-600 dark:text-zinc-300">
-            {message}
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={onClose}
-          className="rounded-xl px-2 py-1 text-xs font-semibold text-zinc-600 hover:bg-black/5 dark:text-zinc-300 dark:hover:bg-white/5"
-        >
-          Close
-        </button>
+    <div ref={ref} className="border-b border-sky-100 bg-white">
+      <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-center gap-x-12 gap-y-4 px-4 py-6">
+        <AnimatedStat value={50000} suffix="+" label="Active Students" />
+        <div className="hidden h-8 w-px bg-sky-100 sm:block" aria-hidden />
+        <AnimatedStat value={500000} suffix="+" label="Verified Tutors" />
+        <div className="hidden h-8 w-px bg-sky-100 sm:block" aria-hidden />
+        <AnimatedStat value={5000000} suffix="+" label="Sessions Delivered" />
+        <div className="hidden h-8 w-px bg-sky-100 sm:block" aria-hidden />
+        <AnimatedStat value={98} suffix="%" label="Satisfaction Rate" />
       </div>
+    </div>
+  );
+}
+
+/* ─── tutors section header ──────────────────────────────────── */
+function SectionHeader({ label, heading, sub }: { label: string; heading: string; sub: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 16 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.55, ease: "easeOut" }}
+      className="text-center"
+    >
+      <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-sky-500">{label}</p>
+      <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-[#1a2744] sm:text-4xl">{heading}</h2>
+      <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600">{sub}</p>
     </motion.div>
   );
 }
 
-// (Removed unused legacy components: CoverageTabs, CheckMiniIconLocal)
-
-function HowItWorks() {
-  const steps = [
-    {
-      title: "Tell us your requirement",
-      desc: "Subject, grade, and learning mode. We understand your goals first.",
-      icon: <MessageIcon />,
-    },
-    {
-      title: "Choose a verified tutor",
-      desc: "We shortlist mentors with proven results and curriculum-fit plans.",
-      icon: <ShieldIcon />,
-    },
-    {
-      title: "Book your free demo",
-      desc: "Experience the teaching style and confirm fit for success.",
-      icon: <SparklesIcon />,
-    },
-    {
-      title: "Track progress every week",
-      desc: "Attendance, performance charts, and homework feedback stay aligned.",
-      icon: <ChartIcon />,
-    },
-  ];
-
+/* ─── page ───────────────────────────────────────────────────── */
+export default function HomePage() {
   return (
-    <div className="relative">
-      <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {steps.map((s, idx) => (
-          <Reveal key={s.title} delay={idx * 0.06} y={22}>
-            <motion.div
-              className="relative rounded-[2rem] border border-white/12 bg-white/45 p-5 shadow-sm backdrop-blur-xl transition hover:shadow-lg dark:border-white/15 dark:bg-zinc-950/25"
-              whileHover={{ y: -6 }}
-            >
-              <div className="flex items-center justify-between gap-3">
-                <div className="rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 p-2 text-blue-700 ring-1 ring-blue-500/15 dark:text-blue-200">
-                  {s.icon}
-                </div>
-                <div className="text-xs font-extrabold text-zinc-500 dark:text-zinc-400">
-                  Step {idx + 1}
-                </div>
-              </div>
-              <div className="mt-4 text-lg font-extrabold text-zinc-950 dark:text-zinc-50">
-                {s.title}
-              </div>
-              <div className="mt-2 text-sm font-semibold leading-relaxed text-zinc-600 dark:text-zinc-300">
-                {s.desc}
-              </div>
-            </motion.div>
-          </Reveal>
-        ))}
-      </div>
-    </div>
-  );
-}
+    <div className={`${poppins.className} min-h-screen bg-[#f0f7ff] text-slate-900`}>
+      <Navbar onPrimaryCTA={() => {}} />
 
-function TutorGrid({
-  tutors,
-  onBook,
-}: {
-  tutors: Tutor[];
-  onBook: (tutorName: string) => void;
-}) {
-  return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {tutors.map((t) => (
-        <TutorCard key={t.name} tutor={t} onBook={onBook} />
-      ))}
-    </div>
-  );
-}
+      <Hero />
+      <ServicesStrip />
+      <ProofBar />
+      <ExploreCoursesSection />
+      <TrustScaleSection />
 
-function TutorCard({
-  tutor,
-  onBook,
-}: {
-  tutor: Tutor;
-  onBook: (tutorName: string) => void;
-}) {
-  const [hovered, setHovered] = useState(false);
-  const ratingText = `${tutor.rating.toFixed(1)} (${tutor.reviews} reviews)`;
-
-  return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="group relative overflow-hidden rounded-[2rem] border border-white/12 bg-white/45 shadow-sm backdrop-blur-xl transition dark:border-white/15 dark:bg-zinc-950/25"
-    >
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/8 to-blue-500/8 opacity-0 transition group-hover:opacity-100" />
-      <div className="relative p-5">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <TutorAvatar seed={tutor.name} />
-            <div className="min-w-0">
-              <div className="truncate text-lg font-extrabold text-zinc-950 dark:text-zinc-50">
-                {tutor.name}
-              </div>
-              <div className="mt-1 flex flex-wrap items-center gap-2">
-                <span className="rounded-full bg-gradient-to-br from-blue-600 to-blue-600 px-3 py-1 text-xs font-extrabold text-white shadow-sm">
-                  {tutor.badge}
-                </span>
-                <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-                  {ratingText}
-                </span>
-              </div>
-            </div>
+      {/* Tutors section */}
+      <section id="services" className="scroll-mt-32 px-4 pb-20 pt-16 md:pt-24">
+        <div className="mx-auto max-w-[1200px]">
+          <SectionHeader
+            label="Our tutors"
+            heading="Meet Verified Mentors"
+            sub="Browse profiles with subjects, ratings, and quick actions to find the right fit for your goals."
+          />
+          <div className="mt-10">
+            <TutorsCard />
           </div>
         </div>
+      </section>
 
-        <div className="mt-4 rounded-2xl border border-black/5 bg-white/60 p-4 dark:border-white/10 dark:bg-white/5">
-          <div className="text-xs font-extrabold text-zinc-900 dark:text-zinc-50">
-            Focus
-          </div>
-          <div className="mt-1 text-sm font-semibold leading-relaxed text-zinc-600 dark:text-zinc-300">
-            {tutor.focus}
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {tutor.subjects.map((s) => (
-              <span
-                key={s}
-                className="rounded-full bg-black/5 px-3 py-1 text-xs font-extrabold text-zinc-700 dark:bg-white/10 dark:text-zinc-200"
-              >
-                {s}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div
-          className={`mt-4 flex items-center gap-3 transition ${hovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-            }`}
-        >
-          <button
-            type="button"
-            className="flex-1 rounded-2xl border border-black/10 bg-white/60 px-4 py-2.5 text-sm font-extrabold text-zinc-900 transition hover:bg-white dark:border-white/15 dark:bg-white/5 dark:text-zinc-50"
-          >
-            View Profile
-          </button>
-          <button
-            type="button"
-            onClick={() => onBook(tutor.name)}
-            className="flex-1 rounded-2xl bg-zinc-950 px-4 py-2.5 text-sm font-extrabold text-white shadow-sm ring-1 ring-white/10 transition hover:opacity-95 dark:bg-white dark:text-zinc-950"
-          >
-            Book Demo
-          </button>
-        </div>
-
-        <div className="mt-4 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-          Hover to reveal actions.
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function TutorAvatar({ seed }: { seed: string }) {
-  const hash = seed
-    .split("")
-    .reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
-  const hue = hash % 360;
-  const hue2 = (hue + 45) % 360;
-  const initials = seed
-    .split(" ")
-    .slice(0, 2)
-    .map((p) => p[0])
-    .join("")
-    .toUpperCase();
-
-  return (
-    <div
-      className="flex h-12 w-12 items-center justify-center rounded-2xl shadow-sm ring-1 ring-white/10"
-      style={{
-        background: `linear-gradient(135deg, hsla(${hue}, 90%, 60%, 0.25), hsla(${hue2}, 90%, 60%, 0.18))`,
-      }}
-    >
-      <div
-        className="text-xs font-extrabold text-zinc-950 dark:text-zinc-50"
-        style={{ textShadow: "0 1px 0 rgba(255,255,255,0.25)" }}
-      >
-        {initials}
-      </div>
-    </div>
-  );
-}
-
-function WhyChooseUs() {
-  const items = [
-    {
-      title: "Premium mentor matching",
-      desc: "We shortlist tutors based on your syllabus, learning goals, and pace.",
-      icon: <SparklesIcon />,
-    },
-    {
-      title: "Transparent progress tracking",
-      desc: "Attendance, performance charts, and homework workflow keep students accountable.",
-      icon: <ChartIcon />,
-    },
-    {
-      title: "Exam-ready teaching approach",
-      desc: "Revision loops, question practice, and mock-test strategy built into every plan.",
-      icon: <TargetIcon />,
-    },
-    {
-      title: "Student-centric micro-feedback",
-      desc: "Your mentor adjusts teaching based on weekly performance and gaps.",
-      icon: <ShieldIcon />,
-    },
-  ];
-
-  return (
-    <div className="grid gap-4 sm:grid-cols-2">
-      {items.map((it) => (
-        <Reveal key={it.title}>
-          <div className="rounded-[2rem] border border-white/12 bg-white/45 p-6 shadow-sm backdrop-blur-xl dark:border-white/15 dark:bg-zinc-950/25">
-            <div className="rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 p-3 text-blue-700 ring-1 ring-blue-500/15 dark:text-blue-200">
-              {it.icon}
-            </div>
-            <div className="mt-4 text-lg font-extrabold text-zinc-950 dark:text-zinc-50">
-              {it.title}
-            </div>
-            <div className="mt-2 text-sm font-semibold leading-relaxed text-zinc-600 dark:text-zinc-300">
-              {it.desc}
-            </div>
-          </div>
-        </Reveal>
-      ))}
-    </div>
-  );
-}
-
-function PricingPreview({
-  plans,
-  onSelect,
-}: {
-  plans: PricingPlan[];
-  onSelect: (planName: string) => void;
-}) {
-  return (
-    <div className="grid gap-4 lg:grid-cols-3">
-      {plans.map((p) => (
-        <motion.div
-          key={p.name}
-          whileHover={{ y: -6 }}
-          className={`relative overflow-hidden rounded-[2rem] border p-6 backdrop-blur-xl shadow-sm dark:shadow-none ${p.mostPopular
-            ? "border-blue-500/30 bg-gradient-to-b from-blue-500/10 to-white/40 dark:border-blue-400/25 dark:bg-gradient-to-b dark:from-blue-400/10 dark:to-zinc-950/25"
-            : "border-white/12 bg-white/45 dark:border-white/15 dark:bg-zinc-950/25"
-            }`}
-        >
-          {p.mostPopular ? (
-            <div className="absolute right-4 top-4 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-600 px-4 py-2 text-xs font-extrabold text-white shadow-lg">
-              Most Popular
-            </div>
-          ) : null}
-          <div className="text-sm font-extrabold text-zinc-600 dark:text-zinc-300">
-            {p.name}
-          </div>
-          <div className="mt-3 text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50">
-            {p.priceLabel}
-          </div>
-
-          <ul className="mt-4 space-y-2">
-            {p.highlights.map((h) => (
-              <li
-                key={h}
-                className="flex items-start gap-2 text-sm font-semibold text-zinc-700 dark:text-zinc-200"
-              >
-                <CheckMiniIcon />
-                <span>{h}</span>
-              </li>
-            ))}
-          </ul>
-
-          <button
-            type="button"
-            onClick={() => onSelect(p.name)}
-            className={`mt-6 flex h-12 w-full items-center justify-center rounded-2xl px-4 text-sm font-extrabold transition ${p.mostPopular
-              ? "bg-gradient-to-br from-blue-600 to-blue-600 text-white shadow-lg shadow-blue-500/20 ring-1 ring-white/15 hover:opacity-95"
-              : "bg-white/70 text-zinc-900 ring-1 ring-black/10 hover:bg-white dark:bg-white/5 dark:text-zinc-50 dark:ring-white/15"
-              }`}
-          >
-            {p.cta}
-          </button>
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
-function TestimonialsCarousel() {
-  const items = [
-    {
-      name: "Ananya • Grade 8",
-      quote:
-        "My child finally started enjoying Science. The mentor’s weekly plan and homework feedback made a huge difference.",
-      duration: "1:12",
-    },
-    {
-      name: "Rohit • CBSE Grade 10",
-      quote:
-        "We booked a free demo and immediately felt the structure. The mock test strategy and revision loops improved our scores.",
-      duration: "0:58",
-    },
-    {
-      name: "Meera • Online Tutor",
-      quote:
-        "The tutor explained concepts clearly and made problem-solving easy. Performance charts kept us motivated.",
-      duration: "1:05",
-    },
-    {
-      name: "Parent • State Board Grade 9",
-      quote:
-        "Transparent tracking, punctual sessions, and targeted practice. We saw consistent progress within weeks.",
-      duration: "0:49",
-    },
-  ];
-
-  const reduced = useReducedMotion();
-  const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  useEffect(() => {
-    if (reduced) return;
-    if (paused) return;
-    const id = window.setInterval(() => {
-      setIndex((x) => (x + 1) % items.length);
-    }, 4200);
-    return () => window.clearInterval(id);
-  }, [items.length, paused, reduced]);
-
-  const current = items[index];
-  const nextIndex = (index + 1) % items.length;
-  const next = items[nextIndex];
-
-  return (
-    <div className="rounded-[2rem] border border-white/12 bg-white/45 p-4 shadow-sm backdrop-blur-xl dark:border-white/15 dark:bg-zinc-950/25">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch">
-        <div className="flex-1">
-          <Reveal>
-            <div className="text-2xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50">
-              What students and parents say
-            </div>
-            <div className="mt-2 text-sm font-semibold leading-relaxed text-zinc-600 dark:text-zinc-300">
-              Real outcomes from verified home & online tutors.
-            </div>
-          </Reveal>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            {[
-              { label: "Average improvement", value: "+28%" },
-              { label: "Demo to booking rate", value: "41%" },
-              { label: "Session punctuality", value: "98%" },
-              { label: "Homework completion", value: "93%" },
-            ].map((m) => (
-              <div
-                key={m.label}
-                className="rounded-2xl border border-black/5 bg-white/60 p-4 dark:border-white/10 dark:bg-white/5"
-              >
-                <div className="text-2xl font-extrabold text-zinc-950 dark:text-zinc-50">
-                  {m.value}
-                </div>
-                <div className="mt-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-                  {m.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex-1">
-          <div
-            className="h-full"
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
-          >
-            <div className="grid h-full gap-3 lg:grid-rows-2">
-              <motion.div
-                key={current.name}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
-                className="rounded-[2rem] border border-black/5 bg-white/60 p-4 dark:border-white/10 dark:bg-white/5"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-sm font-extrabold text-zinc-900 dark:text-zinc-50">
-                      {current.name}
-                    </div>
-                    <div className="mt-2 text-sm font-semibold leading-relaxed text-zinc-700 dark:text-zinc-200">
-                      “{current.quote}”
-                    </div>
-                  </div>
-                  <div className="rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 p-2 text-blue-700 ring-1 ring-blue-500/15 dark:text-blue-200">
-                    <PlayIcon />
-                  </div>
-                </div>
-
-                <div className="mt-4 flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-                    <div className="h-2 w-2 rounded-full bg-emerald-500" />
-                    Verified video-style review
-                  </div>
-                  <div className="rounded-2xl bg-black/5 px-3 py-1 text-xs font-extrabold text-zinc-700 dark:bg-white/10 dark:text-zinc-200">
-                    {current.duration}
-                  </div>
-                </div>
-              </motion.div>
-
-              <div className="grid grid-cols-2 gap-3">
-                {[next, items[(nextIndex + 1) % items.length]].map((it, idx) => (
-                  <motion.div
-                    key={it.name}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.25, delay: idx * 0.05 }}
-                    className="rounded-[2rem] border border-black/5 bg-white/60 p-4 dark:border-white/10 dark:bg-white/5"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="text-xs font-extrabold text-zinc-900 dark:text-zinc-50">
-                        {it.name}
-                      </div>
-                      <div className="rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 p-2 text-blue-700 ring-1 ring-blue-500/15 dark:text-blue-200">
-                        <PlayIcon />
-                      </div>
-                    </div>
-                    <div className="mt-2 text-[11px] font-semibold leading-relaxed text-zinc-600 dark:text-zinc-300">
-                      “{it.quote}”
-                    </div>
-                    <div className="mt-3 text-[11px] font-extrabold text-zinc-500 dark:text-zinc-400">
-                      {it.duration}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-4 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                {items.map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    aria-label={`Go to testimonial ${i + 1}`}
-                    onClick={() => setIndex(i)}
-                    className={`h-2.5 w-10 rounded-full transition ${i === index
-                      ? "bg-gradient-to-br from-blue-600 to-blue-600"
-                      : "bg-black/10 dark:bg-white/15"
-                      }`}
-                  />
-                ))}
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setIndex((x) => (x - 1 + items.length) % items.length)
-                  }
-                  className="rounded-2xl border border-black/10 bg-white/60 px-3 py-2 text-xs font-extrabold text-zinc-900 transition hover:bg-white dark:border-white/15 dark:bg-white/5 dark:text-zinc-50"
-                >
-                  Prev
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIndex((x) => (x + 1) % items.length)}
-                  className="rounded-2xl border border-black/10 bg-white/60 px-3 py-2 text-xs font-extrabold text-zinc-900 transition hover:bg-white dark:border-white/15 dark:bg-white/5 dark:text-zinc-50"
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Footer({
-  onPrimaryCTA,
-}: {
-  onPrimaryCTA: () => void;
-}) {
-  return (
-    <footer className="relative mt-14">
-      <div className="mx-auto max-w-6xl px-4">
-        <div className="rounded-[2.5rem] border border-white/12 bg-white/45 p-8 shadow-sm backdrop-blur-xl dark:border-white/15 dark:bg-zinc-950/25">
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
-            <div className="lg:col-span-5">
-              <div className="text-3xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50">
-                Talk to an Academic Advisor
-              </div>
-              <div className="mt-3 text-sm font-semibold leading-relaxed text-zinc-600 dark:text-zinc-300">
-                Get a clear learning plan and a shortlist of verified tutors for
-                your student’s goals.
-              </div>
-              <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <button
-                  type="button"
-                  onClick={onPrimaryCTA}
-                  className="flex h-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-blue-600 px-5 text-sm font-extrabold text-white shadow-lg shadow-blue-500/20 ring-1 ring-white/15 transition hover:opacity-95"
-                >
-                  Book Free Demo
-                  <ArrowRightIcon />
-                </button>
-                <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-                  Response within 15 minutes (working hours).
-                </div>
-              </div>
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-2xl border border-black/5 bg-white/60 p-4 dark:border-white/10 dark:bg-white/5">
-                  <div className="text-xs font-extrabold text-zinc-900 dark:text-zinc-50">
-                    Support channels
-                  </div>
-                  <div className="mt-1 text-sm font-semibold text-zinc-700 dark:text-zinc-200">
-                    WhatsApp & calls after your free demo request.
-                  </div>
-                </div>
-                <div className="rounded-2xl border border-black/5 bg-white/60 p-4 dark:border-white/10 dark:bg-white/5">
-                  <div className="text-xs font-extrabold text-zinc-900 dark:text-zinc-50">
-                    Next step
-                  </div>
-                  <div className="mt-1 text-sm font-semibold text-zinc-700 dark:text-zinc-200">
-                    We match verified tutors based on your grade & subject.
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-4">
-              <div className="text-sm font-extrabold text-zinc-900 dark:text-zinc-50">
-                Quick links
-              </div>
-              <div className="mt-3 grid gap-2 text-sm font-semibold">
-                <FooterLink href="#services" label="Services" />
-                <FooterLink href="#coverage" label="Academic coverage" />
-                <FooterLink href="#tutors" label="Tutor profiles" />
-                <FooterLink href="#pricing" label="Pricing" />
-                <FooterLink href="#testimonials" label="Testimonials" />
-                <FooterLink href="#contact" label="Contact" />
-              </div>
-            </div>
-
-            <div className="lg:col-span-3">
-              <div className="text-sm font-extrabold text-zinc-900 dark:text-zinc-50">
-                Get started
-              </div>
-              <div className="mt-3 rounded-2xl border border-black/5 bg-white/60 p-4 dark:border-white/10 dark:bg-white/5">
-                <div className="text-sm font-semibold text-zinc-700 dark:text-zinc-200">
-                  Students & parents
-                </div>
-                <div className="mt-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-                  Book a free demo and get a tutor shortlist.
-                </div>
-                <button
-                  type="button"
-                  onClick={onPrimaryCTA}
-                  className="mt-4 flex h-10 w-full items-center justify-center rounded-2xl bg-zinc-950 text-xs font-extrabold text-white ring-1 ring-white/10 transition hover:opacity-95 dark:bg-white dark:text-zinc-950"
-                >
-                  Request demo
-                </button>
-              </div>
-              <div className="mt-3 rounded-2xl border border-black/5 bg-white/60 p-4 dark:border-white/10 dark:bg-white/5">
-                <div className="text-sm font-semibold text-zinc-700 dark:text-zinc-200">
-                  Tutors
-                </div>
-                <div className="mt-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-                  Apply and teach with verified student matching.
-                </div>
-                <button
-                  type="button"
-                  className="mt-4 flex h-10 w-full items-center justify-center rounded-2xl border border-black/10 bg-white/60 text-xs font-extrabold text-zinc-900 transition hover:bg-white dark:border-white/15 dark:bg-white/5 dark:text-zinc-50"
-                >
-                  Become a tutor
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8 flex flex-col gap-2 border-t border-black/5 pt-6 text-xs font-semibold text-zinc-500 dark:border-white/10 dark:text-zinc-400 sm:flex-row sm:items-center sm:justify-between">
-            <div>© {new Date().getFullYear()} Indian Mentors. All rights reserved.</div>
-            <div className="flex gap-4">
-              <a href="#" className="hover:text-zinc-900 dark:hover:text-zinc-50">Privacy</a>
-              <a href="#" className="hover:text-zinc-900 dark:hover:text-zinc-50">Terms</a>
-              <a href="#" className="hover:text-zinc-900 dark:hover:text-zinc-50">Refunds</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-function FooterLink({ href, label }: { href: string; label: string }) {
-  return (
-    <a
-      href={href}
-      className="text-zinc-600 transition hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-zinc-50"
-    >
-      {label}
-    </a>
-  );
-}
-
-export default function Home() {
-  const [toast, setToast] = useState<string | null>(null);
-
-  const tutors: Tutor[] = useMemo(
-    () => [
-      {
-        name: "Dr. Aditi Sharma",
-        badge: "Verified",
-        subjects: ["Science", "Mathematics"],
-        rating: 4.9,
-        reviews: 126,
-        focus: "CBSE board strategy + concept clarity",
-      },
-      {
-        name: "Ravi Kumar",
-        badge: "Top Rated",
-        subjects: ["English", "Social Science"],
-        rating: 4.8,
-        reviews: 98,
-        focus: "Writing practice + exam-ready frameworks",
-      },
-      {
-        name: "Neha Singh",
-        badge: "Verified",
-        subjects: ["Computer Science", "Mathematics"],
-        rating: 4.9,
-        reviews: 141,
-        focus: "Problem-solving drills + coding fundamentals",
-      },
-      {
-        name: "Arjun Mehta",
-        badge: "Mentor of the Week",
-        subjects: ["Grade 6-8 Maths", "Science"],
-        rating: 4.7,
-        reviews: 76,
-        focus: "Weekly revision loops + confidence building",
-      },
-      {
-        name: "Simran Kaur",
-        badge: "Verified",
-        subjects: ["Physics", "Chemistry"],
-        rating: 4.8,
-        reviews: 84,
-        focus: "Deep understanding + application-based practice",
-      },
-      {
-        name: "Vikram Joshi",
-        badge: "Top Rated",
-        subjects: ["English", "Mathematics"],
-        rating: 4.8,
-        reviews: 102,
-        focus: "Personalised plans + homework feedback",
-      },
-    ],
-    []
-  );
-
-  const pricingPlans: PricingPlan[] = useMemo(
-    () => [
-      {
-        name: "Gold",
-        priceLabel: "₹ 1,499",
-        highlights: [
-          "Free demo session",
-          "Tutor shortlist (3 options)",
-          "Weekly learning plan",
-          "Homework feedback summary",
-        ],
-        cta: "Choose Gold",
-      },
-      {
-        name: "Diamond",
-        priceLabel: "₹ 2,499",
-        mostPopular: true,
-        highlights: [
-          "Free demo + personalised syllabus map",
-          "Priority mentor matching",
-          "Performance chart insights",
-          "Homework workflow with progress notes",
-        ],
-        cta: "Choose Diamond",
-      },
-      {
-        name: "Platinum",
-        priceLabel: "₹ 3,499",
-        highlights: [
-          "Free demo + revision sprint",
-          "Premium tutor shortlist (5 options)",
-          "Mock-test strategy session",
-          "Mentor progress check-ins",
-        ],
-        cta: "Choose Platinum",
-      },
-    ],
-    []
-  );
-
-  return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50 via-white to-white font-sans dark:from-black dark:via-zinc-950 dark:to-zinc-950">
-      <IMNavbar
-        onPrimaryCTA={() =>
-          setToast(
-            "Thanks! Tell us your details below and our advisor will schedule your free demo."
-          )
-        }
-      />
-
-      <HeroScreen2 />
-
-
-      <main className="pb-24">
-        <TrustScaleSection
-          onBookFreeDemo={() =>
-            setToast("Perfect. Book a free demo to get matched with the right tutor.")
-          }
-        />
-
-        <ServicesSection />
-
-        <AcademicCoverageSection />
-
-        <ERPDashboardSection />
-
-        <section className="mx-auto max-w-6xl px-4 pt-16">
-          <Reveal>
-            <SectionHeader
-              eyebrow="How it works"
-              title="From discovery to results—fast"
-              subtitle="A premium, mentor-first process designed for consistency."
-            />
-          </Reveal>
-          <HowItWorks />
-        </section>
-        {/* <HeroScreen /> */}
-        <IMSmartSearchBar
-          onSearch={({ subject, grade, location, mode }) => {
-            const place = location.trim() ? ` in ${location.trim()}` : "";
-            setToast(
-              `Searching verified ${mode.toLowerCase()} tutors for ${subject}, ${grade}${place}.`
-            );
-          }}
-        />
-        <section id="tutors" className="mx-auto max-w-6xl px-4 pt-16">
-          <Reveal>
-            <SectionHeader
-              eyebrow="Tutor Cards"
-              title="Meet verified mentors"
-              subtitle="Modern tutor cards with subjects, ratings, and quick actions."
-            />
-          </Reveal>
-          <div className="mt-6">
-            <InViewMount>
-              <TutorGrid
-                tutors={tutors}
-                onBook={(name) =>
-                  setToast(
-                    `Booked! We’ll connect you for a free demo with ${name}.`
-                  )
-                }
-              />
-            </InViewMount>
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-6xl px-4 pt-16">
-          <Reveal>
-            <SectionHeader
-              eyebrow="Why choose us"
-              title="Premium outcomes, not generic tutoring"
-              subtitle="Student-centric plans, transparent progress tracking, and exam-ready teaching."
-            />
-          </Reveal>
-          <div className="mt-6">
-            <WhyChooseUs />
-          </div>
-        </section>
-
-        <section id="pricing" className="mx-auto max-w-6xl px-4 pt-16">
-          <Reveal>
-            <SectionHeader
-              eyebrow="Pricing Preview"
-              title="Choose a plan that fits your learning goals"
-              subtitle="Start with a free demo and upgrade to structured mentorship."
-            />
-          </Reveal>
-          <div className="mt-6">
-            <PricingPreview
-              plans={pricingPlans}
-              onSelect={(planName) =>
-                setToast(`Excellent. ${planName} selected. Book your free demo to begin.`)
-              }
-            />
-          </div>
-        </section>
-
-        <section id="testimonials" className="mx-auto max-w-6xl px-4 pt-16">
-          <InViewMount>
-            <TestimonialsCarousel />
-          </InViewMount>
-        </section>
-
-        <section id="contact" className="mx-auto max-w-6xl px-4 pt-16">
-          <Reveal>
-            <SectionHeader
-              eyebrow="Contact"
-              title="Ready for personalised learning?"
-              subtitle="Book a free demo and get a tutor shortlist based on your goals."
-            />
-          </Reveal>
-        </section>
-
-        <Footer
-          onPrimaryCTA={() =>
-            setToast(
-              "Thanks! Our advisor will reach out to schedule your free demo shortly."
-            )
-          }
-        />
-      </main>
-
-      <IMWhatsAppButton />
-
-      <div className="fixed right-0 top-20 z-50 flex w-full justify-center px-4">
-        <AnimatePresence mode="wait">
-          {toast ? (
-            <Toast message={toast} onClose={() => setToast(null)} />
-          ) : null}
-        </AnimatePresence>
-      </div>
+      <TeacherRecruitmentSection />
+      <ChannelPartnerSection />
+      <StudentEnrollmentProcessSection />
+      <VideoTestimonialsSection />
     </div>
   );
 }

@@ -9,7 +9,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
   return (
     <a
       href={href}
-      className="text-sm font-semibold text-zinc-700 transition hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-zinc-50"
+      className="rounded-xl px-2.5 py-1.5 text-sm font-semibold text-zinc-600 transition-colors hover:bg-blue-500/[0.07] hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/35 focus-visible:ring-offset-2 focus-visible:ring-offset-white/80"
     >
       {label}
     </a>
@@ -45,15 +45,11 @@ export function Navbar({
           }`}
       >
         <div
-          className={`flex items-center justify-between rounded-3xl border px-4 py-3 shadow-sm backdrop-blur-xl transition ${scrolled
-            ? "border-white/12 dark:border-white/15"
-            : "border-white/10 dark:border-white/15"
-            }`}
-          style={{
-            background: scrolled
-              ? "color-mix(in srgb, var(--primary) 12%, white)"
-              : "color-mix(in srgb, var(--primary) 8%, white)",
-          }}
+          className={`flex items-center justify-between rounded-3xl border px-4 py-3 shadow-[0_8px_30px_rgba(15,23,42,0.06)] backdrop-blur-xl transition-[box-shadow,background-color,border-color] duration-300 ${
+            scrolled
+              ? "border-slate-200/80 bg-white/92 shadow-[0_12px_40px_rgba(15,23,42,0.08)]"
+              : "border-white/40 bg-white/78"
+          }`}
         >
           <div className="flex items-center gap-3">
             <div className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 ring-1 ring-blue-500/20 shadow-sm">
@@ -67,10 +63,10 @@ export function Navbar({
               />
             </div>
             <div className="leading-tight">
-              <div className="text-sm font-extrabold tracking-wide text-zinc-950 dark:text-zinc-50">
+              <div className="text-sm font-extrabold tracking-wide text-zinc-950">
                 Indian Mentors
               </div>
-              <div className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400">
+              <div className="text-[11px] font-semibold text-zinc-500">
                 Verified tutors for home & online
               </div>
             </div>
@@ -88,7 +84,7 @@ export function Navbar({
             <button
               type="button"
               onClick={onPrimaryCTA}
-              className="hidden rounded-2xl px-4 py-2.5 text-sm font-semibold shadow-sm ring-1 ring-white/10 transition hover:shadow-md md:inline-flex"
+              className="hidden rounded-2xl px-4 py-2.5 text-sm font-semibold shadow-md shadow-blue-600/25 ring-1 ring-blue-600/20 transition hover:brightness-105 hover:shadow-lg hover:shadow-blue-600/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50 focus-visible:ring-offset-2 md:inline-flex"
               style={{
                 background: "var(--primary)",
                 color: "var(--primary-foreground)",
@@ -102,19 +98,19 @@ export function Navbar({
 
       <div className="md:hidden">
         <div className="mx-auto max-w-6xl px-4 pb-3">
-          <div className="flex items-center justify-between rounded-3xl border bg-white/55 px-3 py-2 backdrop-blur-xl dark:border-white/15 dark:bg-zinc-950/35">
-            <div className="flex items-center gap-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-              <span className="rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 px-3 py-1 text-blue-700 dark:text-blue-200">
+          <div className="flex items-center justify-between rounded-3xl border bg-white/55 px-3 py-2 backdrop-blur-xl">
+            <div className="flex items-center gap-2 text-xs font-semibold text-zinc-700">
+              <span className="rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 px-3 py-1 text-blue-700">
                 Trusted
               </span>
-              <span className="text-zinc-500 dark:text-zinc-400">
+              <span className="text-zinc-500">
                 Verified tutors
               </span>
             </div>
             <button
               type="button"
               onClick={onPrimaryCTA}
-              className="rounded-2xl px-3 py-2 text-xs font-semibold transition hover:opacity-95"
+              className="rounded-2xl px-3 py-2 text-xs font-semibold shadow-sm transition hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50 focus-visible:ring-offset-2"
               style={{
                 background: "var(--primary)",
                 color: "var(--primary-foreground)",

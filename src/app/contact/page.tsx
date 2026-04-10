@@ -1,4 +1,4 @@
-import PageTemplate from "@/components/home/PageTemplate";
+import PageTemplate from "@/components/home-3/PageTemplate";
 
 export default function ContactPage() {
   return (
