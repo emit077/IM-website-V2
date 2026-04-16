@@ -97,8 +97,14 @@ const services = [
 ];
 
 type Slide = {
-  src: string;
-  alt: string;
+  headline: string;
+  subheadline: string;
+  tagline: string;
+  supportingText: string;
+  primaryCTA: string;
+  secondaryCTAs: string[];
+  theme: "blue" | "purple" | "green";
+  visualDirection: string;
 };
 
 export function HeroSlider({
@@ -115,16 +121,37 @@ export function HeroSlider({
   const slides = useMemo<Slide[]>(
     () => [
       {
-        src: "/assets/home/hero_carousel/webslide1.jpg",
-        alt: "Hero carousel slide 1",
+        headline: "Personalised Learning for Academic Success",
+        subheadline: "India’s Trusted Platform for Verified Home & Online Tutors",
+        tagline: "Guiding Every Student Towards Academic Excellence",
+        supportingText:
+          "Providing structured tutoring services and reliable teacher recruitment solutions across India.",
+        primaryCTA: "Book Your Free Demo Today",
+        secondaryCTAs: ["Find A Tutor", "Book A Tutor", "Become A Tutor"],
+        theme: "blue",
+        visualDirection: "Digital books, glowing particles and academic grid motion",
       },
       {
-        src: "/assets/home/hero_carousel/webslide2.jpg",
-        alt: "Hero carousel slide 2",
+        headline: "Stronger Concepts. Better Grades. Brighter Future.",
+        subheadline: "1:1 Personalised Learning Designed for Academic Excellence",
+        tagline: "Indian Mentors - Where Learning Meets Mentorship",
+        supportingText:
+          "From foundation to advanced levels, we ensure measurable academic improvement.",
+        primaryCTA: "Book Your Free Demo Today",
+        secondaryCTAs: ["Browse Tutors", "Talk to a Counsellor"],
+        theme: "purple",
+        visualDirection: "Rising progress charts, floating subject icons and motion blur",
       },
       {
-        src: "/assets/home/hero_carousel/webslide3.jpg",
-        alt: "Hero carousel slide 3",
+        headline: "Learn from Verified & Background-Checked Tutors",
+        subheadline: "Safety, Quality & Transparency in Every Session",
+        tagline: "Building Strong Foundations for Lifelong Learning",
+        supportingText:
+          "Every tutor undergoes structured verification and performance monitoring.",
+        primaryCTA: "Book Free Demo",
+        secondaryCTAs: ["Explore Our Tutors", "Talk to Counsellor"],
+        theme: "green",
+        visualDirection: "Floating verification badges and shield pulse animation",
       },
     ],
     []
@@ -187,64 +214,83 @@ export function HeroSlider({
       >
         {slides.map((slide, i) => (
           <div
-            key={slide.src}
+            key={slide.headline}
             className="relative h-full min-w-full"
             aria-hidden={i !== idx}
           >
-            {/* Using Next/Image for automatic optimization. */}
-
-            <div className="relative overflow-hidden bg-blue-700 pb-24 pt-28 md:pb-13 md:pt-24">
+            <div
+              className={[
+                "relative h-full overflow-hidden",
+                "bg-gradient-to-br from-[#0c47b7] via-[#115ad3] to-[#0f7be8]",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+            >
               <div
-                className="pointer-events-none absolute -right-24 top-1/4 h-[420px] w-[420px] rounded-full opacity-35 md:right-0"
+                className="pointer-events-none absolute inset-0 opacity-25"
                 style={{
-                  background:
-                    "radial-gradient(circle, rgba(255,255,255,0.55) 1.5px, transparent 1.5px)",
-                  backgroundSize: "14px 14px",
-                  maskImage:
-                    "radial-gradient(circle at center, black 35%, transparent 70%)",
-                  WebkitMaskImage:
-                    "radial-gradient(circle at center, black 35%, transparent 70%)",
+                  backgroundImage:
+                    "linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)",
+                  backgroundSize: "38px 38px",
                 }}
               />
+              <div
+                className="pointer-events-none absolute -right-24 top-1/2 h-[380px] w-[380px] -translate-y-1/2 rounded-full opacity-35 blur-[0.5px] md:-right-8 md:h-[460px] md:w-[460px]"
+                style={{
+                  background: "radial-gradient(circle, rgba(202,226,255,0.8) 1.4px, transparent 1.4px)",
+                  backgroundSize: "15px 15px",
+                }}
+              />
+              <div className="pointer-events-none absolute left-[8%] top-[20%] h-16 w-16 animate-[spin_10s_linear_infinite] rounded-2xl border border-white/40 bg-white/10 backdrop-blur sm:h-20 sm:w-20" />
+              <div className="pointer-events-none absolute bottom-[22%] right-[17%] h-11 w-11 animate-[pulse_3s_ease-in-out_infinite] rounded-full border border-white/50 bg-white/15" />
+              <div className="pointer-events-none absolute bottom-[17%] left-[10%] h-14 w-14 animate-[bounce_5s_ease-in-out_infinite] rounded-xl border border-white/35 bg-white/10" />
 
-              <div className="relative z-10 mx-auto grid max-w-[1200px] items-center gap-10 px-4 pt-10 md:grid-cols-2 md:gap-8 md:pt-10 lg:gap-14">
-                <div className="max-w-xl">
-                  <p className="mb-3 text-xs font-bold tracking-[0.1em] text-white/90 md:text-sm pt-10">
-                    India’s Trusted Platform for Verified Home & Online Tutors
+              <div className="relative z-10 mx-auto grid h-full w-full max-w-[1260px] items-center gap-8 px-4 py-8 sm:px-6 md:grid-cols-2 md:px-8 md:py-12 lg:px-10">
+                <div className="max-w-2xl">
+                  <p className="mb-3 inline-flex rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] font-semibold tracking-[0.08em] text-white/95 sm:text-xs">
+                    {slide.subheadline}
                   </p>
-                  <h1 className="text-3xl font-extrabold leading-tight text-[#FFD600] sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]">
-                    Personalised Learning for {" "}
-                    <span className="relative inline-block whitespace-nowrap text-white">
-                      Academic
-                      <svg
-                        className="pointer-events-none absolute -bottom-1 left-0 w-full text-white bottom-[-10px]"
-                        viewBox="0 0 200 12"
-                        preserveAspectRatio="none"
-                        aria-hidden
-                      >
-                        <path
-                          d="M4 8C50 2 150 2 196 8"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="5"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    </span>{" "}
-                    Success
+                  <h1 className="text-2xl font-extrabold leading-tight text-white sm:text-4xl lg:text-[3rem] lg:leading-[1.1]">
+                    {slide.headline}
                   </h1>
+                  <p className="mt-3 max-w-2xl text-sm font-medium text-white/95 sm:text-base md:text-lg">
+                    {slide.tagline}
+                  </p>
+                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/85 md:text-base">
+                    {slide.supportingText}
+                  </p>
+
+                  <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                    <button
+                      type="button"
+                      className="inline-flex w-full items-center justify-center rounded-full bg-[#FFD600] px-6 py-3 text-sm font-bold text-slate-900 shadow-lg transition hover:brightness-95 sm:w-auto"
+                    >
+                      <span className="mr-2 text-base">👉</span> {slide.primaryCTA}
+                    </button>
+                    <div className="flex flex-wrap items-center gap-2">
+                      {slide.secondaryCTAs.map((item) => (
+                        <button
+                          key={item}
+                          type="button"
+                          className="rounded-full border border-white/35 bg-white/10 px-4 py-2 text-xs font-semibold text-white transition hover:bg-white/20 sm:text-sm"
+                        >
+                          {item}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
 
                   <form
-                    className="mt-8 flex flex-col overflow-hidden rounded-full bg-white p-1.5 shadow-xl shadow-black/10 sm:flex-row sm:items-stretch"
+                    className="mt-6 flex flex-col overflow-hidden rounded-full bg-white p-1.5 shadow-xl shadow-black/10 sm:flex-row sm:items-stretch"
                     action="#"
                     role="search"
                   >
                     <div className="flex shrink-0 items-center px-3 sm:px-4">
-                      <label htmlFor="landing-service" className="sr-only">
+                      <label htmlFor={`landing-service-${i}`} className="sr-only">
                         Service
                       </label>
                       <select
-                        id="landing-service"
+                        id={`landing-service-${i}`}
                         name="service"
                         className="max-w-[150px] cursor-pointer bg-transparent py-3 text-sm font-medium text-slate-600 outline-none sm:max-w-[170px]"
                         defaultValue="all"
@@ -268,36 +314,63 @@ export function HeroSlider({
                       type="submit"
                       className="flex shrink-0 items-center justify-center gap-2 rounded-full bg-[#FFD600] px-6 py-3 text-sm font-bold text-neutral-900 shadow-sm transition hover:bg-[#ffcc00]"
                     >
-                      <svg
-                        className="h-5 w-5"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                      >
-                        <circle cx="11" cy="11" r="7" />
-                        <path d="M20 20l-4-4" strokeLinecap="round" />
-                      </svg>
                       Search
                     </button>
                   </form>
+                  <p className="mt-3 text-[11px] text-white/70 sm:text-xs">
+                    Visual mood: {slide.visualDirection}
+                  </p>
                 </div>
 
-                <div className="relative flex justify-center md:justify-end">
-                  <div className="relative w-full max-w-md lg:max-w-lg">
-                    <div className="relative overflow-hidden rounded-3xl">
+                <div className="relative hidden justify-center md:flex md:justify-end">
+                  <div className="relative w-full max-w-sm lg:max-w-md">
+                    <div className="overflow-hidden rounded-3xl border border-white/25 bg-white/10 p-2 backdrop-blur">
                       <Image
                         src="/assets/landing-page-1/hero.png"
                         alt="Students with study materials"
                         width={540}
                         height={620}
-                        className="h-auto w-full object-cover object-top"
-                        priority
+                        className="h-auto w-full rounded-2xl object-cover object-top"
+                        priority={i === 0}
                       />
                     </div>
                   </div>
                 </div>
               </div>
+              {slide.theme === "purple" ? (
+                <div className="pointer-events-none absolute bottom-0 left-0 right-0 flex h-20 items-end gap-2 px-6 pb-3 opacity-45 sm:h-24">
+                  {[24, 48, 32, 68, 42, 58].map((h, barIdx) => (
+                    <div
+                      key={`bar-${barIdx}`}
+                      className="w-4 rounded-t bg-white/75 sm:w-5"
+                      style={{ height: `${h}%` }}
+                    />
+                  ))}
+                </div>
+              ) : null}
+              {slide.theme === "green" ? (
+                <div className="pointer-events-none absolute right-[10%] top-[18%] grid grid-cols-2 gap-3 opacity-70">
+                  {["verified", "trusted", "safe", "quality"].map((badge) => (
+                    <span
+                      key={badge}
+                      className="rounded-full border border-white/40 bg-white/12 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-white"
+                    >
+                      {badge}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+              {slide.theme === "blue" ? (
+                <div className="pointer-events-none absolute bottom-[15%] right-[8%] hidden rotate-[-8deg] gap-2 md:flex">
+                  {[1, 2, 3].map((book) => (
+                    <span
+                      key={`book-${book}`}
+                      className="h-10 w-6 rounded-sm border border-white/45 bg-white/20 shadow-md"
+                    />
+                  ))}
+                </div>
+              ) : null}
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/18 to-transparent" />
             </div>
           </div>
         ))}
@@ -311,7 +384,7 @@ export function HeroSlider({
                 const active = i === idx;
                 return (
                   <button
-                    key={s.src}
+                    key={s.headline}
                     type="button"
                     onClick={() => go(i)}
                     aria-label={`Go to slide ${i + 1}`}
@@ -391,7 +464,7 @@ export default function LandingPage1() {
     >
       <LandingPageNavbar />
 
-      <HeroSlider className="relative z-0 h-[150px] sm:h-[320px] md:h-[600px]" />
+      <HeroSlider className="relative z-0 h-[430px] sm:h-[500px] md:h-[620px]" />
 
       {/* Floating services strip below hero; z-20 overlaps bottom of hero (z-0) */}
       <div className="relative z-20 mx-auto mt-[-30px] max-w-[1200px] px-4">
