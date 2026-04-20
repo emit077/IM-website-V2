@@ -30,8 +30,8 @@ function SegmentButton({
       type="button"
       onClick={onClick}
       className={`h-9 flex-1 rounded-xl px-3 text-xs font-bold transition ${active
-        ? "bg-gradient-to-br from-blue-500 to-blue-500 text-white shadow-sm"
-        : "text-zinc-600 hover:bg-black/5 dark:text-zinc-300 dark:hover:bg-white/5"
+        ? "bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25 ring-1 ring-white/20"
+        : "text-blue-900/70 hover:bg-blue-50 dark:text-blue-100/80 dark:hover:bg-blue-950/40"
         }`}
     >
       {children}
@@ -73,7 +73,7 @@ export function SmartSearchBar({
         initial={false}
         animate={{ width: expanded ? "100%" : "min(540px,100%)" }}
         transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
-        className="mt-6 w-full rounded-[2rem] border border-white/12 bg-white/55 p-3 shadow-sm backdrop-blur-xl dark:border-white/15 dark:bg-zinc-950/35"
+        className="mt-6 w-full rounded-[2rem] border border-blue-100/90 bg-gradient-to-br from-white/95 via-blue-50/50 to-indigo-50/40 p-3 shadow-lg shadow-blue-500/10 ring-1 ring-blue-500/10 backdrop-blur-xl dark:border-blue-500/25 dark:from-blue-950/50 dark:via-zinc-950/60 dark:to-indigo-950/40 dark:ring-blue-400/15"
         onFocusCapture={() => setExpanded(true)}
         onSubmit={(e) => {
           e.preventDefault();
@@ -81,7 +81,7 @@ export function SmartSearchBar({
         }}
       >
         <div className="flex items-center gap-3">
-          <div className="rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 p-2 text-blue-700 ring-1 ring-blue-500/15 dark:text-blue-200">
+          <div className="rounded-2xl bg-gradient-to-br from-blue-600/15 to-indigo-600/20 p-2 text-blue-700 ring-1 ring-blue-200/80 dark:text-blue-200 dark:ring-blue-500/30">
             <SearchIcon />
           </div>
 
@@ -95,7 +95,7 @@ export function SmartSearchBar({
                   id="subject"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  className="h-11 w-full appearance-none rounded-2xl border border-black/5 bg-white/60 px-3 text-sm font-semibold text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-blue-500/40 focus:ring-4 focus:ring-blue-500/10 dark:border-white/10 dark:bg-white/5 dark:text-zinc-50"
+                  className="h-11 w-full appearance-none rounded-2xl border border-blue-100/90 bg-white/80 px-3 text-sm font-semibold text-blue-950 outline-none transition placeholder:text-blue-900/40 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/15 dark:border-blue-500/25 dark:bg-blue-950/30 dark:text-zinc-50 dark:placeholder:text-blue-200/40"
                 >
                   <option>Mathematics</option>
                   <option>Science</option>
@@ -113,7 +113,7 @@ export function SmartSearchBar({
                   id="grade"
                   value={grade}
                   onChange={(e) => setGrade(e.target.value)}
-                  className="h-11 w-full appearance-none rounded-2xl border border-black/5 bg-white/60 px-3 text-sm font-semibold text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-blue-500/40 focus:ring-4 focus:ring-blue-500/10 dark:border-white/10 dark:bg-white/5 dark:text-zinc-50"
+                  className="h-11 w-full appearance-none rounded-2xl border border-blue-100/90 bg-white/80 px-3 text-sm font-semibold text-blue-950 outline-none transition placeholder:text-blue-900/40 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/15 dark:border-blue-500/25 dark:bg-blue-950/30 dark:text-zinc-50 dark:placeholder:text-blue-200/40"
                 >
                   <option>Grade 1-5</option>
                   <option>Grade 6-8</option>
@@ -131,13 +131,13 @@ export function SmartSearchBar({
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder="e.g., Bengaluru, Indiranagar"
-                  className="h-11 w-full rounded-2xl border border-black/5 bg-white/60 px-3 text-sm font-semibold text-zinc-900 outline-none transition focus:border-blue-500/40 focus:ring-4 focus:ring-blue-500/10 dark:border-white/10 dark:bg-white/5 dark:text-zinc-50"
+                  className="h-11 w-full rounded-2xl border border-blue-100/90 bg-white/80 px-3 text-sm font-semibold text-blue-950 outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-500/15 dark:border-blue-500/25 dark:bg-blue-950/30 dark:text-zinc-50"
                 />
               </div>
             </div>
 
             <div className="mt-3 flex items-center gap-3">
-              <div className="flex items-center gap-2 rounded-2xl border border-black/5 bg-white/60 p-1 dark:border-white/10 dark:bg-white/5">
+              <div className="flex items-center gap-2 rounded-2xl border border-blue-100/90 bg-blue-50/70 p-1 dark:border-blue-500/25 dark:bg-blue-950/35">
                 <SegmentButton
                   active={mode === "Online"}
                   onClick={() => setMode("Online")}
@@ -157,7 +157,7 @@ export function SmartSearchBar({
               <motion.button
                 type="submit"
                 whileTap={{ scale: 0.98 }}
-                className=" inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm ring-1 ring-white/10 transition hover:shadow-md hover:shadow-zinc-950/20 dark:bg-white dark:text-zinc-950"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 text-sm font-semibold text-white shadow-md shadow-blue-500/30 ring-1 ring-white/15 transition hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/35"
                 animate={
                   reduced
                     ? undefined
@@ -176,9 +176,9 @@ export function SmartSearchBar({
               </motion.button>
             </div>
 
-            <div className="mt-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            <div className="mt-2 text-xs font-semibold text-blue-900/55 dark:text-blue-100/60">
               Matching verified tutors in minutes.{" "}
-              <span className="text-blue-600 dark:text-blue-300">No spam.</span>
+              <span className="font-bold text-blue-600 dark:text-blue-300">No spam.</span>
             </div>
           </div>
         </div>

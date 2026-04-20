@@ -116,7 +116,7 @@ export function VideoTestimonialsSection() {
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-24 top-20 h-72 w-72 rounded-full bg-sky-200/25 blur-3xl"
+        className="pointer-events-none absolute -left-24 top-20 h-72 w-72 rounded-full bg-blue-200/30 blur-3xl"
       />
       <div
         aria-hidden
@@ -125,10 +125,10 @@ export function VideoTestimonialsSection() {
 
       <div className="mx-auto max-w-[1200px]">
         <div className="text-center">
-          <p className="text-xs font-extrabold tracking-[0.24em] text-sky-600">
+          <p className="text-xs font-extrabold tracking-[0.24em] text-blue-600">
             VIDEO TESTIMONIALS
           </p>
-          <h2 className="mt-3 text-3xl font-extrabold text-[#1a2744] sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-extrabold text-blue-950 sm:text-4xl">
             Stories That Feel Real
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm font-medium text-slate-600">
@@ -150,7 +150,7 @@ export function VideoTestimonialsSection() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="relative overflow-hidden rounded-[2rem] border border-sky-100/80 bg-white/85 p-4 shadow-[0_20px_80px_rgba(14,165,233,0.12)] backdrop-blur-xl"
+                className="relative overflow-hidden rounded-[2rem] border border-blue-100/80 bg-white/85 p-4 shadow-[0_20px_80px_rgba(37,99,235,0.12)] backdrop-blur-xl"
               >
                 <div className="relative overflow-hidden rounded-[1.5rem]">
                   <img
@@ -169,13 +169,13 @@ export function VideoTestimonialsSection() {
                   <span className="absolute right-3 top-3 rounded-full bg-slate-900/85 px-3 py-1 text-xs font-extrabold text-white">
                     {current.duration}
                   </span>
-                  <span className="absolute left-3 top-3 rounded-full bg-sky-500/90 px-3 py-1 text-xs font-extrabold text-white">
+                  <span className="absolute left-3 top-3 rounded-full bg-blue-600/95 px-3 py-1 text-xs font-extrabold text-white">
                     {current.category}
                   </span>
                 </div>
 
-                <div className="mt-4 rounded-2xl border border-sky-100 bg-white p-4">
-                  <h3 className="text-xl font-extrabold text-[#1a2744]">
+                <div className="mt-4 rounded-2xl border border-blue-100 bg-white p-4">
+                  <h3 className="text-xl font-extrabold text-blue-950">
                     {current.title}
                   </h3>
                   <p className="mt-2 text-[15px] font-medium leading-relaxed text-slate-600">
@@ -183,7 +183,7 @@ export function VideoTestimonialsSection() {
                   </p>
                   <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                      <p className="text-sm font-extrabold text-[#1a2744]">{current.person}</p>
+                      <p className="text-sm font-extrabold text-blue-950">{current.person}</p>
                       <p className="text-xs font-semibold text-slate-500">{current.role}</p>
                     </div>
                     <span className="rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-700">
@@ -196,7 +196,7 @@ export function VideoTestimonialsSection() {
           </div>
 
           <div className="lg:col-span-4">
-            <div className="h-full rounded-[1.75rem] border border-sky-100 bg-white/80 p-3 shadow-[0_12px_40px_rgba(14,165,233,0.08)] backdrop-blur-xl">
+            <div className="h-full rounded-[1.75rem] border border-blue-100 bg-white/80 p-3 shadow-[0_12px_40px_rgba(37,99,235,0.08)] backdrop-blur-xl">
               <div className="mb-2 px-2 py-1 text-xs font-extrabold tracking-wide text-slate-500">
                 MORE STORIES
               </div>
@@ -208,8 +208,8 @@ export function VideoTestimonialsSection() {
                     onClick={() => setActive(idx)}
                     className={`flex shrink-0 flex-col gap-2 rounded-2xl border p-2 text-left transition lg:w-full lg:flex-row lg:items-center lg:gap-3 ${
                       idx === active
-                        ? "border-sky-200 bg-sky-50"
-                        : "border-transparent bg-white hover:border-sky-100 hover:bg-sky-50/50"
+                        ? "border-blue-200 bg-blue-50"
+                        : "border-transparent bg-white hover:border-blue-100 hover:bg-blue-50/50"
                     }`}
                   >
                     <img
@@ -218,14 +218,14 @@ export function VideoTestimonialsSection() {
                       className="h-14 w-24 shrink-0 rounded-xl object-cover lg:h-14 lg:w-16"
                     />
                     <div className="min-w-0 flex-1">
-                      <p className="w-24 truncate text-xs font-extrabold text-[#1a2744] lg:w-auto">
+                      <p className="w-24 truncate text-xs font-extrabold text-blue-950 lg:w-auto">
                         {item.category}
                       </p>
                       <p className="mt-0.5 w-24 truncate text-xs font-semibold text-slate-500 lg:w-auto">
                         {item.person}
                       </p>
                     </div>
-                    <span className="w-fit rounded-full bg-sky-500 px-2 py-1 text-[10px] font-bold text-white lg:ml-auto">
+                    <span className="w-fit rounded-full bg-blue-600 px-2 py-1 text-[10px] font-bold text-white lg:ml-auto">
                       {item.duration}
                     </span>
                   </button>

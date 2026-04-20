@@ -2,9 +2,9 @@
 
 import React, { useId, useRef, useState } from "react";
 
-/** Aligns with landing-page-1: navy headings, CTA yellow, service strip hues */
+/** Blue-forward brand; gold accent for highlights */
 const THEME = {
-  navy: "#1a2744",
+  navy: "#1e40af",
   gold: "#FFD600",
 } as const;
 
@@ -122,9 +122,9 @@ export function ExploreCoursesSection() {
       className="scroll-mt-36 px-4 pb-14 pt-6 md:scroll-mt-32 md:pb-20 md:pt-10"
       aria-labelledby="explore-offerings-heading"
     >
-      <div className="relative mx-auto max-w-[1200px] overflow-hidden rounded-[2rem] border border-black/[0.06] bg-white px-5 py-10 shadow-[0_20px_50px_rgba(15,23,42,0.06)] md:px-10 md:py-12">
+      <div className="relative mx-auto max-w-[1200px] overflow-hidden rounded-[2rem] border border-blue-100/90 bg-white px-5 py-10 shadow-[0_20px_50px_rgba(37,99,235,0.08)] md:px-10 md:py-12">
         <div
-          className="pointer-events-none absolute -right-20 top-0 h-64 w-64 rounded-full bg-sky-400/[0.10] blur-3xl"
+          className="pointer-events-none absolute -right-20 top-0 h-64 w-64 rounded-full bg-blue-400/15 blur-3xl"
           aria-hidden
         />
         <div
@@ -134,19 +134,19 @@ export function ExploreCoursesSection() {
 
         <div className="relative flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-10">
           <div className="max-w-xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-600">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700/80">
               Learning library
             </p>
             <h2
               id="explore-offerings-heading"
-              className="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-[#1a2744] sm:text-3xl md:text-[2rem]"
+              className="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-blue-950 sm:text-3xl md:text-[2rem]"
             >
               Resources built{" "}
-              <span className="bg-gradient-to-r from-blue-600 via-blue-700 to-[#1a2744] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-950 bg-clip-text text-transparent">
                 for your grade
               </span>
             </h2>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-slate-600">
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-blue-900/65">
               Switch classes to preview what we bundle—notes, papers, and book-aligned help in one place.
             </p>
           </div>
@@ -156,7 +156,7 @@ export function ExploreCoursesSection() {
         </div>
 
         <div className="relative z-[1] mt-8 md:mt-10">
-          <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200/90 bg-[#F8F9FA]/90 p-2 md:inline-flex md:flex-nowrap md:justify-start">
+          <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-blue-100/90 bg-blue-50/50 p-2 md:inline-flex md:flex-nowrap md:justify-start">
             {GRADES.map((g) => {
               const isActive = activeGrade === g.id;
               return (
@@ -167,8 +167,8 @@ export function ExploreCoursesSection() {
                   className={[
                     "inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-[13px] font-semibold transition-all",
                     isActive
-                      ? "bg-sky-500 text-white shadow-md shadow-sky-400/30"
-                      : "text-[#1a2744]/85 hover:bg-white hover:text-[#1a2744]",
+                      ? "bg-blue-600 text-white shadow-md shadow-blue-500/30"
+                      : "text-blue-950/85 hover:bg-white hover:text-blue-950",
                   ].join(" ")}
                 >
                   {g.label}
@@ -184,10 +184,10 @@ export function ExploreCoursesSection() {
         </div>
 
         <div className="relative z-[1] mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-[#1a2744]/70">
+          <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-blue-950/70">
             Study materials
           </h3>
-          <span className="hidden h-px flex-1 bg-gradient-to-r from-transparent via-slate-200 to-transparent sm:block" />
+          <span className="hidden h-px flex-1 bg-gradient-to-r from-transparent via-blue-200/80 to-transparent sm:block" />
         </div>
 
         <div className="relative z-[1] mt-5">
@@ -202,8 +202,8 @@ export function ExploreCoursesSection() {
                 className={[
                   "group relative flex min-w-[11.5rem] max-w-[13rem] shrink-0 snap-start flex-col rounded-2xl border border-black/[0.06] p-4 md:min-w-[13.5rem] md:max-w-[14rem] md:p-5",
                   "shadow-[0_2px_12px_rgba(15,23,42,0.04)] transition",
-                  "hover:border-sky-400/25 hover:shadow-[0_12px_28px_rgba(14,165,233,0.08)]",
-                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/35",
+                  "hover:border-blue-300/40 hover:shadow-[0_12px_28px_rgba(37,99,235,0.1)]",
+                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40",
                   m.panel,
                 ].join(" ")}
               >
@@ -215,10 +215,10 @@ export function ExploreCoursesSection() {
                 >
                   {m.art}
                 </div>
-                <p className="mt-4 text-left text-[15px] font-bold leading-snug text-[#1a2744]">
+                <p className="mt-4 text-left text-[15px] font-bold leading-snug text-blue-950">
                   {m.title}
                 </p>
-                <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-sky-600 opacity-90 group-hover:opacity-100">
+                <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-blue-600 opacity-90 group-hover:opacity-100">
                   Open
                   <svg className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
                     <path d="M6 12h12M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
@@ -231,7 +231,7 @@ export function ExploreCoursesSection() {
           <button
             type="button"
             onClick={scrollNext}
-            className="absolute -right-1 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-xl border border-sky-100 bg-white text-[#1a2744] shadow-md transition hover:border-sky-400/35 hover:text-sky-600 md:flex"
+            className="absolute -right-1 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-xl border border-blue-100 bg-white text-blue-950 shadow-md transition hover:border-blue-300 hover:text-blue-600 md:flex"
             aria-label="Scroll study materials"
           >
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">

@@ -139,10 +139,10 @@ export function TutorsCard() {
         {filteredTutors.map((tutor, idx) => (
           <article
             key={`${tutor.name}-${idx}`}
-            className="group overflow-hidden rounded-3xl border border-sky-100 bg-white shadow-[0_4px_24px_rgba(14,165,233,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(14,165,233,0.14)]"
+            className="group overflow-hidden rounded-3xl border border-blue-100 bg-white shadow-[0_4px_24px_rgba(37,99,235,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(37,99,235,0.14)]"
           >
             {/* Card header */}
-            <div className="relative bg-gradient-to-br from-[#1a2744] to-[#1e3a6e] px-6 pb-6 pt-5 text-white">
+            <div className="relative bg-gradient-to-br from-blue-800 via-blue-700 to-indigo-900 px-6 pb-6 pt-5 text-white">
               {/* Dot background */}
               <div
                 className="pointer-events-none absolute inset-0 opacity-[0.06]"
@@ -151,22 +151,22 @@ export function TutorsCard() {
               />
               {tutor.featured && (
                 <div className="absolute right-4 top-4">
-                  <span className="rounded-full bg-sky-400 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-widest text-[#1a2744]">
+                  <span className="rounded-full bg-[#FFD600] px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-widest text-neutral-900">
                     Popular
                   </span>
                 </div>
               )}
-              <div className="relative mx-auto h-20 w-20 overflow-hidden rounded-2xl border-2 border-white/30 shadow-lg ring-2 ring-sky-400/30">
+              <div className="relative mx-auto h-20 w-20 overflow-hidden rounded-2xl border-2 border-white/30 shadow-lg ring-2 ring-blue-300/40">
                 <img src={tutor.image} alt={tutor.name} className="h-full w-full object-cover" />
               </div>
               <h3 className="mt-3 text-center text-base font-extrabold">
                 {tutor.name}
-                <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-sky-400 text-[10px] text-[#1a2744]">✓</span>
+                <span className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-blue-300 text-[10px] text-blue-950">✓</span>
               </h3>
-              <p className="mt-1 text-center text-xs font-semibold text-sky-200/90">{tutor.location}</p>
+              <p className="mt-1 text-center text-xs font-semibold text-blue-100/90">{tutor.location}</p>
               <div className="mt-3 flex flex-wrap justify-center gap-1.5">
                 {tutor.subjects.map((s) => (
-                  <span key={s} className="rounded-full bg-white/15 px-2.5 py-0.5 text-xs font-semibold text-sky-100">
+                  <span key={s} className="rounded-full bg-white/15 px-2.5 py-0.5 text-xs font-semibold text-blue-50">
                     {s}
                   </span>
                 ))}
@@ -174,21 +174,21 @@ export function TutorsCard() {
             </div>
 
             {/* Stats row */}
-            <div className="grid grid-cols-3 divide-x divide-sky-100 border-b border-sky-100 bg-sky-50/60 py-3 text-center">
+            <div className="grid grid-cols-3 divide-x divide-blue-100 border-b border-blue-100 bg-blue-50/70 py-3 text-center">
               <div className="px-2">
-                <p className="flex items-center justify-center gap-0.5 text-base font-extrabold text-[#1a2744]">
+                <p className="flex items-center justify-center gap-0.5 text-base font-extrabold text-blue-950">
                   {tutor.rating}<StarIcon />
                 </p>
                 <p className="mt-0.5 text-[10px] font-semibold text-slate-500">{Math.floor(tutor.reviews / 1000)}k reviews</p>
               </div>
               <div className="px-2">
-                <p className="flex items-center justify-center gap-0.5 text-base font-extrabold text-[#1a2744]">
+                <p className="flex items-center justify-center gap-0.5 text-base font-extrabold text-blue-950">
                   {tutor.classes}<ClockIcon />
                 </p>
                 <p className="mt-0.5 text-[10px] font-semibold text-slate-500">hrs taught</p>
               </div>
               <div className="px-2">
-                <p className="flex items-center justify-center gap-0.5 text-base font-extrabold text-[#1a2744]">
+                <p className="flex items-center justify-center gap-0.5 text-base font-extrabold text-blue-950">
                   {tutor.students}<UserIcon />
                 </p>
                 <p className="mt-0.5 text-[10px] font-semibold text-slate-500">students</p>
@@ -200,23 +200,23 @@ export function TutorsCard() {
               <p className="text-[11px] font-semibold text-slate-400">{tutor.languages.join(" · ")}</p>
               <div className="flex items-center justify-between pt-1">
                 <div>
-                  <span className="text-xl font-extrabold text-[#1a2744]">₹{tutor.pricePerHour}</span>
+                  <span className="text-xl font-extrabold text-blue-950">₹{tutor.pricePerHour}</span>
                   <span className="ml-1 text-xs font-semibold text-slate-500">/hr</span>
                 </div>
-                <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-600">
+                <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-700">
                   Free demo
                 </span>
               </div>
               <div className="flex gap-2 pt-1">
                 <button
                   type="button"
-                  className="flex-1 rounded-xl border border-sky-200 bg-sky-50 py-2 text-sm font-bold text-sky-700 transition hover:bg-sky-100"
+                  className="flex-1 rounded-xl border border-blue-200 bg-blue-50 py-2 text-sm font-bold text-blue-800 transition hover:bg-blue-100"
                 >
                   View Profile
                 </button>
                 <button
                   type="button"
-                  className="flex-1 rounded-xl bg-sky-500 py-2 text-sm font-bold text-white transition hover:bg-sky-600"
+                  className="flex-1 rounded-xl bg-blue-600 py-2 text-sm font-bold text-white shadow-md shadow-blue-500/25 transition hover:bg-blue-700"
                 >
                   Book Demo
                 </button>
@@ -227,7 +227,7 @@ export function TutorsCard() {
       </div>
 
       {filteredTutors.length === 0 ? (
-        <p className="rounded-2xl border border-sky-100 bg-white px-4 py-5 text-center text-sm text-slate-500">
+        <p className="rounded-2xl border border-blue-100 bg-white px-4 py-5 text-center text-sm text-blue-900/55">
           No mentors found for this search. Try changing subject, mode, or location.
         </p>
       ) : null}

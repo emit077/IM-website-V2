@@ -76,10 +76,10 @@ export function StudentEnrollmentProcessSection() {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.55, ease: "easeOut" }}
         >
-          <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-sky-500">
+          <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-blue-600">
             How it works
           </p>
-          <h2 id="enrollment-heading" className="mt-3 text-3xl font-extrabold text-[#1a2744] sm:text-4xl">
+          <h2 id="enrollment-heading" className="mt-3 text-3xl font-extrabold text-blue-950 sm:text-4xl">
             Start Learning in 5 Simple Steps
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600">
@@ -96,10 +96,10 @@ export function StudentEnrollmentProcessSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.08 }}
-              className="group relative flex flex-col rounded-3xl border border-sky-100 bg-white p-6 shadow-[0_4px_20px_rgba(14,165,233,0.07)] transition duration-300 hover:-translate-y-1 hover:border-sky-200/80 hover:shadow-[0_16px_40px_rgba(14,165,233,0.12)]"
+              className="group relative flex flex-col rounded-3xl border border-blue-100 bg-white p-6 shadow-[0_4px_20px_rgba(37,99,235,0.07)] transition duration-300 hover:-translate-y-1 hover:border-blue-200/80 hover:shadow-[0_16px_40px_rgba(37,99,235,0.12)]"
             >
               {/* Step number pill */}
-              <span className="mb-4 inline-flex w-fit rounded-full border border-sky-100 bg-sky-50 px-2.5 py-0.5 text-xs font-extrabold tracking-widest text-sky-500">
+              <span className="mb-4 inline-flex w-fit rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-xs font-extrabold tracking-widest text-blue-600">
                 STEP {s.n}
               </span>
 
@@ -110,14 +110,14 @@ export function StudentEnrollmentProcessSection() {
                 </svg>
               </div>
 
-              <h3 className="text-sm font-extrabold text-[#1a2744] sm:text-base">{s.title}</h3>
+              <h3 className="text-sm font-extrabold text-blue-950 sm:text-base">{s.title}</h3>
               <p className="mt-2 flex-1 text-xs font-semibold leading-relaxed text-slate-500">{s.desc}</p>
 
               {/* Connector arrow (hidden on last) */}
               {i < steps.length - 1 && (
                 <div className="absolute -right-3 top-1/2 z-10 hidden -translate-y-1/2 lg:flex">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full border border-sky-100 bg-white shadow-sm">
-                    <svg className="h-3 w-3 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full border border-blue-100 bg-white shadow-sm">
+                    <svg className="h-3 w-3 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
                       <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
@@ -137,7 +137,7 @@ export function StudentEnrollmentProcessSection() {
         >
           <a
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-sky-500 px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-sky-400/25 transition hover:bg-sky-600 hover:shadow-xl"
+            className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-700 hover:shadow-xl"
           >
             Register &amp; Get Matched Today
             <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
