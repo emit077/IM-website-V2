@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { withBasePath } from "@/lib/withBasePath";
@@ -24,15 +24,6 @@ export function Navbar({
   /** e.g. `top-[42px]` when a bar sits above the nav */
   fixedClassName?: string;
 }) {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
     <motion.nav
       initial={{ opacity: 0, y: -10 }}
@@ -41,15 +32,10 @@ export function Navbar({
       className={`fixed z-40 w-full ${fixedClassName}`}
     >
       <div
-        className={`mx-auto w-full max-w-6xl px-4 transition ${scrolled ? "pt-2" : "pt-3"
-          }`}
+        className="mx-auto w-full max-w-6xl px-4 pt-3 transition"
       >
         <div
-          className={`flex items-center justify-between rounded-3xl border px-4 py-3 shadow-[0_8px_30px_rgba(15,23,42,0.06)] backdrop-blur-xl transition-[box-shadow,background-color,border-color] duration-300 ${
-            scrolled
-              ? "border-slate-200/80 bg-white/92 shadow-[0_12px_40px_rgba(15,23,42,0.08)]"
-              : "border-white/40 bg-white/78"
-          }`}
+          className="grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded-3xl border border-slate-200 bg-white px-4 py-3 shadow-[0_12px_40px_rgba(15,23,42,0.08)] transition-[box-shadow,background-color,border-color] duration-300"
         >
           <div className="flex items-center gap-3">
             <div className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 ring-1 ring-blue-500/20 shadow-sm">
@@ -72,7 +58,7 @@ export function Navbar({
             </div>
           </div>
 
-          <div className="hidden items-center gap-7 md:flex">
+          <div className="hidden items-center justify-center gap-6 lg:gap-7 md:flex">
             <NavLink href="#services" label="Services" />
             <NavLink href="#coverage" label="Academic coverage" />
             <NavLink href="#tutors" label="Tutors" />
@@ -80,7 +66,7 @@ export function Navbar({
             <NavLink href="#testimonials" label="Testimonials" />
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onPrimaryCTA}
@@ -98,7 +84,7 @@ export function Navbar({
 
       <div className="md:hidden">
         <div className="mx-auto max-w-6xl px-4 pb-3">
-          <div className="flex items-center justify-between rounded-3xl border bg-white/55 px-3 py-2 backdrop-blur-xl">
+          <div className="flex items-center justify-between rounded-3xl border border-slate-200 bg-white px-3 py-2 shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
             <div className="flex items-center gap-2 text-xs font-semibold text-zinc-700">
               <span className="rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 px-3 py-1 text-blue-700">
                 Trusted
