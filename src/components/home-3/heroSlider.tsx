@@ -10,7 +10,6 @@ type Slide = {
     tagline: string;
     supportingText: string;
     primaryCTA: string;
-    secondaryCTAs: string[];
     theme: "blue" | "purple" | "green";
     visualDirection: string;
 };
@@ -34,8 +33,7 @@ export function HeroSlider({
                 tagline: "Guiding Every Student Towards Academic Excellence",
                 supportingText:
                     "Providing structured tutoring services and reliable teacher recruitment solutions across India.",
-                primaryCTA: "Book Your Free Demo Today",
-                secondaryCTAs: ["Find A Tutor", "Book A Tutor", "Become A Tutor"],
+                primaryCTA: "",
                 theme: "blue",
                 visualDirection: "Digital books, glowing particles and academic grid motion",
             },
@@ -45,8 +43,7 @@ export function HeroSlider({
                 tagline: "Indian Mentors - Where Learning Meets Mentorship",
                 supportingText:
                     "From foundation to advanced levels, we ensure measurable academic improvement.",
-                primaryCTA: "Book Your Free Demo Today",
-                secondaryCTAs: ["Browse Tutors", "Talk to a Counsellor"],
+                primaryCTA: "Book Your Free Demo",
                 theme: "purple",
                 visualDirection: "Rising progress charts, floating subject icons and motion blur",
             },
@@ -56,8 +53,7 @@ export function HeroSlider({
                 tagline: "Building Strong Foundations for Lifelong Learning",
                 supportingText:
                     "Every tutor undergoes structured verification and performance monitoring.",
-                primaryCTA: "Book Free Demo",
-                secondaryCTAs: ["Explore Our Tutors", "Talk to Counsellor"],
+                primaryCTA: "Book Your Free Demo",
                 theme: "green",
                 visualDirection: "Floating verification badges and shield pulse animation",
             },
@@ -97,7 +93,7 @@ export function HeroSlider({
     return (
         <div
             className={[
-                "relative overflow-hidden border border-black/5 bg-white/70 shadow-lg backdrop-blur-xl",
+                " relative flex min-h-0 flex-col overflow-hidden  border-0 bg-white/50 shadow-sm ring-1 ring-slate-900/[0.06] backdrop-blur-xl  md:border md:border-black/5 md:bg-white/70 md:shadow-lg md:ring-0",
                 className ?? "h-[240px] sm:h-[320px]",
             ].join(" ")}
             tabIndex={0}
@@ -113,7 +109,7 @@ export function HeroSlider({
             }}
         >
             <div
-                className="flex h-full w-full"
+                className="flex min-h-0 w-full flex-1"
                 style={{
                     transform: `translate3d(-${idx * 100}%, 0, 0)`,
                     transition: reduced ? "none" : "transform 520ms cubic-bezier(0.22, 1, 0.36, 1)",
@@ -123,116 +119,111 @@ export function HeroSlider({
                 {slides.map((slide, i) => (
                     <div
                         key={slide.headline}
-                        className="relative h-full min-w-full"
+                        className="relative flex min-h-0 w-full min-w-full flex-1"
                         aria-hidden={i !== idx}
                     >
                         <div
                             className={[
-                                "relative h-full overflow-hidden pt-10",
+                                "relative flex h-full min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden md:pt-25",
                                 "bg-gradient-to-br from-[#0c47b7] via-[#115ad3] to-[#0f7be8]",
                             ]
                                 .filter(Boolean)
                                 .join(" ")}
                         >
                             <div
-                                className="pointer-events-none absolute inset-0 opacity-25"
+                                className="pointer-events-none absolute inset-0 opacity-[0.12] sm:opacity-20 md:opacity-25"
                                 style={{
                                     backgroundImage:
                                         "linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)",
                                     backgroundSize: "38px 38px",
                                 }}
                             />
-                            <div className="relative z-10 mx-auto grid h-full w-full max-w-[1260px] items-start gap-6 px-4 py-8 sm:items-center sm:gap-8 sm:px-6 sm:py-8 md:grid-cols-2 md:px-8 md:py-12 lg:px-10">
-                                <div className="max-w-2xl">
-                                    <p className="mb-3 inline-flex rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-[11px] font-semibold tracking-[0.08em] text-white/95 sm:text-xs">
+                            <div className="relative z-10 mx-auto grid w-full min-w-0 max-w-[1260px] grid-cols-1 content-center items-stretch gap-10 px-0 pb-28 pt-[max(5.75rem,env(safe-area-inset-top,0px))] sm:gap-12 sm:pb-16 sm:pt-[max(4.75rem,env(safe-area-inset-top,0px))] md:grid-cols-2 md:items-center md:gap-x-10 md:gap-y-0 md:px-8 md:pb-14 md:pt-10 lg:gap-x-12 lg:px-10">
+                                {/* Copy */}
+                                <div className="mx-auto w-full min-w-0 max-w-2xl text-center md:col-start-1 md:row-start-1 md:mx-0 md:text-left">
+                                    <p className="mb-4 text-balance text-[11px] font-medium leading-relaxed text-white/80 sm:mb-5 sm:text-xs sm:text-white/90 md:mb-0 md:inline-block md:max-w-2xl md:rounded-2xl md:border md:border-white/20 md:bg-white/10 md:px-4 md:py-2.5 md:text-left md:font-semibold md:leading-snug md:tracking-[0.04em] md:text-white/95">
                                         {slide.subheadline}
                                     </p>
-                                    <h1 className="text-[1.9rem] font-extrabold leading-tight text-white sm:text-4xl lg:text-[3rem] lg:leading-[1.1]">
+                                    <h1 className="mt-4 text-balance text-[1.4rem] font-bold leading-[1.3] tracking-[-0.02em] text-white sm:mt-5 sm:text-4xl sm:font-extrabold sm:leading-[1.2] sm:tracking-normal md:mt-5 lg:text-[3rem] lg:leading-[1.1]">
                                         {slide.headline}
                                     </h1>
-                                    <p className="mt-3 max-w-2xl text-sm font-medium text-white/95 sm:text-base md:text-lg">
+                                    <p className="mt-5 text-[0.9375rem] font-medium text-white/95 sm:mt-6 sm:text-base md:mt-6 md:text-lg">
                                         {slide.tagline}
                                     </p>
-                                    <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/85 md:text-base">
+                                    <p className="mt-5 mx-auto max-w-prose text-[0.8125rem] leading-[1.75] text-white/80 [text-wrap:pretty] sm:mt-5 sm:max-w-none sm:text-sm sm:leading-relaxed sm:text-white/85 md:mx-0 md:mt-5 md:text-base">
                                         {slide.supportingText}
-                                    </p>
-
-                                    <div className="mt-5 flex flex-col gap-2.5 sm:mt-6 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
-                                        <button
-                                            type="button"
-                                            className="inline-flex w-full items-center justify-center rounded-full bg-[#FFD600] px-6 py-3 text-sm font-bold text-slate-900 shadow-lg transition hover:brightness-95 sm:w-auto"
-                                        >
-                                            <span className="mr-2 text-base">👉</span> {slide.primaryCTA}
-                                        </button>
-                                        <div className="flex flex-wrap items-center gap-2">
-                                            {slide.secondaryCTAs.map((item) => (
-                                                <button
-                                                    key={item}
-                                                    type="button"
-                                                    className="rounded-full border border-white/35 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-white/20 sm:px-4 sm:py-2 sm:text-sm"
-                                                >
-                                                    {item}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <form
-                                        className="mt-5 flex flex-col overflow-hidden rounded-2xl bg-white p-1.5 shadow-xl shadow-black/10 sm:mt-6 sm:rounded-full sm:flex-row sm:items-stretch"
-                                        action="#"
-                                        role="search"
-                                    >
-                                        <div className="flex shrink-0 items-center px-3 sm:px-4">
-                                            <label htmlFor={`landing-service-${i}`} className="sr-only">
-                                                Service
-                                            </label>
-                                            <select
-                                                id={`landing-service-${i}`}
-                                                name="service"
-                                                className="max-w-none cursor-pointer bg-transparent py-3 text-sm font-medium text-slate-600 outline-none sm:max-w-[170px]"
-                                                defaultValue="all"
-                                            >
-                                                <option value="all">All Services</option>
-                                                <option value="home">Home Tutor</option>
-                                                <option value="online">Online Tutor</option>
-                                                <option value="shadow">Shadow Tutor</option>
-                                                <option value="travel">Travel Tutor</option>
-                                                <option value="live-in">Live-In Tutor</option>
-                                                <option value="home-schooling">Home Schooling</option>
-                                            </select>
-                                        </div>
-                                        <span className="hidden w-px self-stretch bg-slate-200 sm:block" />
-                                        <input
-                                            type="search"
-                                            name="q"
-                                            placeholder="Find Your Courses..."
-                                            className="min-w-0 flex-1 px-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none"
-                                        />
-                                        <button
-                                            type="submit"
-                                            className="flex shrink-0 items-center justify-center gap-2 rounded-full bg-[#FFD600] px-6 py-3 text-sm font-bold text-neutral-900 shadow-sm transition hover:bg-[#ffcc00]"
-                                        >
-                                            Search
-                                        </button>
-                                    </form>
-                                    <p className="mt-2 text-[11px] text-white/70 sm:mt-3 sm:text-xs">
-                                        Visual mood: {slide.visualDirection}
                                     </p>
                                 </div>
 
-                                <div className="relative hidden justify-center md:flex md:justify-end">
-                                    <div className="relative w-full max-w-sm lg:max-w-md">
-                                        <div className="overflow-hidden rounded-3xl">
+                                {/* Image: below intro on mobile, right column on md+ */}
+                                <div className="flex w-full justify-center md:col-start-2 md:row-span-2 md:row-start-1 md:justify-end md:self-stretch">
+                                    <div className="relative w-full max-w-[min(100%,420px)] sm:max-w-lg md:max-w-xl md:pt-0 lg:max-w-2xl">
+                                        <div className="overflow-hidden">
                                             <Image
                                                 src={withBasePath("/assets/landing-page-1/hero.png")}
                                                 alt="Students with study materials"
                                                 width={540}
                                                 height={620}
-                                                className="h-auto w-full rounded-2xl object-cover object-top"
+                                                className=" mt-8 aspect-[5/4] w-full object-cover object-top sm:aspect-[4/3] sm:max-h-[min(60vh,440px)] md:aspect-auto md:max-h-none md:min-w-0 md:h-auto md:max-w-none"
                                                 priority={i === 0}
+                                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 672px"
                                             />
                                         </div>
                                     </div>
+                                </div>
+
+                                {/* CTA + search */}
+                                <div className="mx-auto w-full min-w-0 max-w-2xl text-center md:col-start-1 md:row-start-2 md:mx-0 md:pt-0 md:mt-[-80px] md:text-left">
+                                    {slide.primaryCTA ? (
+                                        <div className="mt-0 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-start sm:gap-3">
+                                            <button
+                                                type="button"
+                                                className="inline-flex w-full max-w-sm items-center justify-center self-center rounded-full bg-[#FFD600] px-6 py-3.5 text-sm font-bold text-slate-900 shadow-md shadow-black/10 transition hover:brightness-105 sm:w-auto sm:max-w-none sm:py-3 md:self-start"
+                                            >
+                                                {slide.primaryCTA}
+                                            </button>
+                                        </div>
+                                    ) : null}
+                                    {i === 0 ? (
+                                        <form
+                                            className="hidden w-full min-w-0 max-w-md flex-col overflow-hidden rounded-2xl border border-slate-200/60 bg-white shadow-[0_20px_50px_-15px_rgba(15,23,42,0.22)] ring-1 ring-slate-900/[0.04] sm:max-w-none sm:rounded-full sm:border-0 sm:p-1.5 sm:shadow-lg sm:shadow-black/[0.08] sm:ring-0 md:mx-0 md:mt-0 md:flex md:flex-row md:items-stretch"
+                                            action="#"
+                                            role="search"
+                                        >
+                                            <div className="flex shrink-0 items-center border-b border-slate-100 px-4 py-3.5 sm:border-0 sm:px-3 sm:py-0">
+                                                <label htmlFor="landing-service-hero" className="sr-only">
+                                                    Service
+                                                </label>
+                                                <select
+                                                    id="landing-service-hero"
+                                                    name="service"
+                                                    className="w-full min-w-0 max-w-full cursor-pointer bg-transparent text-sm font-medium text-slate-600 outline-none sm:max-w-[170px] sm:py-3"
+                                                    defaultValue="all"
+                                                >
+                                                    <option value="all">All Services</option>
+                                                    <option value="home">Home Tutor</option>
+                                                    <option value="online">Online Tutor</option>
+                                                    <option value="shadow">Shadow Tutor</option>
+                                                    <option value="travel">Travel Tutor</option>
+                                                    <option value="live-in">Live-In Tutor</option>
+                                                    <option value="home-schooling">Home Schooling</option>
+                                                </select>
+                                            </div>
+                                            <span className="hidden w-px self-stretch bg-slate-200 sm:block" />
+                                            <input
+                                                type="search"
+                                                name="q"
+                                                placeholder="Find your courses…"
+                                                className="min-w-0 flex-1 border-b border-slate-100 px-4 py-3.5 text-sm text-slate-800 placeholder:text-slate-400 outline-none sm:border-0 sm:py-3"
+                                            />
+                                            <button
+                                                type="submit"
+                                                className="flex w-full shrink-0 items-center justify-center gap-2 rounded-b-2xl bg-[#FFD600] py-3.5 text-sm font-bold text-neutral-900 transition hover:brightness-105 sm:w-auto sm:rounded-full sm:px-6 sm:py-3 sm:shadow-sm sm:hover:brightness-95"
+                                            >
+                                                Search
+                                            </button>
+                                        </form>
+                                    ) : null}
                                 </div>
                             </div>
                             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/18 to-transparent" />
@@ -243,8 +234,8 @@ export function HeroSlider({
 
             {showControls ? (
                 <>
-                    <div className="pointer-events-none absolute inset-x-0 bottom-4 z-10 flex justify-center sm:bottom-5">
-                        <div className="pointer-events-auto flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-2 backdrop-blur">
+                    <div className="pointer-events-none absolute inset-x-0 bottom-3 z-10 flex justify-center sm:bottom-5">
+                        <div className="pointer-events-auto flex items-center gap-1.5 rounded-full border border-white/20 bg-slate-900/20 px-3 py-2 backdrop-blur-md sm:gap-2 sm:px-3.5">
                             {slides.map((s, i) => {
                                 const active = i === idx;
                                 return (
@@ -255,8 +246,10 @@ export function HeroSlider({
                                         aria-label={`Go to slide ${i + 1}`}
                                         aria-current={active}
                                         className={[
-                                            "h-1.5 w-1.5 rounded-full transition cursor-pointer",
-                                            active ? "bg-blue-600" : "bg-white/45 hover:bg-white/70",
+                                            "h-1.5 rounded-full transition cursor-pointer",
+                                            active
+                                                ? "w-5 bg-white shadow-sm sm:w-6"
+                                                : "w-1.5 bg-white/50 hover:bg-white/75",
                                         ].join(" ")}
                                     />
                                 );

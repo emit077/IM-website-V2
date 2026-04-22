@@ -32,13 +32,13 @@ export function Navbar({
       className={`fixed z-40 w-full ${fixedClassName}`}
     >
       <div
-        className="mx-auto w-full max-w-6xl px-4 pt-3 transition"
+        className="mx-auto w-full max-w-6xl px-3.5 pt-2.5 transition sm:px-4 sm:pt-3"
       >
         <div
-          className="grid grid-cols-[auto_1fr_auto] items-center gap-4 rounded-3xl border border-slate-200 bg-white px-4 py-3 shadow-[0_12px_40px_rgba(15,23,42,0.08)] transition-[box-shadow,background-color,border-color] duration-300"
+          className="grid grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-2xl border border-slate-200/90 bg-white px-3 py-2.5 shadow-[0_4px_24px_rgba(15,23,42,0.06)] transition-[box-shadow,background-color,border-color] duration-300 sm:gap-3 sm:rounded-3xl sm:px-4 sm:py-3 sm:shadow-[0_12px_40px_rgba(15,23,42,0.08)]"
         >
-          <div className="flex items-center gap-3">
-            <div className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 ring-1 ring-blue-500/20 shadow-sm">
+          <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+            <div className="relative grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 ring-1 ring-blue-500/20 shadow-sm sm:h-10 sm:w-10 sm:rounded-2xl">
               <Image
                 src={withBasePath("/assets/logo/im-logo-mini.png")}
                 alt="Indian Mentors"
@@ -48,11 +48,11 @@ export function Navbar({
                 priority
               />
             </div>
-            <div className="leading-tight">
-              <div className="text-sm font-extrabold tracking-wide text-zinc-950">
+            <div className="min-w-0 leading-tight">
+              <div className="truncate text-[13px] font-extrabold tracking-tight text-zinc-950 sm:text-sm sm:tracking-wide">
                 Indian Mentors
               </div>
-              <div className="text-[11px] font-semibold text-zinc-500">
+              <div className="truncate text-[10px] font-medium text-zinc-500 sm:text-[11px] sm:font-semibold">
                 Verified tutors for home & online
               </div>
             </div>
@@ -82,7 +82,7 @@ export function Navbar({
         </div>
       </div>
 
-      <div className="md:hidden">
+      {/* <div className="md:hidden">
         <div className="mx-auto max-w-6xl px-4 pb-3">
           <div className="flex items-center justify-between rounded-3xl border border-slate-200 bg-white px-3 py-2 shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
             <div className="flex items-center gap-2 text-xs font-semibold text-zinc-700">
@@ -106,7 +106,7 @@ export function Navbar({
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
     </motion.nav>
   );
 }

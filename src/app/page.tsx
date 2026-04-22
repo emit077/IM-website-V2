@@ -205,8 +205,10 @@ export default function HomePage() {
     <div className={`${poppins.className} min-h-screen bg-gradient-to-b from-blue-50/90 via-[#f0f7ff] to-white text-blue-950`}>
       <Navbar onPrimaryCTA={() => { }} />
 
-      <main className="">
-        <HeroSlider className="relative z-0 min-h-[650px] sm:min-h-[690px] md:h-[680px]" />
+      <main>
+        <div className="">
+          <HeroSlider className="relative z-0 h-auto w-full min-h-[min(100svh,620px)] sm:min-h-[min(100svh,700px)] md:min-h-[650px] md:h-[680px]" />
+        </div>
       </main>
       <ServicesStrip />
       {/* <ProofBar /> */}
