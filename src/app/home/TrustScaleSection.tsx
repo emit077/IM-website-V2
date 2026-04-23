@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { ChalkboardStatIcon, ClockIcon, ShieldIcon, UsersIcon } from "@/components/shared/SvgIcons";
+import { SectionHeading } from "@/components/shared/SectionHeading";
 
 const STATS = [
   {
@@ -112,24 +113,13 @@ export function TrustScaleSection({
     <section aria-labelledby="trust-scale-heading" className="px-4 py-20">
       <div className="mx-auto max-w-[1200px]">
         {/* Header */}
-        <motion.div
-          className="mb-12 text-center"
-          initial={reduced ? false : { opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.55, ease: "easeOut" }}
-        >
-          <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-blue-600">
-            Trusted across India
-          </p>
-          <h2 id="trust-scale-heading" className="mt-3 text-3xl font-extrabold text-blue-950 sm:text-4xl lg:text-5xl">
-            Numbers That Speak for Themselves
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-blue-900/65">
-            Over half a million tutors and 50,000 students trust Indian Mentors
-            to deliver consistent, measurable academic results.
-          </p>
-        </motion.div>
+        <SectionHeading
+          id="trust-scale-heading"
+          label="Trusted across India"
+          title="Numbers That Speak for Themselves"
+          sub="Over half a million tutors and 50,000 students trust Indian Mentors to deliver consistent, measurable academic results."
+          className="mb-12"
+        />
 
         {/* Stat cards */}
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">

@@ -2,85 +2,90 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { withBasePath } from "@/lib/withBasePath";
+import { SectionHeading } from "@/components/shared/SectionHeading";
 
-const perks = [
-  { icon: "📍", text: "Manage local registrations in your area" },
-  { icon: "🤝", text: "Onboard and coordinate tutor deployments" },
-  { icon: "💰", text: "Earn recurring commissions on every enrolment" },
-  { icon: "📊", text: "Access partner dashboard for real-time tracking" },
-];
+const containerMotion = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-50px" },
+  transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
+};
 
 export function ChannelPartnerSection() {
   return (
-    <section className="px-4 pb-6 pt-2 md:py-4" aria-labelledby="partner-heading">
+    <section className="px-4 pb-8 pt-4 md:py-6" aria-labelledby="partner-heading">
       <div className="mx-auto max-w-[1200px]">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="relative overflow-hidden rounded-[2rem] border border-blue-200/60 bg-gradient-to-br from-blue-100 via-blue-50 to-indigo-100 shadow-[0_16px_60px_rgba(37,99,235,0.12)]"
+          initial={containerMotion.initial}
+          whileInView={containerMotion.whileInView}
+          viewport={containerMotion.viewport}
+          transition={containerMotion.transition}
+          className="relative overflow-hidden rounded-[1.75rem] border border-blue-200/50 shadow-[0_20px_60px_rgba(30,64,175,0.1)]"
         >
-          {/* Decorative elements */}
-          <div className="pointer-events-none absolute -left-10 -top-10 h-40 w-40 rounded-full border-2 border-blue-300/35" aria-hidden />
-          <div className="pointer-events-none absolute right-16 top-8 h-5 w-5 rotate-12 rounded-md bg-blue-400/45" aria-hidden />
-          <div className="pointer-events-none absolute bottom-8 right-8 h-3 w-3 rounded-full bg-indigo-400/40" aria-hidden />
-          <div className="pointer-events-none absolute -right-16 -bottom-16 h-56 w-56 rounded-full bg-blue-200/45 blur-3xl" aria-hidden />
+          <div
+            className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-br from-slate-50 via-blue-50/90 to-indigo-100/80"
+            aria-hidden
+          />
+          <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
+            <Image
+              src={withBasePath("/assets/home/map.png")}
+              alt=""
+              fill
+              unoptimized
+              sizes="(min-width: 1200px) 1200px, 100vw"
+              className="object-cover object-bottom-right object-[85%_100%] opacity-55 sm:object-[100%_100%] sm:opacity-50"
+            />
+          </div>
+          <div
+            className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-slate-50/98 via-slate-50/88 to-blue-100/5 sm:from-slate-50/95 sm:via-slate-50/55 sm:via-50% sm:to-indigo-100/20"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-slate-50/25 to-transparent to-45%"
+            aria-hidden
+          />
+          <div className="pointer-events-none absolute -left-20 top-1/2 z-[1] h-72 w-72 -translate-y-1/2 rounded-full bg-blue-300/20 blur-3xl" aria-hidden />
+          <div className="pointer-events-none absolute -right-10 -top-20 z-[1] h-48 w-48 rounded-full bg-indigo-400/15 blur-3xl" aria-hidden />
+          <div className="pointer-events-none absolute bottom-0 right-1/4 z-[1] h-px w-1/2 bg-gradient-to-r from-transparent via-blue-300/30 to-transparent" aria-hidden />
 
-          <div className="grid items-center gap-0 md:grid-cols-12">
-            {/* Image column */}
-            <div className="relative hidden md:flex md:col-span-5 md:items-end md:justify-center">
-              <div className="pointer-events-none absolute left-6 bottom-4 h-52 w-52 rounded-full border border-blue-300/45 border-dashed" aria-hidden />
-              <Image
-                src={withBasePath("/assets/landing-page-1/hero.png")}
-                alt="Become a Channel Partner with Indian Mentors"
-                width={380}
-                height={280}
-                className="relative z-10 h-[280px] w-auto object-contain object-bottom"
+          <div className="relative z-10 grid items-center gap-8 px-5 py-10 sm:px-8 md:grid-cols-12 md:gap-10 md:px-10 md:py-12 lg:gap-14">
+            <div className="md:col-span-12">
+              <SectionHeading
+                id="partner-heading"
+                label="Partner programme"
+                title="Become an authorised channel partner"
+                sub="Build with a trusted academic brand in your region. You lead local growth — we supply verified educators, the platform, and the operational backbone."
               />
-            </div>
 
-            {/* Content column */}
-            <div className="col-span-full px-8 py-10 md:col-span-7 md:px-10 md:py-12">
-              <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-blue-700">
-                Partner Programme
-              </p>
-              <h2 id="partner-heading" className="mt-3 text-3xl font-extrabold leading-tight text-blue-950 md:text-4xl">
-                Become an Authorised<br className="hidden sm:block" />
-                <span className="text-blue-600">Channel Partner</span>
-              </h2>
-              <p className="mt-4 max-w-md text-base font-semibold leading-relaxed text-blue-900/65">
-                Join our regional partner network. You manage local operations — we provide the verified tutors, platform, and support.
-              </p>
 
-              {/* Perks list */}
-              <ul className="mt-6 space-y-2.5">
-                {perks.map((p) => (
-                  <li key={p.text} className="flex items-center gap-3 text-sm font-semibold text-blue-950/90">
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm">
-                      {p.icon}
-                    </span>
-                    {p.text}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                <a
+              <div className="mt-9 flex flex-wrap items-center gap-3 sm:gap-4">
+                <Link
                   href="/channel-partner"
-                  className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-bold text-white shadow-md shadow-blue-500/30 transition hover:bg-blue-700 hover:shadow-lg"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3.5 text-sm font-bold text-white shadow-md shadow-blue-500/25 transition hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg"
                 >
-                  Apply to Partner
-                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
-                    <path d="M5 12h12m-5-5 5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
+                  Apply to partner
+                  <svg
+                    className="h-4 w-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    aria-hidden
+                  >
+                    <path
+                      d="M5 12h12m-5-5 5 5-5 5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
-                </a>
+                </Link>
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2 rounded-full border border-blue-300 bg-white/80 px-6 py-3 text-sm font-semibold text-blue-800 transition hover:bg-white hover:shadow-md"
+                  className="inline-flex items-center justify-center rounded-full border border-slate-300/90 bg-white/80 px-6 py-3.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-blue-300 hover:bg-white"
                 >
-                  Learn More
+                  Learn more
                 </a>
               </div>
             </div>

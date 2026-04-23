@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useId, useRef, useState } from "react";
+import { SectionHeading } from "@/components/shared/SectionHeading";
 
 /** Blue-forward brand; gold accent for highlights */
 const THEME = {
@@ -134,25 +135,13 @@ export function ExploreCoursesSection() {
 
         <div className="relative flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-10">
           <div className="max-w-xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-700/80">
-              Learning library
-            </p>
-            <h2
+            <SectionHeading
               id="explore-offerings-heading"
-              className="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-blue-950 sm:text-3xl md:text-[2rem]"
-            >
-              Resources built{" "}
-              <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-950 bg-clip-text text-transparent">
-                for your grade
-              </span>
-            </h2>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-blue-900/65">
-              Switch classes to preview what we bundle—notes, papers, and book-aligned help in one place.
-            </p>
+              label="Learning library"
+              title="Resources built for your grade"
+              sub="Switch classes to preview what we bundle—notes, papers, and book-aligned help in one place."
+            />
           </div>
-          <p className="hidden text-right text-xs font-medium text-slate-500 md:block md:max-w-[200px] md:text-[13px] md:leading-snug">
-            Tip · Swipe the row on your phone, or use the arrow on larger screens.
-          </p>
         </div>
 
         <div className="relative z-[1] mt-8 md:mt-10">

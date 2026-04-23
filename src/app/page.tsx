@@ -12,6 +12,7 @@ import { ChannelPartnerSection } from "@/app/home/ChannelPartnerSection";
 import { StudentEnrollmentProcessSection } from "@/app/home/StudentEnrollmentProcessSection";
 import { TrustScaleSection } from "@/app/home/TrustScaleSection";
 import { ExploreCoursesSection } from "@/app/home/ExploreCoursesSection";
+import { SectionHeading } from "@/components/shared/SectionHeading";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -180,25 +181,6 @@ function ProofBar() {
   );
 }
 
-/* ─── tutors section header ──────────────────────────────────── */
-function SectionHeader({ label, heading, sub }: { label: string; heading: string; sub: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 16 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, ease: "easeOut" }}
-      className="text-center"
-    >
-      <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-blue-600">{label}</p>
-      <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-blue-950 sm:text-4xl">{heading}</h2>
-      <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-blue-900/65">{sub}</p>
-    </motion.div>
-  );
-}
-
 /* ─── page ───────────────────────────────────────────────────── */
 export default function HomePage() {
   return (
@@ -207,7 +189,7 @@ export default function HomePage() {
 
       <main>
         <div className="">
-          <HeroSlider className="relative z-0 h-auto w-full min-h-[min(100svh,620px)] sm:min-h-[min(100svh,700px)] md:min-h-[650px] md:h-[680px]" />
+          <HeroSlider className="relative z-0 h-auto w-full min-h-[min(100svh,620px)] sm:min-h-[min(100svh,800px)] md:min-h-[650px] md:h-[680px]" />
         </div>
       </main>
       <ServicesStrip />
@@ -218,9 +200,9 @@ export default function HomePage() {
       {/* Tutors section */}
       <section id="services" className="scroll-mt-32 px-4 pb-20 pt-16 md:pt-24">
         <div className="mx-auto max-w-[1200px]">
-          <SectionHeader
+          <SectionHeading
             label="Our tutors"
-            heading="Meet Verified Mentors"
+            title="Meet Verified Mentors"
             sub="Browse profiles with subjects, ratings, and quick actions to find the right fit for your goals."
           />
           <div className="mt-10">
@@ -230,9 +212,9 @@ export default function HomePage() {
       </section>
 
       <TeacherRecruitmentSection />
-      <ChannelPartnerSection />
       <StudentEnrollmentProcessSection />
       <VideoTestimonialsSection />
+      <ChannelPartnerSection />
     </div>
   );
 }

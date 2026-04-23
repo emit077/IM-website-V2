@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { SectionHeading } from "@/components/shared/SectionHeading";
 
 const hiringTargets = [
   { icon: "🏫", label: "Coaching Institutes" },
@@ -45,15 +46,20 @@ export function TeacherRecruitmentSection() {
           <div className="relative z-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
             {/* Left */}
             <div>
-              <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-blue-300">
-                Institutional Hiring
-              </p>
-              <h2 id="recruitment-heading" className="mt-3 text-3xl font-extrabold text-white md:text-4xl">
-                Hire Verified Teachers<br className="hidden sm:block" /> at Scale
-              </h2>
-              <p className="mt-4 text-base font-semibold leading-relaxed text-blue-100/85">
-                From single hires to bulk staffing, Indian Mentors&apos; institutional division handles verified teacher sourcing, interview coordination, and contract management for educational organisations.
-              </p>
+              <SectionHeading
+                id="recruitment-heading"
+                label="Institutional Hiring"
+                title={
+                  <>
+                    Hire Verified Teachers<br className="hidden sm:block" /> at Scale
+                  </>
+                }
+                sub="From single hires to bulk staffing, Indian Mentors' institutional division handles verified teacher sourcing, interview coordination, and contract management for educational organisations."
+                className="max-w-2xl rounded-2xl  p-4 sm:p-5"
+                titleClassName="!bg-none !text-white"
+                labelClassName="text-white/90"
+                subClassName="font-semibold text-white/85"
+              />
 
               {/* Hiring targets */}
               <div className="mt-6">

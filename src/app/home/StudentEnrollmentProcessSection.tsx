@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { SectionHeading } from "@/components/shared/SectionHeading";
 
 const steps = [
   {
@@ -69,23 +70,13 @@ export function StudentEnrollmentProcessSection() {
     <section className="px-4 py-16 md:py-20" aria-labelledby="enrollment-heading">
       <div className="mx-auto max-w-[1200px]">
         {/* Header */}
-        <motion.div
-          className="mb-12 text-center"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.55, ease: "easeOut" }}
-        >
-          <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-blue-600">
-            How it works
-          </p>
-          <h2 id="enrollment-heading" className="mt-3 text-3xl font-extrabold text-blue-950 sm:text-4xl">
-            Start Learning in 5 Simple Steps
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600">
-            From registration to your first session — simple, transparent, and completely risk-free with a free demo.
-          </p>
-        </motion.div>
+        <SectionHeading
+          id="enrollment-heading"
+          label="How it works"
+          title="Start Learning in 5 Simple Steps"
+          sub="From registration to your first session — simple, transparent, and completely risk-free with a free demo."
+          className="mb-12"
+        />
 
         {/* Steps grid */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
@@ -139,12 +130,11 @@ export function StudentEnrollmentProcessSection() {
             href="/contact"
             className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-700 hover:shadow-xl"
           >
-            Register &amp; Get Matched Today
+            Register &amp; Get Free Demo Class
             <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
               <path d="M5 12h12m-5-5 5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
-          <p className="mt-3 text-xs font-semibold text-slate-400">Free demo · No commitment · Match in 24 hours</p>
         </motion.div>
       </div>
     </section>
