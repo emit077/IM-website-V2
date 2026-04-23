@@ -15,6 +15,7 @@ const navLinks = [
   { label: "Parents and Students", href: "/parent-student/" },
   { label: "Subscription Plans", href: "/contact/" },
   { label: "Channel Partners", href: "/channel-partner/" },
+  { label: "Institution", href: "/institutes/" },
   { label: "Careers", href: "/career/" },
   { label: "Success Stories", href: "/#testimonials" },
   { label: "Blog / Resources", href: "/faq/" },

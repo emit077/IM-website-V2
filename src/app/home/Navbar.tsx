@@ -1,18 +1,19 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { withBasePath } from "@/lib/withBasePath";
 
 function NavLink({ href, label }: { href: string; label: string }) {
   return (
-    <a
+    <Link
       href={href}
       className="rounded-xl px-2.5 py-1.5 text-sm font-semibold text-zinc-600 transition-colors hover:bg-blue-500/[0.07] hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/35 focus-visible:ring-offset-2 focus-visible:ring-offset-white/80"
     >
       {label}
-    </a>
+    </Link>
   );
 }
 
@@ -24,6 +25,17 @@ export function Navbar({
   /** e.g. `top-[42px]` when a bar sits above the nav */
   fixedClassName?: string;
 }) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const links = [
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+    { href: "/contact", label: "Contact" },
+    { href: "/faq", label: "FAQ" },
+    { href: "/career", label: "Career" },
+  ];
+
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
   return (
     <motion.nav
       initial={{ opacity: 0, y: -10 }}
@@ -37,7 +49,11 @@ export function Navbar({
         <div
           className="grid grid-cols-[auto_1fr_auto] items-center gap-2.5 rounded-2xl border border-slate-200/90 bg-white px-3 py-2.5 shadow-[0_4px_24px_rgba(15,23,42,0.06)] transition-[box-shadow,background-color,border-color] duration-300 sm:gap-3 sm:rounded-3xl sm:px-4 sm:py-3 sm:shadow-[0_12px_40px_rgba(15,23,42,0.08)]"
         >
-          <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+          <Link
+            href="/"
+            className="flex min-w-0 items-center gap-2.5 sm:gap-3"
+            onClick={closeMobileMenu}
+          >
             <div className="relative grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 ring-1 ring-blue-500/20 shadow-sm sm:h-10 sm:w-10 sm:rounded-2xl">
               <Image
                 src={withBasePath("/assets/logo/im-logo-mini.png")}
@@ -56,17 +72,27 @@ export function Navbar({
                 Verified tutors for home & online
               </div>
             </div>
-          </div>
+          </Link>
 
           <div className="hidden items-center justify-center gap-6 lg:gap-7 md:flex">
-            <NavLink href="#services" label="Services" />
-            <NavLink href="#coverage" label="Academic coverage" />
-            <NavLink href="#tutors" label="Tutors" />
-            <NavLink href="#pricing" label="Pricing" />
-            <NavLink href="#testimonials" label="Testimonials" />
+            {links.map((link) => (
+              <NavLink key={link.href} href={link.href} label={link.label} />
+            ))}
           </div>
 
           <div className="flex items-center justify-end gap-3">
+            <button
+              type="button"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-zinc-700 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/35 md:hidden"
+              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+              aria-label="Toggle navigation menu"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-nav-menu"
+            >
+              <span className="text-xl leading-none">
+                {isMobileMenuOpen ? "×" : "☰"}
+              </span>
+            </button>
             <button
               type="button"
               onClick={onPrimaryCTA}
@@ -82,31 +108,29 @@ export function Navbar({
         </div>
       </div>
 
-      {/* <div className="md:hidden">
-        <div className="mx-auto max-w-6xl px-4 pb-3">
-          <div className="flex items-center justify-between rounded-3xl border border-slate-200 bg-white px-3 py-2 shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
-            <div className="flex items-center gap-2 text-xs font-semibold text-zinc-700">
-              <span className="rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/20 px-3 py-1 text-blue-700">
-                Trusted
-              </span>
-              <span className="text-zinc-500">
-                Verified tutors
-              </span>
-            </div>
-            <button
-              type="button"
-              onClick={onPrimaryCTA}
-              className="rounded-2xl px-3 py-2 text-xs font-semibold shadow-sm transition hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50 focus-visible:ring-offset-2"
-              style={{
-                background: "var(--primary)",
-                color: "var(--primary-foreground)",
-              }}
+      {isMobileMenuOpen && (
+        <div className="md:hidden">
+          <div className="mx-auto w-full max-w-6xl px-3.5 pb-2 sm:px-4">
+            <div
+              id="mobile-nav-menu"
+              className="rounded-2xl border border-slate-200/90 bg-white p-2.5 shadow-[0_8px_24px_rgba(15,23,42,0.08)]"
             >
-              Demo
-            </button>
+              <div className="flex flex-col gap-1.5">
+                {links.map((link) => (
+                  <Link
+                    key={`mobile-${link.href}`}
+                    href={link.href}
+                    onClick={closeMobileMenu}
+                    className="rounded-xl px-3 py-2 text-sm font-semibold text-zinc-700 transition-colors hover:bg-blue-500/[0.07] hover:text-zinc-950"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-      </div> */}
+      )}
     </motion.nav>
   );
 }

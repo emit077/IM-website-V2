@@ -2,6 +2,7 @@
 
 import { Poppins } from "next/font/google";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { Navbar } from "@/app/home/Navbar";
@@ -121,15 +122,6 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
-function CommitmentItem({ text }: { text: string }) {
-  return (
-    <li className="flex items-start gap-3">
-      <CheckMiniIcon />
-      <span className="text-sm font-semibold leading-relaxed text-slate-700">{text}</span>
-    </li>
-  );
-}
-
 function TeamProfileCard({ member }: { member: TeamMember }) {
   return (
     <article className="group flex flex-col rounded-3xl border border-slate-200/70 bg-white/95 p-6 shadow-[0_8px_30px_rgba(15,23,42,0.07)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
@@ -215,6 +207,7 @@ const fadeUp = (delay = 0) => ({
 
 export default function AboutPage() {
   const reduced = usePrefersReducedMotion();
+  const [isAboutVideoPlaying, setIsAboutVideoPlaying] = useState(false);
   const activeTimeline = aboutTimeline.filter((t) => t.status === "Active");
   const activeTeam = teamMembers.filter((m) => m.status === "Active");
 
@@ -291,40 +284,69 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* ── Overview floating card ── */}
+      {/* ── About video section ── */}
       <div className="relative z-20 mx-auto mt-[-28px] max-w-[1200px] px-4 sm:mt-[-32px]">
         <div className="rounded-3xl border border-slate-200/70 bg-white/95 p-6 shadow-[0_20px_50px_rgba(15,23,42,0.1)] backdrop-blur-sm md:p-8">
-          <div className="grid gap-8 md:grid-cols-2">
-            <div>
-              <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-blue-600/90">
-                Who we are
-              </p>
+          <div className="grid gap-8 lg:grid-cols-12 ">
+            <div className="lg:col-span-5">
               <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-[#1a2744] sm:text-3xl">
-                More than a tutoring platform
+                Inside Indian Mentors
               </h2>
               <p className="mt-4 text-sm font-semibold leading-relaxed text-slate-600">
-                Indian Mentors delivers verified, high-quality, result-oriented mentorship
-                through structured learning journeys backed by accountability, performance
-                tracking, and evolving academic standards. We don&apos;t just provide tutors —
-                we build organised academic journeys that promote clarity, discipline, and
-                measurable outcomes.
+                Watch how Indian Mentors combines verified tutors, structured processes, and
+                technology-backed reporting to deliver personalised, measurable academic progress.
               </p>
             </div>
-            <div>
-              <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-blue-600/90">
-                Our commitment
-              </p>
-              <ul className="mt-4 space-y-3">
-                {[
-                  "Personalised learning paths tailored to individual goals",
-                  "Transparent operational & monitoring systems",
-                  "Global academic and competitive exam alignment",
-                  "Technology-enabled learning & reporting support",
-                  "Verified and professionally screened mentors",
-                ].map((c) => (
-                  <CommitmentItem key={c} text={c} />
-                ))}
-              </ul>
+            <div className="lg:col-span-7">
+              <div className="overflow-hidden rounded-2xl border border-blue-100 bg-slate-900 shadow-[0_12px_36px_rgba(15,23,42,0.2)]">
+                <div className="aspect-video w-full mx-auto">
+                  {isAboutVideoPlaying ? (
+                    <iframe
+                      className="h-full w-full"
+                      src="https://www.youtube.com/embed/N78TDRRCqEo?autoplay=1&rel=0&modestbranding=1&playsinline=1"
+                      title="Indian Mentors overview video"
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setIsAboutVideoPlaying(true)}
+                      className="group relative h-full w-full"
+                      aria-label="Play Indian Mentors overview video"
+                    >
+                      <Image
+                        src="https://img.youtube.com/vi/N78TDRRCqEo/maxresdefault.jpg"
+                        alt="Indian Mentors video cover"
+                        fill
+                        unoptimized
+                        className="object-cover"
+                      />
+                      <span className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-900/20 to-transparent" />
+
+                      <span className="absolute inset-0 m-auto inline-flex h-20 w-20 items-center justify-center">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-300/35" />
+                        <span className="absolute inline-flex h-[88%] w-[88%] animate-[pulse_2.6s_ease-in-out_infinite] rounded-full bg-blue-500/35 blur-[1px]" />
+                        <span className="relative inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-700 text-white shadow-[0_12px_35px_rgba(37,99,235,0.45)] transition duration-300 group-hover:scale-110 group-hover:from-blue-400 group-hover:to-blue-600">
+                          <svg
+                            viewBox="0 0 24 24"
+                            className="h-7 w-7"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden
+                          >
+                            <path d="M8 6v12l9-6-9-6z" fill="currentColor" stroke="none" />
+                          </svg>
+                        </span>
+                      </span>
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
