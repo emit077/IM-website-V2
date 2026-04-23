@@ -5,7 +5,7 @@ on:
     branches: ["dev", "github-pages"]
   workflow_dispatch:
 
-# peaceiris pushes static files to the gh-pages branch
+# peaceiris pushes static files to the github-pages branch (Pages: Deploy from branch)
 permissions:
   contents: write
 
@@ -34,9 +34,9 @@ jobs:
         env:
           GITHUB_ACTIONS: "true"
 
-      - name: Publish to gh-pages branch
+      - name: Publish to github-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
-          publish_branch: gh-pages
+          publish_branch: github-pages
