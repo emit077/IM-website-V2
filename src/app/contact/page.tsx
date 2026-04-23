@@ -350,19 +350,7 @@ export default function ContactPage() {
             <p className="mt-3 max-w-3xl text-sm leading-relaxed text-blue-50 sm:text-base">
               Take the first step towards better academic performance with expert guidance from Indian Mentors.
             </p>
-            <div className="mt-7 grid gap-3 sm:grid-cols-3">
-              <a
-                href={toTel(supportPhones[0])}
-                className="inline-flex items-center justify-center rounded-2xl bg-white px-4 py-3 text-sm font-extrabold text-blue-700 shadow-md transition hover:-translate-y-0.5 hover:shadow-xl"
-              >
-                Call Now
-              </a>
-              <Link
-                href="/#contact"
-                className="inline-flex items-center justify-center rounded-2xl bg-white px-4 py-3 text-sm font-extrabold text-blue-700 shadow-md transition hover:-translate-y-0.5 hover:shadow-xl"
-              >
-                Book Free Demo
-              </Link>
+            <div className="mt-7 grid gap-3 sm:grid-cols-4 text-right justify-end">
               <Link
                 href="/#contact"
                 className="inline-flex items-center justify-center rounded-2xl bg-white px-4 py-3 text-sm font-extrabold text-blue-700 shadow-md transition hover:-translate-y-0.5 hover:shadow-xl"
@@ -507,25 +495,12 @@ export default function ContactPage() {
               success.
             </p>
             <div className="mt-7 grid gap-3 sm:grid-cols-3">
-              <Link
-                href="/#contact"
-                className="inline-flex items-center justify-center rounded-2xl bg-white px-4 py-3 text-sm font-extrabold text-blue-700 shadow-md transition hover:-translate-y-0.5 hover:shadow-xl"
-              >
-                Book Free Demo
-              </Link>
+
               <a
                 href={toTel(supportPhones[0])}
                 className="inline-flex items-center justify-center rounded-2xl bg-white px-4 py-3 text-sm font-extrabold text-blue-700 shadow-md transition hover:-translate-y-0.5 hover:shadow-xl"
               >
                 Talk to Counsellor
-              </a>
-              <a
-                href={toWhatsApp(whatsappPhones[0])}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-2xl bg-white px-4 py-3 text-sm font-extrabold text-blue-700 shadow-md transition hover:-translate-y-0.5 hover:shadow-xl"
-              >
-                Find a Mentor in Your City
               </a>
             </div>
           </section>
