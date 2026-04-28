@@ -11,6 +11,9 @@ import { TeacherRecruitmentSection } from "@/app/home/TeacherRecruitmentSection"
 import { ChannelPartnerSection } from "@/app/home/ChannelPartnerSection";
 import { StudentEnrollmentProcessSection } from "@/app/home/StudentEnrollmentProcessSection";
 import { TrustScaleSection } from "@/app/home/TrustScaleSection";
+import { LearnAnywhereHelpSection } from "@/app/home/LearnAnywhereHelpSection";
+import { WhyChooseIndianMentorsSection } from "@/app/home/WhyChooseIndianMentorsSection";
+import { WhatsNewOnIndianMentorsSection } from "@/app/home/WhatsNewOnIndianMentorsSection";
 import { ExploreCoursesSection } from "@/app/home/ExploreCoursesSection";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 
@@ -196,6 +199,8 @@ export default function HomePage() {
       {/* <ProofBar /> */}
       <ExploreCoursesSection />
       <TrustScaleSection />
+      <WhyChooseIndianMentorsSection />
+      <WhatsNewOnIndianMentorsSection />
 
       {/* Tutors section */}
       <section id="services" className="scroll-mt-32 px-4 pb-20 pt-16 md:pt-24">
@@ -210,11 +215,11 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      <TeacherRecruitmentSection />
       <StudentEnrollmentProcessSection />
-      <VideoTestimonialsSection />
+      <TeacherRecruitmentSection />
       <ChannelPartnerSection />
+      <VideoTestimonialsSection />
+      <LearnAnywhereHelpSection />
     </div>
   );
 }

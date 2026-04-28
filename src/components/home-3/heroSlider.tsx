@@ -93,7 +93,7 @@ export function HeroSlider({
     return (
         <div
             className={[
-                " relative flex min-h-0 flex-col overflow-hidden  border-0 bg-white/50 shadow-sm ring-1 ring-slate-900/[0.06] backdrop-blur-xl  md:border md:border-black/5 md:bg-white/70 md:shadow-lg md:ring-0",
+                " relative flex min-h-0 flex-col overflow-hidden border-0 bg-white/60 ring-1 ring-slate-900/[0.06] backdrop-blur-xl md:border md:border-black/5 md:bg-white/80 md:ring-0",
                 className ?? "h-[240px] sm:h-[320px]",
             ].join(" ")}
             tabIndex={0}
@@ -125,32 +125,32 @@ export function HeroSlider({
                         <div
                             className={[
                                 "relative flex h-full min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden md:pt-25",
-                                "bg-gradient-to-br from-[#0c47b7] via-[#115ad3] to-[#0f7be8]",
+                                "bg-gradient-to-br from-[#f8fbff] via-[#eef5ff] to-[#e5f0ff]",
                             ]
                                 .filter(Boolean)
                                 .join(" ")}
                         >
                             <div
-                                className="pointer-events-none absolute inset-0 opacity-[0.12] sm:opacity-20 md:opacity-25"
+                                className="pointer-events-none absolute inset-0 opacity-[0.2] sm:opacity-25 md:opacity-30"
                                 style={{
                                     backgroundImage:
-                                        "linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)",
+                                        "linear-gradient(rgba(30,64,175,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(30,64,175,0.08) 1px, transparent 1px)",
                                     backgroundSize: "38px 38px",
                                 }}
                             />
                             <div className="relative z-10 mx-auto grid w-full min-w-0 max-w-[1260px] grid-cols-1 content-center items-stretch gap-10 px-0 pb-28 pt-[max(5.75rem,env(safe-area-inset-top,0px))] sm:gap-12 sm:pb-16 sm:pt-[max(4.75rem,env(safe-area-inset-top,0px))] md:grid-cols-2 md:items-center md:gap-x-10 md:gap-y-0 md:px-8 md:pb-14 md:pt-10 lg:gap-x-12 lg:px-10">
                                 {/* Copy */}
                                 <div className="mx-auto w-full min-w-0 max-w-2xl text-center md:col-start-1 md:row-start-1 md:mx-0 md:text-left">
-                                    <p className="mb-4 text-balance text-[11px] font-medium leading-relaxed text-white/80 sm:mb-5 sm:text-xs sm:text-white/90 md:mb-0 md:inline-block md:max-w-2xl md:rounded-2xl md:border md:border-white/20 md:bg-white/10 md:px-4 md:py-2.5 md:text-left md:font-semibold md:leading-snug md:tracking-[0.04em] md:text-white/95">
+                                    <p className="mb-4 text-balance text-[11px] font-medium leading-relaxed text-blue-800 sm:mb-5 sm:text-xs sm:text-blue-900 md:mb-0 md:inline-block md:max-w-2xl md:rounded-2xl md:border md:border-blue-200/90 md:bg-white/80 md:px-4 md:py-2.5 md:text-left md:font-semibold md:leading-snug md:tracking-[0.04em] md:text-blue-900">
                                         {slide.subheadline}
                                     </p>
-                                    <h1 className="mt-4 text-balance text-[1.4rem] font-bold leading-[1.3] tracking-[-0.02em] text-white sm:mt-5 sm:text-4xl sm:font-extrabold sm:leading-[1.2] sm:tracking-normal md:mt-5 lg:text-[3rem] lg:leading-[1.1]">
+                                    <h1 className="mt-4 text-balance text-[1.4rem] font-bold leading-[1.3] tracking-[-0.02em] text-blue-950 sm:mt-5 sm:text-4xl sm:font-extrabold sm:leading-[1.2] sm:tracking-normal md:mt-5 lg:text-[3rem] lg:leading-[1.1]">
                                         {slide.headline}
                                     </h1>
-                                    <p className="mt-5 text-[0.9375rem] font-medium text-white/95 sm:mt-6 sm:text-base md:mt-6 md:text-lg">
+                                    <p className="mt-5 text-[0.9375rem] font-medium text-blue-800 sm:mt-6 sm:text-base md:mt-6 md:text-lg">
                                         {slide.tagline}
                                     </p>
-                                    <p className="mt-5 mx-auto max-w-prose text-[0.8125rem] leading-[1.75] text-white/80 [text-wrap:pretty] sm:mt-5 sm:max-w-none sm:text-sm sm:leading-relaxed sm:text-white/85 md:mx-0 md:mt-5 md:text-base">
+                                    <p className="mt-5 mx-auto max-w-prose text-[0.8125rem] leading-[1.75] text-blue-900/80 [text-wrap:pretty] sm:mt-5 sm:max-w-none sm:text-sm sm:leading-relaxed sm:text-blue-900/80 md:mx-0 md:mt-5 md:text-base">
                                         {slide.supportingText}
                                     </p>
                                 </div>
@@ -178,7 +178,7 @@ export function HeroSlider({
                                         <div className="mt-0 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-start sm:gap-3">
                                             <button
                                                 type="button"
-                                                className="inline-flex w-full max-w-sm items-center justify-center self-center rounded-full bg-[#FFD600] px-6 py-3.5 text-sm font-bold text-slate-900 shadow-md shadow-black/10 transition hover:brightness-105 sm:w-auto sm:max-w-none sm:py-3 md:self-start"
+                                                className="inline-flex w-full max-w-sm items-center justify-center self-center rounded-full bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-md shadow-blue-500/30 transition hover:bg-blue-700 sm:w-auto sm:max-w-none sm:py-3 md:self-start"
                                             >
                                                 {slide.primaryCTA}
                                             </button>
@@ -186,7 +186,7 @@ export function HeroSlider({
                                     ) : null}
                                     {i === 0 ? (
                                         <form
-                                            className="hidden w-full min-w-0 max-w-md flex-col overflow-hidden rounded-2xl border border-slate-200/60 bg-white shadow-[0_20px_50px_-15px_rgba(15,23,42,0.22)] ring-1 ring-slate-900/[0.04] sm:max-w-none sm:rounded-full sm:border-0 sm:p-1.5 sm:shadow-lg sm:shadow-black/[0.08] sm:ring-0 md:mx-0 md:mt-0 md:flex md:flex-row md:items-stretch"
+                                            className="hidden w-full min-w-0 max-w-md flex-col overflow-hidden rounded-2xl border border-slate-200/60 bg-white ring-1 ring-slate-900/[0.04] sm:max-w-none sm:rounded-full sm:border-0 sm:p-1.5 sm:ring-0 md:mx-0 md:mt-0 md:flex md:flex-row md:items-stretch"
                                             action="#"
                                             role="search"
                                         >
@@ -218,7 +218,7 @@ export function HeroSlider({
                                             />
                                             <button
                                                 type="submit"
-                                                className="flex w-full shrink-0 items-center justify-center gap-2 rounded-b-2xl bg-[#FFD600] py-3.5 text-sm font-bold text-neutral-900 transition hover:brightness-105 sm:w-auto sm:rounded-full sm:px-6 sm:py-3 sm:shadow-sm sm:hover:brightness-95"
+                                                className="flex w-full shrink-0 items-center justify-center gap-2 rounded-b-2xl bg-blue-600 py-3.5 text-sm font-bold text-white shadow-md shadow-blue-500/25 transition hover:bg-blue-700 sm:w-auto sm:rounded-full sm:px-6 sm:py-3"
                                             >
                                                 Search
                                             </button>
@@ -226,7 +226,7 @@ export function HeroSlider({
                                     ) : null}
                                 </div>
                             </div>
-                            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/18 to-transparent" />
+                            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-blue-100/60 to-transparent" />
                         </div>
                     </div>
                 ))}
@@ -235,7 +235,7 @@ export function HeroSlider({
             {showControls ? (
                 <>
                     <div className="pointer-events-none absolute inset-x-0 bottom-3 z-10 flex justify-center sm:bottom-5">
-                        <div className="pointer-events-auto flex items-center gap-1.5 rounded-full border border-white/20 bg-slate-900/20 px-3 py-2 backdrop-blur-md sm:gap-2 sm:px-3.5">
+                        <div className="pointer-events-auto flex items-center gap-1.5 rounded-full border border-blue-200/80 bg-white/80 px-3 py-2 backdrop-blur-md sm:gap-2 sm:px-3.5">
                             {slides.map((s, i) => {
                                 const active = i === idx;
                                 return (
@@ -248,8 +248,8 @@ export function HeroSlider({
                                         className={[
                                             "h-1.5 rounded-full transition cursor-pointer",
                                             active
-                                                ? "w-5 bg-white shadow-sm sm:w-6"
-                                                : "w-1.5 bg-white/50 hover:bg-white/75",
+                                                ? "w-5 bg-blue-600 sm:w-6"
+                                                : "w-1.5 bg-blue-300 hover:bg-blue-500",
                                         ].join(" ")}
                                     />
                                 );
@@ -261,7 +261,7 @@ export function HeroSlider({
                         type="button"
                         onClick={onPrev}
                         aria-label="Previous slide"
-                        className="absolute left-3 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-2 text-white shadow-sm backdrop-blur transition hover:bg-white/20 focus:outline-none focus:ring-4 focus:ring-blue-500/20 sm:block"
+                        className="absolute left-3 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-blue-200 bg-white/85 p-2 text-blue-800 backdrop-blur transition hover:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/20 sm:block"
                     >
                         <span className="sr-only">Previous</span>
                         <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>
@@ -279,7 +279,7 @@ export function HeroSlider({
                         type="button"
                         onClick={onNext}
                         aria-label="Next slide"
-                        className="absolute right-3 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-white/20 bg-white/10 p-2 text-white shadow-sm backdrop-blur transition hover:bg-white/20 focus:outline-none focus:ring-4 focus:ring-blue-500/20 sm:block"
+                        className="absolute right-3 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-blue-200 bg-white/85 p-2 text-blue-800 backdrop-blur transition hover:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/20 sm:block"
                     >
                         <span className="sr-only">Next</span>
                         <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden>

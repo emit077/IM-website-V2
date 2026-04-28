@@ -1,15 +1,73 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
+import { withBasePath } from "@/lib/withBasePath";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 
+function IconCoaching(props: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className={props.className} aria-hidden>
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" />
+      <path d="M8 7h8" />
+      <path d="M8 11h5" />
+    </svg>
+  );
+}
+
+function IconSchool(props: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className={props.className} aria-hidden>
+      <path d="M14 22v-4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v4" />
+      <path d="M18 5v8.5" />
+      <path d="M6 5v8.5" />
+      <path d="M2.7 6.3 12 2l9.3 4.2a1 1 0 0 1 .7.95V19a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.25a1 1 0 0 1 .7-.95Z" />
+    </svg>
+  );
+}
+
+function IconCollege(props: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className={props.className} aria-hidden>
+      <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+      <path d="M6 12v5c3 3 9 3 12 0v-5" />
+    </svg>
+  );
+}
+
+function IconEdtech(props: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className={props.className} aria-hidden>
+      <rect width="20" height="14" x="2" y="3" rx="2" />
+      <path d="M8 21h8" />
+      <path d="M12 17v4" />
+    </svg>
+  );
+}
+
+function IconCorporate(props: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className={props.className} aria-hidden>
+      <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+      <path d="M6 12H4a2 2 0 0 0-2 2v6h20v-5a1 1 0 0 0-1-1h-1" />
+      <path d="M9 6h1" />
+      <path d="M9 10h1" />
+      <path d="M9 14h1" />
+      <path d="M14 6h1" />
+      <path d="M14 10h1" />
+      <path d="M14 14h1" />
+    </svg>
+  );
+}
+
 const hiringTargets = [
-  { icon: "🏫", label: "Coaching Institutes" },
-  { icon: "🏫", label: "Schools" },
-  { icon: "🎓", label: "Colleges" },
-  { icon: "💻", label: "EdTech Companies" },
-  { icon: "🏢", label: "Corporate Academic Programs" },
-];
+  { label: "Coaching Institutes", blurb: "Test-prep & centres", Icon: IconCoaching, iconBg: "from-violet-500/15 to-indigo-500/10", iconFg: "text-indigo-700" },
+  { label: "Schools", blurb: "K–12 programmes", Icon: IconSchool, iconBg: "from-sky-500/15 to-blue-500/10", iconFg: "text-blue-700" },
+  { label: "Colleges", blurb: "Higher education", Icon: IconCollege, iconBg: "from-amber-500/15 to-orange-500/10", iconFg: "text-amber-800" },
+  { label: "EdTech Companies", blurb: "Product & content teams", Icon: IconEdtech, iconBg: "from-cyan-500/15 to-teal-500/10", iconFg: "text-teal-800" },
+  { label: "Corporate Academic Programs", blurb: "L&D & upskilling", Icon: IconCorporate, iconBg: "from-slate-500/12 to-slate-600/10", iconFg: "text-slate-800" },
+] as const;
 
 const recruitmentFeatures = [
   { icon: "📋", label: "Pre-verified teacher database" },
@@ -28,58 +86,60 @@ export function TeacherRecruitmentSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-blue-800 via-blue-700 to-indigo-900 p-8 shadow-[0_24px_80px_rgba(37,99,235,0.28)] md:p-12"
+          className="relative overflow-hidden rounded-[2rem] border border-blue-100/90 bg-gradient-to-br from-white via-blue-50/60 to-indigo-50/40 p-8 md:p-12"
         >
-          {/* Background dot grid */}
-          <div
-            className="pointer-events-none absolute inset-0 opacity-[0.07]"
-            style={{
-              backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)",
-              backgroundSize: "20px 20px",
-            }}
-            aria-hidden
-          />
-          {/* Glow blobs */}
-          <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-blue-400/25 blur-3xl" aria-hidden />
-          <div className="pointer-events-none absolute -bottom-16 left-1/4 h-56 w-56 rounded-full bg-blue-400/15 blur-2xl" aria-hidden />
 
           <div className="relative z-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
             {/* Left */}
             <div>
+
               <SectionHeading
                 id="recruitment-heading"
                 label="Institutional Hiring"
-                title={
-                  <>
-                    Hire Verified Teachers<br className="hidden sm:block" /> at Scale
-                  </>
-                }
+                title="Hire Verified Teachers at Scale"
                 sub="From single hires to bulk staffing, Indian Mentors' institutional division handles verified teacher sourcing, interview coordination, and contract management for educational organisations."
-                className="max-w-2xl rounded-2xl  p-4 sm:p-5"
-                titleClassName="!bg-none !text-white"
-                labelClassName="text-white/90"
-                subClassName="font-semibold text-white/85"
               />
 
-              {/* Hiring targets */}
-              <div className="mt-6">
-                <p className="mb-3 text-xs font-extrabold uppercase tracking-widest text-blue-300/90">
-                  We hire for
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {hiringTargets.map((t) => (
-                    <span key={t.label} className="flex items-center gap-1.5 rounded-full border border-blue-300/35 bg-blue-500/15 px-3 py-1.5 text-xs font-semibold text-blue-100">
-                      <span>{t.icon}</span>
-                      {t.label}
-                    </span>
-                  ))}
+              {/* Hiring targets — scannable grid */}
+              <div className="mt-8">
+                <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
+                  <div>
+                    <p className="text-xs font-extrabold uppercase tracking-widest text-blue-700/85">
+                      We hire for
+                    </p>
+                    <p className="mt-1 text-sm font-semibold text-slate-600">
+                      Every type of learning organisation — one verified pipeline.
+                    </p>
+                  </div>
                 </div>
+                <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-3.5">
+                  {hiringTargets.map((t, i) => {
+                    const Icon = t.Icon;
+                    return (
+                      <li key={t.label} className={i === 4 ? "sm:col-span-2" : ""}>
+                        <div
+                          className="group flex h-full gap-3 rounded-2xl border border-blue-100/90 bg-white/90 p-3.5 shadow-sm shadow-blue-500/5 ring-1 ring-blue-500/[0.06] transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md hover:shadow-blue-500/10"
+                        >
+                          <div
+                            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${t.iconBg} ${t.iconFg}`}
+                          >
+                            <Icon className="h-5 w-5" />
+                          </div>
+                          <div className="min-w-0 flex-1 pt-0.5">
+                            <p className="text-sm font-bold leading-snug text-blue-950">{t.label}</p>
+                            <p className="mt-0.5 text-xs font-medium leading-snug text-slate-500">{t.blurb}</p>
+                          </div>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#FFD600] px-6 py-3 text-sm font-bold text-neutral-900 shadow-lg shadow-blue-900/25 transition hover:brightness-95 hover:shadow-xl"
+                  className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-bold text-white shadow-md shadow-blue-500/25 transition hover:bg-blue-700"
                 >
                   Hire Teachers
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
@@ -88,29 +148,24 @@ export function TeacherRecruitmentSection() {
                 </a>
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2 rounded-full border border-blue-300/40 bg-white/10 px-6 py-3 text-sm font-semibold text-blue-100 backdrop-blur-sm transition hover:bg-white/20"
+                  className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/85 px-6 py-3 text-sm font-semibold text-blue-900 backdrop-blur-sm transition hover:bg-white"
                 >
                   Talk to Recruiter
                 </a>
               </div>
             </div>
 
-            {/* Right — features grid */}
-            <div>
-              <p className="mb-4 text-xs font-extrabold uppercase tracking-widest text-blue-300/90">
-                What&apos;s included
-              </p>
-              <ul className="space-y-3">
-                {recruitmentFeatures.map((f) => (
-                  <li key={f.label} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/8 px-5 py-4 backdrop-blur-sm">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-400/15 text-xl ring-1 ring-blue-300/25">
-                      {f.icon}
-                    </span>
-                    <span className="text-sm font-semibold text-blue-50">{f.label}</span>
-                    <span className="ml-auto flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-400/25 text-[10px] font-extrabold text-blue-200">✓</span>
-                  </li>
-                ))}
-              </ul>
+            {/* Right — image + features grid */}
+            <div className="h-full">
+              <div className="h-full overflow-hidden rounded-2xl">
+                <Image
+                  src={withBasePath("/assets/home/hire/hire.png")}
+                  alt="Institutional teacher hiring support"
+                  width={720}
+                  height={420}
+                  className="h-full min-h-[320px] w-full object-cover object-top"
+                />
+              </div>
             </div>
           </div>
         </motion.div>

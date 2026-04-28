@@ -171,7 +171,7 @@ export function VideoTestimonialsSection() {
                         {Array.from({ length: 5 }).map((_, i) => (
                           <span
                             key={`star-${i}`}
-                            className="ml-[-5px] md:ml-[-10px]  inline-flex h-7 w-7 items-center justify-center leading-none text-amber-500 sm:h-8 sm:w-8 sm:text-xl md:h-9 md:w-9 md:text-2xl lg:h-10 lg:w-10 lg:text-3xl"
+                            className="ml-[-5px] md:ml-[-10px]  inline-flex h-7 w-7 items-center justify-center leading-none text-blue-500 sm:h-8 sm:w-8 sm:text-xl md:h-9 md:w-9 md:text-2xl lg:h-10 lg:w-10 lg:text-3xl"
                             aria-hidden
                           >
                             ★

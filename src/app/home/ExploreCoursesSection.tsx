@@ -3,10 +3,10 @@
 import React, { useId, useRef, useState } from "react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 
-/** Blue-forward brand; gold accent for highlights */
+/** Blue-forward brand */
 const THEME = {
   navy: "#1e40af",
-  gold: "#FFD600",
+  brandBlue: "#2563eb",
 } as const;
 
 const GRADES = [
@@ -42,8 +42,8 @@ function NcertBooksArt({ uid }: { uid: string }) {
           <stop offset="100%" stopColor={THEME.navy} />
         </linearGradient>
         <linearGradient id={g2} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#fde047" />
-          <stop offset="100%" stopColor={THEME.gold} />
+          <stop offset="0%" stopColor="#93c5fd" />
+          <stop offset="100%" stopColor={THEME.brandBlue} />
         </linearGradient>
       </defs>
     </svg>
@@ -69,8 +69,8 @@ function buildMaterials(uidBase: string): Material[] {
   return [
     {
       title: "NCERT solutions",
-      panel: "bg-gradient-to-br from-amber-50/90 via-yellow-50/50 to-white",
-      iconWrap: "bg-white/95 shadow-sm ring-1 ring-amber-200/70",
+      panel: "bg-gradient-to-br from-blue-50/90 via-sky-50/40 to-white",
+      iconWrap: "bg-white/95 shadow-sm ring-1 ring-blue-200/70",
       art: <NcertBooksArt uid={`${uidBase}-ncert-sol`} />,
     },
     {
@@ -162,7 +162,7 @@ export function ExploreCoursesSection() {
                 >
                   {g.label}
                   {"isNew" in g && g.isNew ? (
-                    <span className="rounded-md bg-[#FFD600] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-neutral-900 shadow-sm">
+                    <span className="rounded-md bg-white/95 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-blue-700 shadow-sm ring-1 ring-white/50">
                       New
                     </span>
                   ) : null}

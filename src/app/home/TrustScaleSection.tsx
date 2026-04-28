@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
+import { withBasePath } from "@/lib/withBasePath";
 import { ChalkboardStatIcon, ClockIcon, ShieldIcon, UsersIcon } from "@/components/shared/SvgIcons";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 
@@ -103,7 +105,7 @@ function StatCard({ value, suffix, label, sub, icon: Icon, color, accent, reduce
 }
 
 export function TrustScaleSection({
-  onBookFreeDemo = () => {},
+  onBookFreeDemo = () => { },
 }: {
   onBookFreeDemo?: () => void;
 }) {
@@ -122,10 +124,22 @@ export function TrustScaleSection({
         />
 
         {/* Stat cards */}
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {STATS.map((s, i) => (
-            <StatCard key={s.label} {...s} reduced={reduced} i={i} />
-          ))}
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-2">
+            {STATS.map((s, i) => (
+              <StatCard key={s.label} {...s} reduced={reduced} i={i} />
+            ))}
+          </div>
+          <div className="relative min-h-[220px] overflow-hidden rounded-3xl border border-blue-100 bg-slate-50 sm:min-h-[300px]">
+            <Image
+              src={withBasePath("/assets/home/map.png")}
+              alt="Indian Mentors trusted across India"
+              fill
+              unoptimized
+              sizes="(min-width: 1280px) 480px, 100vw"
+              className="object-cover object-center"
+            />
+          </div>
         </div>
 
         {/* Feature strip */}
@@ -136,15 +150,6 @@ export function TrustScaleSection({
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.55, ease: "easeOut", delay: 0.3 }}
         >
-          {/* Dot decoration */}
-          <div
-            className="pointer-events-none absolute right-0 top-0 h-full w-1/3 opacity-20"
-            style={{
-              backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px)",
-              backgroundSize: "16px 16px",
-            }}
-            aria-hidden
-          />
           <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-10">
             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-400/20 text-blue-200 ring-1 ring-blue-300/40 [&_svg]:h-6 [&_svg]:w-6">
               <ShieldIcon />
@@ -166,7 +171,7 @@ export function TrustScaleSection({
             </div>
             <Link
               href="/contact"
-              className="inline-flex shrink-0 items-center gap-2 rounded-2xl bg-[#FFD600] px-6 py-3 text-sm font-extrabold text-neutral-900 shadow-lg shadow-blue-900/20 transition hover:brightness-95"
+              className="inline-flex shrink-0 items-center gap-2 rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-700"
             >
               Book Free Demo
               <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>

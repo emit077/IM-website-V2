@@ -151,7 +151,7 @@ export function TutorsCard() {
               />
               {tutor.featured && (
                 <div className="absolute right-4 top-4">
-                  <span className="rounded-full bg-[#FFD600] px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-widest text-neutral-900">
+                  <span className="rounded-full bg-white/20 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-widest text-white ring-1 ring-white/35">
                     Popular
                   </span>
                 </div>
