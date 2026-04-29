@@ -196,12 +196,13 @@ export default function HomePage() {
         </div>
       </main>
       <ServicesStrip />
-      {/* <ProofBar /> */}
-      <ExploreCoursesSection />
-      <TrustScaleSection />
-      <WhyChooseIndianMentorsSection />
       <WhatsNewOnIndianMentorsSection />
 
+      {/* <ProofBar /> */}
+      <TrustScaleSection />
+      {/* <WhyChooseIndianMentorsSection /> */}
+      <ExploreCoursesSection />
+      <StudentEnrollmentProcessSection />
       {/* Tutors section */}
       <section id="services" className="scroll-mt-32 px-4 pb-20 pt-16 md:pt-24">
         <div className="mx-auto max-w-[1200px]">
@@ -215,7 +216,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <StudentEnrollmentProcessSection />
       <TeacherRecruitmentSection />
       <ChannelPartnerSection />
       <VideoTestimonialsSection />

@@ -89,7 +89,7 @@ function StatCard({ value, suffix, label, sub, icon: Icon, color, accent, reduce
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.55, ease: "easeOut", delay: i * 0.08 }}
-      className="flex flex-col rounded-3xl border border-blue-100 bg-white p-6 shadow-[0_8px_32px_rgba(37,99,235,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(37,99,235,0.12)]"
+      className="flex flex-col rounded-3xl border border-blue-100  p-6 shadow-[0_8px_32px_rgba(37,99,235,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(37,99,235,0.12)]"
     >
       <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl ${color} [&_svg]:h-5 [&_svg]:w-5`}>
         <Icon />
@@ -130,14 +130,14 @@ export function TrustScaleSection({
               <StatCard key={s.label} {...s} reduced={reduced} i={i} />
             ))}
           </div>
-          <div className="relative min-h-[220px] overflow-hidden rounded-3xl border border-blue-100 bg-slate-50 sm:min-h-[300px]">
+          <div className="relative min-h-[220px] ">
             <Image
-              src={withBasePath("/assets/home/map.png")}
-              alt="Indian Mentors trusted across India"
+              src={withBasePath("/assets/home/globe.png")}
+              alt="Indian Mentors trusted across India and beyond"
               fill
               unoptimized
               sizes="(min-width: 1280px) 480px, 100vw"
-              className="object-cover object-center"
+              className="object-contain object-top"
             />
           </div>
         </div>

@@ -41,17 +41,17 @@ export function LearnAnywhereHelpSection() {
   const reduced = useReducedMotion();
 
   return (
-    <section className="relative px-4 py-14 md:py-20" aria-labelledby="learn-anywhere-heading">
+    <section className="relative px-4 py-14 " aria-labelledby="learn-anywhere-heading">
       {/* Pastel background shapes — theme blues */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      {/* <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
         <div className="absolute -left-24 top-20 h-56 w-56 rounded-full bg-sky-200/25 blur-3xl" />
         <div className="absolute -right-16 top-40 h-48 w-48 rounded-full bg-indigo-200/20 blur-3xl" />
         <div className="absolute bottom-32 left-1/3 h-40 w-40 rounded-full bg-blue-200/20 blur-3xl" />
-      </div>
+      </div> */}
 
       <div className="relative mx-auto max-w-[1200px]">
         {/* ── Split: image left, copy right ── */}
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+        {/* <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <div className="relative order-2 min-h-[260px] lg:order-1">
             <motion.div
               className="relative mx-auto max-w-lg lg:mx-0"
@@ -94,9 +94,9 @@ export function LearnAnywhereHelpSection() {
               id="learn-anywhere-heading"
               className="mt-2 text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl"
             >
-              Learn from{" "}
+              Learn at{" "}
               <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                anywhere
+                your comfort
               </span>{" "}
               — with mentors who fit your rhythm.
             </h2>
@@ -127,11 +127,11 @@ export function LearnAnywhereHelpSection() {
               </a>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* ── CTA band (reference “Happy to help”) — IM blues ── */}
         <motion.div
-          className="relative mt-14 overflow-hidden rounded-[1.75rem] bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 p-6 shadow-[0_24px_50px_rgba(37,99,235,0.3)] sm:mt-16 sm:rounded-3xl sm:p-8 md:p-10 lg:mt-20"
+          className="relative overflow-visible rounded-[1.25rem] bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 px-5 pb-6 pt-5 shadow-[0_14px_36px_rgba(37,99,235,0.28)] md:rounded-2xl md:px-7 md:pb-6 md:pt-6 md:pr-[min(486px,38%)] lg:px-8 lg:pr-[min(537px,36%)]"
           initial={reduced ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
@@ -144,38 +144,52 @@ export function LearnAnywhereHelpSection() {
             }}
             aria-hidden
           />
-          <div className="pointer-events-none absolute -right-20 top-0 h-40 w-40 rounded-full bg-amber-300/20 blur-3xl" aria-hidden />
-          <div className="pointer-events-none absolute bottom-0 left-1/4 h-24 w-24 text-white/10" aria-hidden>
-            <svg viewBox="0 0 24 24" fill="currentColor" className="h-full w-full">
-              <path d="M12 2l2.2 6.8H21l-5.5 4 2.1 6.4L12 16.2 6.4 19.2l2.1-6.4L3 8.8h6.8L12 2z" />
-            </svg>
+          <div className="pointer-events-none absolute -right-16 top-0 h-32 w-32 rounded-full bg-amber-300/20 blur-3xl md:h-36 md:w-36" aria-hidden />
+
+          {/* Portrait: bottom+right aligned; tall frame lets the head extend above the card */}
+          <div className="pointer-events-none absolute bottom-0 right-0 z-[2] hidden w-[min(486px,78%)] md:block md:w-[min(546px,38%)] lg:w-[min(597px,36%)]">
+            <div className="relative h-[510px] w-full md:h-[543px] lg:h-[576px]">
+              <div className="absolute bottom-0 right-0 h-[904px] w-full lg:h-[944px]">
+                <Image
+                  src={withBasePath("/assets/home/support-executive.png")}
+                  alt="Indian Mentors support executive"
+                  fill
+                  className="object-contain object-right-bottom drop-shadow-[0_18px_28px_rgba(15,23,42,0.38)]"
+                  sizes="(min-width: 1024px) 597px, (min-width: 768px) 546px, 486px"
+                  unoptimized
+                  priority={false}
+                />
+              </div>
+            </div>
           </div>
 
-          <div className="relative flex flex-col items-stretch gap-8 md:flex-row md:items-center md:gap-10">
-            <div className="min-w-0 flex-1 text-center md:text-left">
-              <h3 className="text-2xl font-extrabold text-white sm:text-3xl">Happy to help you!</h3>
-              <p className="mt-2 max-w-xl text-pretty text-sm font-medium leading-relaxed text-white/90 sm:text-base">
+          <div className="relative z-[1] flex flex-col gap-6 md:min-h-[198px] md:flex-row md:items-end md:gap-6 lg:min-h-[222px]">
+            <div className="min-w-0 flex-1 pb-0 text-center md:text-left">
+              <h3 className="text-xl font-extrabold text-white sm:text-2xl md:text-[1.65rem] lg:text-[1.75rem]">
+                Happy to help you!
+              </h3>
+              <p className="mt-2 max-w-xl text-pretty text-xs font-medium leading-relaxed text-white/90 sm:text-sm md:mt-1.5 lg:max-w-lg">
                 Not sure which format or plan fits? Our team will walk you through options — no pressure,
                 no spam, just clear next steps.
               </p>
               <a
                 href="#contact"
-                className="mt-6 inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-extrabold text-white shadow-lg transition hover:bg-slate-900"
+                className="mt-5 inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-2.5 text-xs font-extrabold text-white shadow-lg transition hover:bg-slate-900 md:mt-5 md:px-6 md:py-3 md:text-sm"
               >
                 Speak to an expert
               </a>
             </div>
-            <div className="relative mx-auto w-full max-w-sm shrink-0 md:max-w-md">
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-white/20 bg-white/10">
-                <Image
-                  src={withBasePath("/assets/channel-partner/partner.webp")}
-                  alt="Indian Mentors academic team"
-                  fill
-                  className="object-cover object-top"
-                  sizes="(min-width: 768px) 400px, 100vw"
-                  unoptimized
-                />
-              </div>
+            {/* Mobile: in-flow image; desktop uses absolute layer above */}
+            <div className="relative mx-auto mt-2 h-[438px] w-full max-w-[504px] md:hidden">
+              <Image
+                src={withBasePath("/assets/home/support-executive.png")}
+                alt="Indian Mentors support executive"
+                fill
+                className="object-contain object-bottom drop-shadow-[0_18px_28px_rgba(15,23,42,0.38)]"
+                sizes="504px"
+                unoptimized
+                priority={false}
+              />
             </div>
           </div>
         </motion.div>
