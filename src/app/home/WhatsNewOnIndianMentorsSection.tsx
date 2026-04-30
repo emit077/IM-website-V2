@@ -76,7 +76,7 @@ export function WhatsNewOnIndianMentorsSection() {
 
   return (
     <section
-      className="px-4 pb-12 md:pb-16"
+      className="px-4 py-12 md:py-16"
       aria-roledescription="carousel"
       aria-label="What is new on Indian Mentors"
     >

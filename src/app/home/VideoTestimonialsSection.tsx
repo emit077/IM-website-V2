@@ -91,7 +91,7 @@ export function VideoTestimonialsSection() {
   }, [paused, total]);
 
   return (
-    <section id="testimonials" className="relative overflow-hidden px-4 pb-24 pt-14 sm:pt-16">
+    <section id="testimonials" className="relative overflow-hidden px-4 py-12 md:py-16">
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(37,99,235,0.12),transparent_45%)]"
         aria-hidden

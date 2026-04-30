@@ -67,7 +67,7 @@ const steps = [
 
 export function StudentEnrollmentProcessSection() {
   return (
-    <section className="px-4 py-12 md:py-12" aria-labelledby="enrollment-heading">
+    <section className="px-4 py-12 md:py-16" aria-labelledby="enrollment-heading">
       <div className="mx-auto max-w-[1200px]">
         {/* Header */}
         <SectionHeading

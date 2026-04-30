@@ -112,7 +112,7 @@ export function TrustScaleSection({
   const reduced = usePrefersReducedMotion();
 
   return (
-    <section aria-labelledby="trust-scale-heading" className="px-4 py-20">
+    <section aria-labelledby="trust-scale-heading" className="px-4 py-12 md:py-16">
       <div className="mx-auto max-w-[1200px]">
         {/* Header */}
         <SectionHeading

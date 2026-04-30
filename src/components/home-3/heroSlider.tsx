@@ -12,6 +12,8 @@ type Slide = {
     primaryCTA: string;
     theme: "blue" | "purple" | "green";
     visualDirection: string;
+    imageSrc?: string;
+    imageAlt?: string;
 };
 
 export function HeroSlider({
@@ -36,6 +38,8 @@ export function HeroSlider({
                 primaryCTA: "",
                 theme: "blue",
                 visualDirection: "Digital books, glowing particles and academic grid motion",
+                imageSrc: "/assets/home/hero/hero-1.png",
+                imageAlt: "Student with study materials",
             },
             {
                 headline: "Stronger Concepts. Better Grades. Brighter Future.",
@@ -46,6 +50,8 @@ export function HeroSlider({
                 primaryCTA: "Book Your Free Demo",
                 theme: "purple",
                 visualDirection: "Rising progress charts, floating subject icons and motion blur",
+                imageSrc: "/assets/home/hero/hero-2.png",
+                imageAlt: "Student with study materials",
             },
             {
                 headline: "Learn from Verified & Background-Checked Tutors",
@@ -138,7 +144,7 @@ export function HeroSlider({
                                     backgroundSize: "38px 38px",
                                 }}
                             />
-                            <div className="relative z-10 mx-auto grid w-full min-w-0 max-w-[1260px] grid-cols-1 content-center items-stretch gap-10 px-0 pb-28 pt-[max(5.75rem,env(safe-area-inset-top,0px))] sm:gap-12 sm:pb-16 sm:pt-[max(4.75rem,env(safe-area-inset-top,0px))] md:grid-cols-2 md:items-center md:gap-x-10 md:gap-y-0 md:px-8 md:pb-14 md:pt-10 lg:gap-x-12 lg:px-10">
+                            <div className="relative z-10 mx-auto grid w-full min-w-0 max-w-[1260px] grid-cols-1 content-center items-stretch gap-10 px-0 pb-28 pt-[max(5.75rem,env(safe-area-inset-top,0px))] sm:gap-12 sm:pb-20 sm:pt-[max(4.75rem,env(safe-area-inset-top,0px))] md:grid-cols-2 md:items-center md:gap-x-10 md:gap-y-0 md:px-8 md:pb-16 md:pt-10 lg:gap-x-12 lg:px-10">
                                 {/* Copy */}
                                 <div className="mx-auto w-full min-w-0 max-w-2xl text-center md:col-start-1 md:row-start-1 md:mx-0 md:text-left">
                                     <p className="mb-4 text-balance text-[11px] font-medium leading-relaxed text-blue-800 sm:mb-5 sm:text-xs sm:text-blue-900 md:mb-0 md:inline-block md:max-w-2xl md:rounded-2xl md:border md:border-blue-200/90 md:bg-white/80 md:px-4 md:py-2.5 md:text-left md:font-semibold md:leading-snug md:tracking-[0.04em] md:text-blue-900">
@@ -160,11 +166,11 @@ export function HeroSlider({
                                     <div className="relative w-full max-w-[min(100%,420px)] sm:max-w-lg md:max-w-xl md:pt-0 lg:max-w-2xl">
                                         <div className="overflow-hidden">
                                             <Image
-                                                src={withBasePath("/assets/landing-page-1/hero.png")}
-                                                alt="Students with study materials"
+                                                src={withBasePath(slide.imageSrc ?? "/assets/landing-page-1/hero.png")}
+                                                alt={slide.imageAlt ?? "Students with study materials"}
                                                 width={540}
                                                 height={620}
-                                                className=" mt-8 aspect-[5/4] w-full object-cover object-top sm:aspect-[4/3] sm:max-h-[min(60vh,440px)] md:aspect-auto md:max-h-none md:min-w-0 md:h-auto md:max-w-none"
+                                                className="mt-2 aspect-[5/4] w-full object-cover object-top sm:mt-3 sm:aspect-[4/3] sm:max-h-[min(60vh,440px)] md:mt-0 md:aspect-auto md:max-h-none md:min-w-0 md:h-auto md:max-w-none"
                                                 priority={i === 0}
                                                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 672px"
                                             />
@@ -173,12 +179,12 @@ export function HeroSlider({
                                 </div>
 
                                 {/* CTA + search */}
-                                <div className="mx-auto w-full min-w-0 max-w-2xl text-center md:col-start-1 md:row-start-2 md:mx-0 md:pt-0 md:mt-[-80px] md:text-left">
+                                <div className="mx-auto w-full min-w-0 max-w-2xl text-left md:col-start-1 md:row-start-2 md:mx-0 md:-mt-10 md:pt-0 lg:-mt-12">
                                     {slide.primaryCTA ? (
                                         <div className="mt-0 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-start sm:gap-3">
                                             <button
                                                 type="button"
-                                                className="inline-flex w-full max-w-sm items-center justify-center self-center rounded-full bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-md shadow-blue-500/30 transition hover:bg-blue-700 sm:w-auto sm:max-w-none sm:py-3 md:self-start"
+                                                className="inline-flex w-full max-w-sm items-center justify-center self-start rounded-full bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-md shadow-blue-500/30 transition hover:bg-blue-700 sm:w-auto sm:max-w-none sm:py-3"
                                             >
                                                 {slide.primaryCTA}
                                             </button>
@@ -234,29 +240,6 @@ export function HeroSlider({
 
             {showControls ? (
                 <>
-                    <div className="pointer-events-none absolute inset-x-0 bottom-3 z-10 flex justify-center sm:bottom-5">
-                        <div className="pointer-events-auto flex items-center gap-1.5 rounded-full border border-blue-200/80 bg-white/80 px-3 py-2 backdrop-blur-md sm:gap-2 sm:px-3.5">
-                            {slides.map((s, i) => {
-                                const active = i === idx;
-                                return (
-                                    <button
-                                        key={s.headline}
-                                        type="button"
-                                        onClick={() => go(i)}
-                                        aria-label={`Go to slide ${i + 1}`}
-                                        aria-current={active}
-                                        className={[
-                                            "h-1.5 rounded-full transition cursor-pointer",
-                                            active
-                                                ? "w-5 bg-blue-600 sm:w-6"
-                                                : "w-1.5 bg-blue-300 hover:bg-blue-500",
-                                        ].join(" ")}
-                                    />
-                                );
-                            })}
-                        </div>
-                    </div>
-
                     <button
                         type="button"
                         onClick={onPrev}

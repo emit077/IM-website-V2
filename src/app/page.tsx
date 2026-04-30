@@ -187,7 +187,7 @@ function ProofBar() {
 /* ─── page ───────────────────────────────────────────────────── */
 export default function HomePage() {
   return (
-    <div className={`${poppins.className} min-h-screen bg-gradient-to-b from-blue-50/90 via-[#f0f7ff] to-white text-blue-950`}>
+    <div className={`${poppins.className} min-h-screen overflow-x-clip bg-gradient-to-b from-blue-50/90 via-[#f0f7ff] to-white text-blue-950`}>
       <Navbar onPrimaryCTA={() => { }} />
 
       <main>
@@ -196,7 +196,7 @@ export default function HomePage() {
         </div>
       </main>
       <ServicesStrip />
-      <WhatsNewOnIndianMentorsSection />
+      {/* <WhatsNewOnIndianMentorsSection /> */}
 
       {/* <ProofBar /> */}
       <TrustScaleSection />
@@ -204,7 +204,7 @@ export default function HomePage() {
       <ExploreCoursesSection />
       <StudentEnrollmentProcessSection />
       {/* Tutors section */}
-      <section id="services" className="scroll-mt-32 px-4 pb-20 pt-16 md:pt-24">
+      <section id="services" className="scroll-mt-32 px-4 py-12 md:py-16">
         <div className="mx-auto max-w-[1200px]">
           <SectionHeading
             label="Our tutors"

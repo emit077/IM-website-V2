@@ -79,7 +79,7 @@ const recruitmentFeatures = [
 
 export function TeacherRecruitmentSection() {
   return (
-    <section className="px-4 py-10 md:py-14" aria-labelledby="recruitment-heading">
+    <section className="px-4 py-12 md:py-16" aria-labelledby="recruitment-heading">
       <div className="mx-auto max-w-[1200px]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

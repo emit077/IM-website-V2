@@ -41,7 +41,7 @@ export function LearnAnywhereHelpSection() {
   const reduced = useReducedMotion();
 
   return (
-    <section className="relative px-4 py-14 " aria-labelledby="learn-anywhere-heading">
+    <section className="relative px-4 py-12 md:py-16" aria-labelledby="learn-anywhere-heading">
       {/* Pastel background shapes — theme blues */}
       {/* <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
         <div className="absolute -left-24 top-20 h-56 w-56 rounded-full bg-sky-200/25 blur-3xl" />
@@ -131,7 +131,7 @@ export function LearnAnywhereHelpSection() {
 
         {/* ── CTA band (reference “Happy to help”) — IM blues ── */}
         <motion.div
-          className="relative overflow-visible rounded-[1.25rem] bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 px-5 pb-6 pt-5 shadow-[0_14px_36px_rgba(37,99,235,0.28)] md:rounded-2xl md:px-7 md:pb-6 md:pt-6 md:pr-[min(486px,38%)] lg:px-8 lg:pr-[min(537px,36%)]"
+          className="relative overflow-hidden rounded-[1.25rem] bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 px-5 pb-6 pt-5 shadow-[0_14px_36px_rgba(37,99,235,0.28)] md:overflow-visible md:rounded-2xl md:px-7 md:pb-6 md:pt-6 md:pr-[min(486px,38%)] lg:px-8 lg:pr-[min(537px,36%)]"
           initial={reduced ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}

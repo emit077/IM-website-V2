@@ -59,7 +59,7 @@ export function ChannelPartnerSection() {
   const reduced = useReducedMotion();
 
   return (
-    <section className="px-4 pb-8 pt-4 md:py-6" aria-labelledby="partner-heading">
+    <section className="px-4 py-12 md:py-16" aria-labelledby="partner-heading">
       <div className="mx-auto max-w-[1200px]">
         <motion.div
           initial={containerMotion.initial}
