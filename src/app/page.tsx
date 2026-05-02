@@ -129,7 +129,7 @@ function AnimatedStat({ value, suffix, label }: { value: number; suffix: string;
 /* ─── services strip ────────────────────────────────────────── */
 function ServicesStrip() {
   return (
-    <div className="relative z-20 mx-auto -mt-4 max-w-[1200px] px-4 sm:-mt-8 md:-mt-10">
+    <div className="relative z-20 mx-auto -mt-4 max-w-[1200px] px-4 sm:-mt-6 md:-mt-18">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

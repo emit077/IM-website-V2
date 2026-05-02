@@ -35,7 +35,7 @@ export function HeroSlider({
                 tagline: "Guiding Every Student Towards Academic Excellence",
                 supportingText:
                     "Providing structured tutoring services and reliable teacher recruitment solutions across India.",
-                primaryCTA: "",
+                primaryCTA: "Book Your Free Demo",
                 theme: "blue",
                 visualDirection: "Digital books, glowing particles and academic grid motion",
                 imageSrc: "/assets/home/hero/hero-1.png",
@@ -99,7 +99,7 @@ export function HeroSlider({
     return (
         <div
             className={[
-                " relative flex min-h-0 flex-col overflow-hidden border-0 bg-white/60 ring-1 ring-slate-900/[0.06] backdrop-blur-xl md:border md:border-black/5 md:bg-white/80 md:ring-0",
+                " relative flex min-h-0 flex-col overflow-hidden border-0 bg-white/60 ring-1 ring-slate-900/[0.06] backdrop-blur-xl md:border md:border-black/5 md:bg-white/80 md:ring-0 shadow-lg",
                 className ?? "h-[240px] sm:h-[320px]",
             ].join(" ")}
             tabIndex={0}
@@ -144,7 +144,7 @@ export function HeroSlider({
                                     backgroundSize: "38px 38px",
                                 }}
                             />
-                            <div className="relative z-10 mx-auto grid w-full min-w-0 max-w-[1260px] grid-cols-1 content-center items-stretch gap-10 px-0 pb-28 pt-[max(5.75rem,env(safe-area-inset-top,0px))] sm:gap-12 sm:pb-20 sm:pt-[max(4.75rem,env(safe-area-inset-top,0px))] md:grid-cols-2 md:items-center md:gap-x-10 md:gap-y-0 md:px-8 md:pb-16 md:pt-10 lg:gap-x-12 lg:px-10">
+                            <div className="relative z-10 mx-auto grid w-full min-w-0 max-w-[1260px] grid-cols-1 content-center items-stretch gap-10 px-0 pb-36 pt-[max(5.75rem,env(safe-area-inset-top,0px))] sm:gap-12 sm:pb-28 sm:pt-[max(4.75rem,env(safe-area-inset-top,0px))] md:grid-cols-2 md:items-center md:gap-x-10 md:gap-y-4 md:px-8 md:pb-28 md:pt-10 lg:gap-x-12 lg:px-10">
                                 {/* Copy */}
                                 <div className="mx-auto w-full min-w-0 max-w-2xl text-center md:col-start-1 md:row-start-1 md:mx-0 md:text-left">
                                     <p className="mb-4 text-balance text-[11px] font-medium leading-relaxed text-blue-800 sm:mb-5 sm:text-xs sm:text-blue-900 md:mb-0 md:inline-block md:max-w-2xl md:rounded-2xl md:border md:border-blue-200/90 md:bg-white/80 md:px-4 md:py-2.5 md:text-left md:font-semibold md:leading-snug md:tracking-[0.04em] md:text-blue-900">
@@ -159,6 +159,17 @@ export function HeroSlider({
                                     <p className="mt-5 mx-auto max-w-prose text-[0.8125rem] leading-[1.75] text-blue-900/80 [text-wrap:pretty] sm:mt-5 sm:max-w-none sm:text-sm sm:leading-relaxed sm:text-blue-900/80 md:mx-0 md:mt-5 md:text-base">
                                         {slide.supportingText}
                                     </p>
+                                    {/* CTA + search */}
+                                    {slide.primaryCTA ? (
+                                        <div className="mt-6 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center md:justify-start">
+                                            <button
+                                                type="button"
+                                                className="inline-flex w-full max-w-sm items-center justify-center self-start rounded-full bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-md shadow-blue-500/30 transition hover:bg-blue-700 sm:w-auto sm:max-w-none sm:py-3"
+                                            >
+                                                {slide.primaryCTA}
+                                            </button>
+                                        </div>
+                                    ) : null}
                                 </div>
 
                                 {/* Image: below intro on mobile, right column on md+ */}
@@ -177,62 +188,7 @@ export function HeroSlider({
                                         </div>
                                     </div>
                                 </div>
-
-                                {/* CTA + search */}
-                                <div className="mx-auto w-full min-w-0 max-w-2xl text-left md:col-start-1 md:row-start-2 md:mx-0 md:-mt-10 md:pt-0 lg:-mt-12">
-                                    {slide.primaryCTA ? (
-                                        <div className="mt-0 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-start sm:gap-3">
-                                            <button
-                                                type="button"
-                                                className="inline-flex w-full max-w-sm items-center justify-center self-start rounded-full bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-md shadow-blue-500/30 transition hover:bg-blue-700 sm:w-auto sm:max-w-none sm:py-3"
-                                            >
-                                                {slide.primaryCTA}
-                                            </button>
-                                        </div>
-                                    ) : null}
-                                    {i === 0 ? (
-                                        <form
-                                            className="hidden w-full min-w-0 max-w-md flex-col overflow-hidden rounded-2xl border border-slate-200/60 bg-white ring-1 ring-slate-900/[0.04] sm:max-w-none sm:rounded-full sm:border-0 sm:p-1.5 sm:ring-0 md:mx-0 md:mt-0 md:flex md:flex-row md:items-stretch"
-                                            action="#"
-                                            role="search"
-                                        >
-                                            <div className="flex shrink-0 items-center border-b border-slate-100 px-4 py-3.5 sm:border-0 sm:px-3 sm:py-0">
-                                                <label htmlFor="landing-service-hero" className="sr-only">
-                                                    Service
-                                                </label>
-                                                <select
-                                                    id="landing-service-hero"
-                                                    name="service"
-                                                    className="w-full min-w-0 max-w-full cursor-pointer bg-transparent text-sm font-medium text-slate-600 outline-none sm:max-w-[170px] sm:py-3"
-                                                    defaultValue="all"
-                                                >
-                                                    <option value="all">All Services</option>
-                                                    <option value="home">Home Tutor</option>
-                                                    <option value="online">Online Tutor</option>
-                                                    <option value="shadow">Shadow Tutor</option>
-                                                    <option value="travel">Travel Tutor</option>
-                                                    <option value="live-in">Live-In Tutor</option>
-                                                    <option value="home-schooling">Home Schooling</option>
-                                                </select>
-                                            </div>
-                                            <span className="hidden w-px self-stretch bg-slate-200 sm:block" />
-                                            <input
-                                                type="search"
-                                                name="q"
-                                                placeholder="Find your courses…"
-                                                className="min-w-0 flex-1 border-b border-slate-100 px-4 py-3.5 text-sm text-slate-800 placeholder:text-slate-400 outline-none sm:border-0 sm:py-3"
-                                            />
-                                            <button
-                                                type="submit"
-                                                className="flex w-full shrink-0 items-center justify-center gap-2 rounded-b-2xl bg-blue-600 py-3.5 text-sm font-bold text-white shadow-md shadow-blue-500/25 transition hover:bg-blue-700 sm:w-auto sm:rounded-full sm:px-6 sm:py-3"
-                                            >
-                                                Search
-                                            </button>
-                                        </form>
-                                    ) : null}
-                                </div>
                             </div>
-                            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-blue-100/60 to-transparent" />
                         </div>
                     </div>
                 ))}
