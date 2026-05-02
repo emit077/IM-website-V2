@@ -5,47 +5,36 @@ import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { withBasePath } from "@/lib/withBasePath";
-import { ChalkboardStatIcon, ClockIcon, ShieldIcon, UsersIcon } from "@/components/shared/SvgIcons";
+import { ShieldIcon } from "@/components/shared/SvgIcons";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 
-const STATS = [
-  {
-    value: 50_000,
-    suffix: "+",
-    label: "Active Students",
-    sub: "learning every month",
-    icon: UsersIcon,
-    color: "bg-blue-100 text-blue-700",
-    accent: "text-blue-600",
-  },
-  {
-    value: 500_000,
-    suffix: "+",
-    label: "Verified Tutors",
-    sub: "across every subject",
-    icon: ChalkboardStatIcon,
-    color: "bg-blue-100 text-blue-600",
-    accent: "text-blue-600",
-  },
-  {
-    value: 5_000_000,
-    suffix: "+",
-    label: "Sessions Delivered",
-    sub: "since 2018",
-    icon: ClockIcon,
-    color: "bg-indigo-100 text-indigo-600",
-    accent: "text-indigo-600",
-  },
-  {
-    value: 98,
-    suffix: "%",
-    label: "Satisfaction Rate",
-    sub: "from verified reviews",
-    icon: ShieldIcon,
-    color: "bg-indigo-100 text-indigo-700",
-    accent: "text-indigo-600",
-  },
-] as const;
+type StatDef = {
+  id: "students" | "tutors" | "sessions" | "satisfaction";
+  value: number;
+  line: string;
+};
+
+const STATS: StatDef[] = [
+  { id: "students", value: 50_000, line: "active students learning every month" },
+  { id: "tutors", value: 500_000, line: "verified tutors across every subject" },
+  { id: "sessions", value: 5_000_000, line: "sessions delivered since 2018" },
+  { id: "satisfaction", value: 98, line: "satisfaction rate from verified reviews" },
+];
+
+function formatFigure(stat: StatDef, shown: number): { num: string; suffix: string } {
+  switch (stat.id) {
+    case "students":
+      return { num: `${Math.max(0, Math.round(shown / 1000))}K`, suffix: "+" };
+    case "tutors":
+      return { num: `${Math.max(0, Math.round(shown / 100_000))}`, suffix: "+ lakh" };
+    case "sessions":
+      return { num: `${Math.max(0, Math.round(shown / 100_000))}`, suffix: "+ lakh" };
+    case "satisfaction":
+      return { num: `${Math.min(100, Math.round(shown))}`, suffix: "%" };
+    default:
+      return { num: "", suffix: "" };
+  }
+}
 
 function usePrefersReducedMotion() {
   const [r, setR] = useState(false);
@@ -64,7 +53,7 @@ function useCountUp(target: number, play: boolean) {
     if (!play) return;
     let raf = 0;
     const t0 = performance.now();
-    const ms = 1100;
+    const ms = 1150;
     const tick = (now: number) => {
       const t = Math.min(1, (now - t0) / ms);
       setN(Math.round(target * (1 - (1 - t) ** 3)));
@@ -76,79 +65,107 @@ function useCountUp(target: number, play: boolean) {
   return n;
 }
 
-function StatCard({ value, suffix, label, sub, icon: Icon, color, accent, reduced, i }: (typeof STATS)[number] & { reduced: boolean; i: number }) {
+function StatBlock({ stat, reduced, i }: { stat: StatDef; reduced: boolean; i: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  const n = useCountUp(value, inView && !reduced);
-  const shown = reduced && inView ? value : n;
+  const inView = useInView(ref, { once: true, margin: "-45px" });
+  const n = useCountUp(stat.value, inView && !reduced);
+  const shown = reduced && inView ? stat.value : n;
+  const { num, suffix } = formatFigure(stat, shown);
 
   return (
     <motion.div
       ref={ref}
-      initial={reduced ? false : { opacity: 0, y: 20 }}
+      initial={reduced ? false : { opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.55, ease: "easeOut", delay: i * 0.08 }}
-      className="flex flex-col rounded-3xl border border-blue-100  p-6 shadow-[0_8px_32px_rgba(37,99,235,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(37,99,235,0.12)]"
+      viewport={{ once: true, margin: "-45px" }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: i * 0.07 }}
+      className="relative border-l-[3px] border-blue-600 pl-5 md:pl-6"
     >
-      <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl ${color} [&_svg]:h-5 [&_svg]:w-5`}>
-        <Icon />
-      </div>
-      <p className="text-4xl font-extrabold tabular-nums tracking-tight text-blue-950">
-        {new Intl.NumberFormat("en-IN").format(shown)}
-        <span className={accent}>{suffix}</span>
+      <p className="flex flex-wrap items-baseline gap-x-1 text-[clamp(1.875rem,4.5vw,2.875rem)] font-bold leading-[1.08] tracking-tight text-[#0c1929]">
+        <span className="tabular-nums">{num}</span>
+        <span className="text-[0.92em] font-bold text-blue-600">{suffix}</span>
       </p>
-      <p className="mt-1.5 text-sm font-bold text-blue-950">{label}</p>
-      <p className="mt-0.5 text-xs font-semibold text-slate-500">{sub}</p>
+      <p className="mt-4 max-w-[17rem] text-[15px] font-normal leading-snug text-slate-600">{stat.line}</p>
     </motion.div>
   );
 }
 
-export function TrustScaleSection({
-  onBookFreeDemo = () => { },
-}: {
-  onBookFreeDemo?: () => void;
-}) {
+export function TrustScaleSection() {
   const reduced = usePrefersReducedMotion();
 
   return (
-    <section aria-labelledby="trust-scale-heading" className="px-4 py-12 md:py-16">
-      <div className="mx-auto max-w-[1200px]">
-        {/* Header */}
+    <section aria-labelledby="trust-scale-heading" className="relative overflow-hidden bg-[#f8fafc] px-4 py-14 md:py-20">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.4]"
+        style={{
+          backgroundImage: "radial-gradient(#cbd5e1 1px, transparent 1px)",
+          backgroundSize: "20px 20px",
+          maskImage: "radial-gradient(ellipse 75% 65% at 50% 40%, black 15%, transparent 70%)",
+          WebkitMaskImage: "radial-gradient(ellipse 75% 65% at 50% 40%, black 15%, transparent 70%)",
+        }}
+        aria-hidden
+      />
+
+      <div className="relative mx-auto max-w-[1180px]">
         <SectionHeading
           id="trust-scale-heading"
+          align="left"
           label="Trusted across India"
-          title="Numbers That Speak for Themselves"
-          sub="Over half a million tutors and 50,000 students trust Indian Mentors to deliver consistent, measurable academic results."
-          className="mb-12"
+          title="Impact at a glance"
+          sub="Making tutoring trusted and accessible across the globe — measurable scale you can share with families and institutions."
+          className="mb-10 max-w-3xl md:mb-12 [&_h2]:text-left [&_p]:mx-0 [&_p]:max-w-none"
+          titleClassName="!bg-none !bg-clip-border !text-[#0c1929]"
+          subClassName="text-left text-[15px] leading-relaxed text-slate-600"
         />
 
-        {/* Stat cards */}
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-2">
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-2">
-            {STATS.map((s, i) => (
-              <StatCard key={s.label} {...s} reduced={reduced} i={i} />
-            ))}
-          </div>
-          <div className="relative min-h-[220px] ">
-            <Image
-              src={withBasePath("/assets/home/globe.png")}
-              alt="Indian Mentors trusted across India and beyond"
-              fill
-              unoptimized
-              sizes="(min-width: 1280px) 480px, 100vw"
-              className="object-contain object-top"
-            />
+        <div className="overflow-hidden rounded-[1.65rem] border border-slate-200/95 bg-white shadow-[0_18px_50px_-12px_rgba(15,23,42,0.1)] ring-1 ring-slate-900/[0.03]">
+          <div className="h-1 w-full bg-gradient-to-r from-blue-600 via-indigo-500 to-sky-500" aria-hidden />
+
+          <div className="grid lg:grid-cols-[1fr_minmax(260px,34%)]">
+            <div className="relative px-6 py-10 md:px-10 md:py-12 lg:py-14 lg:pr-12">
+              <div
+                className="pointer-events-none absolute right-4 top-8 hidden h-[220px] w-[48%] max-w-[340px] opacity-[0.35] lg:block"
+                aria-hidden
+                style={{
+                  backgroundImage: "radial-gradient(#94a3b8 1px, transparent 1px)",
+                  backgroundSize: "13px 13px",
+                  maskImage: "radial-gradient(ellipse 90% 80% at 95% 25%, black 25%, transparent 75%)",
+                  WebkitMaskImage: "radial-gradient(ellipse 90% 80% at 95% 25%, black 25%, transparent 75%)",
+                }}
+              />
+
+              <div className="relative z-[1] grid gap-10 sm:grid-cols-2 sm:gap-x-14 sm:gap-y-12">
+                {STATS.map((s, i) => (
+                  <StatBlock key={s.id} stat={s} reduced={reduced} i={i} />
+                ))}
+              </div>
+            </div>
+
+            <div className="relative flex flex-col items-center justify-center border-t border-slate-100 bg-gradient-to-b from-slate-50 to-white px-8 py-12 lg:border-l lg:border-t-0 lg:py-10">
+              <div className="relative aspect-square w-full max-w-[260px] lg:max-w-[280px]">
+                <div
+                  className="pointer-events-none absolute inset-[-12%] rounded-full bg-blue-400/15 blur-3xl"
+                  aria-hidden
+                />
+                <Image
+                  src={withBasePath("/assets/home/globe.png")}
+                  alt="Indian Mentors trusted across India and beyond"
+                  fill
+                  unoptimized
+                  sizes="280px"
+                  className="object-contain object-center opacity-[0.92]"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Feature strip */}
         <motion.div
-          className="relative mt-8 overflow-hidden rounded-3xl bg-gradient-to-br from-blue-800 via-blue-700 to-indigo-900 p-8 shadow-[0_20px_50px_rgba(37,99,235,0.2)] sm:p-10"
+          className="relative mt-10 overflow-hidden rounded-3xl bg-gradient-to-br from-blue-800 via-blue-700 to-indigo-900 p-8 shadow-[0_20px_50px_rgba(37,99,235,0.18)] sm:p-10"
           initial={reduced ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.55, ease: "easeOut", delay: 0.3 }}
+          transition={{ duration: 0.5, ease: "easeOut", delay: 0.15 }}
         >
           <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-10">
             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-400/20 text-blue-200 ring-1 ring-blue-300/40 [&_svg]:h-6 [&_svg]:w-6">
