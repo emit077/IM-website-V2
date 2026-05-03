@@ -1,13 +1,7 @@
 "use client";
 
-import React, { useId, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-
-/** Blue-forward brand */
-const THEME = {
-  navy: "#1e40af",
-  brandBlue: "#2563eb",
-} as const;
 
 const GRADES = [
   { id: "12-pass", label: "Class 12 pass" },
@@ -22,102 +16,459 @@ const GRADES = [
   { id: "lkg-ukg", label: "LKG – UKG", isNew: true as const },
 ] as const;
 
-type Material = {
+type GradeId = (typeof GRADES)[number]["id"];
+
+/** Tints stacked-paper SVG + squircle ring to match resource type. */
+type ResourceTheme = "blue" | "violet" | "orange" | "teal" | "pink" | "amber" | "indigo" | "sky";
+
+const RESOURCE_THEME = {
+  blue: {
+    back: "#dbeafe",
+    mid: "#93c5fd",
+    front: "#2563eb",
+    ring: "ring-blue-200/85",
+  },
+  violet: {
+    back: "#ede9fe",
+    mid: "#c4b5fd",
+    front: "#7c3aed",
+    ring: "ring-violet-200/85",
+  },
+  orange: {
+    back: "#ffedd5",
+    mid: "#fdba74",
+    front: "#ea580c",
+    ring: "ring-orange-200/85",
+  },
+  teal: {
+    back: "#ccfbf1",
+    mid: "#5eead4",
+    front: "#0d9488",
+    ring: "ring-teal-200/85",
+  },
+  pink: {
+    back: "#fce7f3",
+    mid: "#f9a8d4",
+    front: "#db2777",
+    ring: "ring-pink-200/85",
+  },
+  amber: {
+    back: "#fef3c7",
+    mid: "#fcd34d",
+    front: "#d97706",
+    ring: "ring-amber-200/85",
+  },
+  indigo: {
+    back: "#e0e7ff",
+    mid: "#a5b4fc",
+    front: "#4f46e5",
+    ring: "ring-indigo-200/85",
+  },
+  sky: {
+    back: "#e0f2fe",
+    mid: "#7dd3fc",
+    front: "#0284c7",
+    ring: "ring-sky-200/85",
+  },
+} as const satisfies Record<ResourceTheme, { back: string; mid: string; front: string; ring: string }>;
+
+function resourceThemeForSubjectId(id: string): ResourceTheme {
+  switch (id) {
+    case "ncert-sol":
+    case "foundations":
+    case "bridge-maths":
+      return "blue";
+    case "previous-papers":
+    case "practice-papers":
+    case "annual-prep":
+    case "school-tests":
+    case "worksheets":
+    case "eng-comm":
+    case "stories-rhymes":
+      return "violet";
+    case "sample-papers":
+    case "concept-drills":
+    case "primary-maths":
+    case "early-maths":
+      return "orange";
+    case "ncert-books":
+    case "revision-notes":
+    case "evs-theme":
+      return "teal";
+    case "important-q":
+    case "must-know":
+    case "hot-questions":
+    case "activity-kit":
+      return "pink";
+    case "practice-labs":
+    case "aptitude":
+      return "amber";
+    case "full-syllabus-mock":
+    case "domain-intro":
+      return "indigo";
+    case "play-readiness":
+      return "sky";
+    default:
+      return "blue";
+  }
+}
+
+type SubjectTemplate = {
+  id: string;
   title: string;
-  panel: string;
-  iconWrap: string;
-  art: React.ReactNode;
+  sub: string;
 };
 
-function NcertBooksArt({ uid }: { uid: string }) {
-  const g1 = `${uid}-g1`;
-  const g2 = `${uid}-g2`;
+/** Per-grade curated subjects: order → first item is featured; rest fill the dynamic grid. */
+const GRADE_LIBRARY: Record<GradeId, { subjects: SubjectTemplate[] }> = {
+  "lkg-ukg": {
+    subjects: [
+      {
+        id: "play-readiness",
+        title: "Play & readiness",
+        sub: "Movement, listening, and early concepts in short joyful sessions.",
+      },
+      {
+        id: "stories-rhymes",
+        title: "Stories & rhymes",
+        sub: "Picture-led story time and catchy rhymes for language exposure.",
+      },
+      {
+        id: "early-maths",
+        title: "Early numeracy",
+        sub: "Counting, shapes, and patterns without worksheet overload.",
+      },
+    ],
+  },
+  "1-5": {
+    subjects: [
+      {
+        id: "foundations",
+        title: "Foundational literacy",
+        sub: "Reading fluency, spelling patterns, and age-right comprehension.",
+      },
+      {
+        id: "primary-maths",
+        title: "Primary mathematics",
+        sub: "Concept-first arithmetic and word problems with visuals.",
+      },
+      {
+        id: "evs-theme",
+        title: "EVS & themes",
+        sub: "Integrated science + social snippets mapped to school themes.",
+      },
+      {
+        id: "worksheets",
+        title: "Printable worksheets",
+        sub: "Skill drills parents can supervise in fifteen-minute bursts.",
+      },
+      {
+        id: "activity-kit",
+        title: "Activity kit",
+        sub: "Hands-on prompts that reinforce class topics through play.",
+      },
+    ],
+  },
+  "6": {
+    subjects: [
+      {
+        id: "ncert-sol",
+        title: "NCERT solutions",
+        sub: "Line-by-line explanations across Maths, Science, and SST.",
+      },
+      {
+        id: "concept-drills",
+        title: "Concept drills",
+        sub: "Focused exercises after each chapter — no filler sets.",
+      },
+      {
+        id: "school-tests",
+        title: "School-format tests",
+        sub: "Half-yearly and annual style papers with rubrics.",
+      },
+      {
+        id: "ncert-books",
+        title: "NCERT books",
+        sub: "Digital-first textbook layouts with bookmark-friendly chapters.",
+      },
+    ],
+  },
+  "7": {
+    subjects: [
+      {
+        id: "ncert-sol",
+        title: "NCERT solutions",
+        sub: "Step-wise answers with diagrams where boards expect them.",
+      },
+      {
+        id: "practice-papers",
+        title: "Practice papers",
+        sub: "Mixed-topic papers timed like unit tests.",
+      },
+      {
+        id: "sample-papers",
+        title: "Sample papers",
+        sub: "Structured mocks before summatives.",
+      },
+      {
+        id: "ncert-books",
+        title: "NCERT books",
+        sub: "Official texts plus chapter summaries.",
+      },
+      {
+        id: "must-know",
+        title: "Must-know questions",
+        sub: "Teacher-flagged problems likely to recur.",
+      },
+    ],
+  },
+  "8": {
+    subjects: [
+      {
+        id: "ncert-sol",
+        title: "NCERT solutions",
+        sub: "Science labs explained + Maths reasoning breakdowns.",
+      },
+      {
+        id: "annual-prep",
+        title: "Annual exam prep",
+        sub: "Full-syllabus sets with difficulty markers.",
+      },
+      {
+        id: "sample-papers",
+        title: "Sample papers",
+        sub: "Board-style framing even for school-level finals.",
+      },
+      {
+        id: "ncert-books",
+        title: "NCERT books",
+        sub: "Readable PDFs aligned to class map.",
+      },
+      {
+        id: "hot-questions",
+        title: "High-yield questions",
+        sub: "Curated lists for rapid revision nights.",
+      },
+    ],
+  },
+  "9": {
+    subjects: [
+      {
+        id: "ncert-sol",
+        title: "NCERT solutions",
+        sub: "Science derivations + Social Science key points.",
+      },
+      {
+        id: "previous-papers",
+        title: "Previous year papers",
+        sub: "Archive of school-level and benchmark tests.",
+      },
+      {
+        id: "sample-papers",
+        title: "Sample papers",
+        sub: "Strict timing to build exam stamina.",
+      },
+      {
+        id: "ncert-books",
+        title: "NCERT books",
+        sub: "All subjects with quick chapter jumps.",
+      },
+      {
+        id: "important-q",
+        title: "Important questions",
+        sub: "Chapter tags for last-week revision.",
+      },
+    ],
+  },
+  "10": {
+    subjects: [
+      {
+        id: "ncert-sol",
+        title: "NCERT solutions",
+        sub: "Board-ready working for every in-text and back exercise.",
+      },
+      {
+        id: "previous-papers",
+        title: "Previous year papers",
+        sub: "CBSE archives and state variants in one lane.",
+      },
+      {
+        id: "sample-papers",
+        title: "Sample papers",
+        sub: "Fresh sets with marking clarity every term.",
+      },
+      {
+        id: "ncert-books",
+        title: "NCERT books",
+        sub: "Clean digital books for on-the-go revision.",
+      },
+      {
+        id: "important-q",
+        title: "Important questions",
+        sub: "Predicted repeats vetted by senior tutors.",
+      },
+    ],
+  },
+  "11": {
+    subjects: [
+      {
+        id: "ncert-sol",
+        title: "NCERT solutions",
+        sub: "Core subjects with competitive depth where needed.",
+      },
+      {
+        id: "previous-papers",
+        title: "Previous year papers",
+        sub: "Board + entrance-style archives by chapter.",
+      },
+      {
+        id: "sample-papers",
+        title: "Sample papers",
+        sub: "Part A/B splits matching current blueprints.",
+      },
+      {
+        id: "revision-notes",
+        title: "Revision notes",
+        sub: "One-pagers per topic for weekly refresh.",
+      },
+      {
+        id: "important-q",
+        title: "Important questions",
+        sub: "JEE/NEET crossover highlights marked clearly.",
+      },
+      {
+        id: "practice-labs",
+        title: "Numeric & case practice",
+        sub: "Physics chem maths drill sets beyond theory.",
+      },
+    ],
+  },
+  "12": {
+    subjects: [
+      {
+        id: "ncert-sol",
+        title: "NCERT solutions",
+        sub: "Full grade-12 coverage with exam commentary.",
+      },
+      {
+        id: "previous-papers",
+        title: "Previous year papers",
+        sub: "Board series last ten years, sorted by topic.",
+      },
+      {
+        id: "sample-papers",
+        title: "Sample papers",
+        sub: "Mock weeks with answer keys under 24h.",
+      },
+      {
+        id: "revision-notes",
+        title: "Revision notes",
+        sub: "Condensed decks for PCM, PCB, commerce paths.",
+      },
+      {
+        id: "important-q",
+        title: "Important questions",
+        sub: "Board + entrance overlap flagged by difficulty.",
+      },
+      {
+        id: "full-syllabus-mock",
+        title: "Full syllabus mocks",
+        sub: "3-hour simulations with analytics snapshots.",
+      },
+    ],
+  },
+  "12-pass": {
+    subjects: [
+      {
+        id: "bridge-maths",
+        title: "Bridge mathematics",
+        sub: "Calc-ready algebra and trig refreshers before college.",
+      },
+      {
+        id: "eng-comm",
+        title: "English & communication",
+        sub: "Writing studio for applications and interviews.",
+      },
+      {
+        id: "aptitude",
+        title: "Aptitude & reasoning",
+        sub: "Timed sets for entrance and placement screens.",
+      },
+      {
+        id: "domain-intro",
+        title: "Domain intros",
+        sub: "Micro-courses on econ, coding, design thinking.",
+      },
+    ],
+  },
+};
+
+function libraryForGrade(gradeId: string): { subjects: SubjectTemplate[] } {
+  const g = gradeId as GradeId;
+  return GRADE_LIBRARY[g] ?? GRADE_LIBRARY["10"];
+}
+
+/** Stacked papers — layer colours from resource theme + white rule lines. */
+function StackedPapersGlyph({
+  className,
+  back,
+  mid,
+  front,
+}: {
+  className?: string;
+  back: string;
+  mid: string;
+  front: string;
+}) {
   return (
-    <svg viewBox="0 0 80 80" className="h-11 w-11" aria-hidden>
-      <rect x="18" y="22" width="44" height="52" rx="5" fill={`url(#${g1})`} opacity="0.9" />
-      <rect x="22" y="18" width="36" height="48" rx="4" fill={`url(#${g2})`} />
-      <defs>
-        <linearGradient id={g1} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#ca8a04" />
-          <stop offset="100%" stopColor={THEME.navy} />
-        </linearGradient>
-        <linearGradient id={g2} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#93c5fd" />
-          <stop offset="100%" stopColor={THEME.brandBlue} />
-        </linearGradient>
-      </defs>
+    <svg viewBox="0 0 40 40" className={className} aria-hidden>
+      <rect x="8" y="7" width="22" height="27" rx="2.75" fill={back} />
+      <rect x="10.5" y="9" width="22" height="27" rx="2.75" fill={mid} />
+      <rect x="13" y="11" width="22" height="27" rx="2.75" fill={front} />
+      <path d="M17 17.5h14M17 21h11.5M17 24.5h14" stroke="white" strokeWidth="2" strokeLinecap="round" opacity={0.95} />
     </svg>
   );
 }
 
-function PapersArt({ tone }: { tone: "purple" | "coral" }) {
-  const fills =
-    tone === "purple"
-      ? ["#D1C4E9", "#B39DDB", "#9575CD"]
-      : ["#FFCCBC", "#FF8A65", "#F4511E"];
-  return (
-    <svg viewBox="0 0 80 80" className="h-11 w-11" aria-hidden>
-      <rect x="20" y="28" width="36" height="44" rx="4" fill={fills[0]} transform="rotate(-10 38 50)" />
-      <rect x="24" y="24" width="36" height="44" rx="4" fill={fills[1]} transform="rotate(6 42 46)" />
-      <rect x="22" y="20" width="36" height="44" rx="4" fill={fills[2]} />
-      <path d="M28 34h24M28 42h16M28 50h20" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
-    </svg>
-  );
-}
+/** White squircle tile + theme-tinted ring/shadow (matches card resource type). */
+function ResourceIconSquircle({ size, theme }: { size: "compact" | "featured"; theme: ResourceTheme }) {
+  const t = RESOURCE_THEME[theme];
+  const outer =
+    size === "featured"
+      ? "h-[4.25rem] w-[4.25rem] rounded-[1.05rem]"
+      : "h-14 w-14 rounded-[1rem]";
+  const glyph = size === "featured" ? "h-10 w-10" : "h-9 w-9";
 
-function buildMaterials(uidBase: string): Material[] {
-  return [
-    {
-      title: "NCERT solutions",
-      panel: "bg-gradient-to-br from-blue-50/90 via-sky-50/40 to-white",
-      iconWrap: "bg-white/95 shadow-sm ring-1 ring-blue-200/70",
-      art: <NcertBooksArt uid={`${uidBase}-ncert-sol`} />,
-    },
-    {
-      title: "Previous year papers",
-      panel: "bg-gradient-to-br from-[#ede7f6]/90 via-purple-50/40 to-white",
-      iconWrap: "bg-white/95 shadow-sm ring-1 ring-[#D1C4E9]/90 text-[#5E35B1]",
-      art: <PapersArt tone="purple" />,
-    },
-    {
-      title: "Sample papers",
-      panel: "bg-gradient-to-br from-[#fbe9e7]/80 via-orange-50/50 to-white",
-      iconWrap: "bg-white/95 shadow-sm ring-1 ring-[#FFCCBC]/90 text-[#E64A19]",
-      art: <PapersArt tone="coral" />,
-    },
-    {
-      title: "NCERT books",
-      panel: "bg-gradient-to-br from-[#e0f2f1]/90 via-teal-50/40 to-white",
-      iconWrap: "bg-white/95 shadow-sm ring-1 ring-[#B2DFDB]/90 text-[#00695C]",
-      art: (
-        <svg viewBox="0 0 80 80" className="h-11 w-11" aria-hidden>
-          <rect x="24" y="18" width="10" height="48" rx="2" fill="#4DB6AC" />
-          <rect x="36" y="14" width="10" height="52" rx="2" fill="#26A69A" />
-          <rect x="48" y="20" width="10" height="46" rx="2" fill="#00897B" />
-        </svg>
-      ),
-    },
-    {
-      title: "Important questions",
-      panel: "bg-gradient-to-br from-[#fce4ec]/80 via-pink-50/40 to-white",
-      iconWrap: "bg-white/95 shadow-sm ring-1 ring-[#F48FB1]/40 text-[#AD1457]",
-      art: <PapersArt tone="coral" />,
-    },
-  ];
+  return (
+    <div
+      className={[
+        "flex shrink-0 items-center justify-center bg-white ring-1 transition group-hover:shadow-[0_10px_28px_-12px_rgba(15,23,42,0.15)]",
+        size === "featured"
+          ? `shadow-[0_4px_18px_rgba(15,23,42,0.12)] ${t.ring}`
+          : `shadow-[0_2px_10px_rgba(15,23,42,0.07)] ${t.ring}`,
+        outer,
+      ].join(" ")}
+    >
+      <StackedPapersGlyph className={glyph} back={t.back} mid={t.mid} front={t.front} />
+    </div>
+  );
 }
 
 export function ExploreCoursesSection() {
-  const uidBase = useId().replace(/:/g, "");
-  const materials = buildMaterials(uidBase);
   const [activeGrade, setActiveGrade] = useState<string>("10");
-  const activeGradeLabel = GRADES.find((grade) => grade.id === activeGrade)?.label ?? "Class 10";
+
+  const subjects = useMemo(() => libraryForGrade(activeGrade).subjects, [activeGrade]);
+
+  const featured = subjects[0];
+  const compact = subjects.slice(1);
+  const gradeLabel = GRADES.find((g) => g.id === activeGrade)?.label ?? "this class";
 
   return (
     <section
-      className="scroll-mt-36 px-4 py-12 md:scroll-mt-32 md:py-16"
+      className="w-full min-w-0 overflow-x-clip scroll-mt-36 py-12 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] md:scroll-mt-32 md:py-16"
       aria-labelledby="explore-offerings-heading"
     >
-      <div className="relative mx-auto max-w-[1200px] overflow-hidden rounded-[1.75rem] border border-blue-100/90 bg-white px-4 py-8 shadow-[0_20px_50px_rgba(37,99,235,0.08)] sm:px-5 md:rounded-[2rem] md:px-10 md:py-12">
+      <div className="relative mx-auto w-full min-w-0 max-w-[1200px] overflow-hidden rounded-[1.25rem] border border-blue-100/90 bg-white px-4 py-7 shadow-[0_20px_50px_rgba(37,99,235,0.08)] sm:rounded-[1.75rem] sm:px-5 sm:py-8 md:rounded-[2rem] md:px-10 md:py-12">
         <div
           className="pointer-events-none absolute -right-20 top-0 h-64 w-64 rounded-full bg-blue-400/15 blur-3xl"
           aria-hidden
@@ -127,32 +478,39 @@ export function ExploreCoursesSection() {
           aria-hidden
         />
 
-        <div className="relative flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-10">
-          <div className="max-w-2xl">
+        <div className="relative flex min-w-0 flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-10">
+          <div className="w-full min-w-0 max-w-2xl">
             <SectionHeading
               id="explore-offerings-heading"
               label="Learning library"
               title="Resources built for your grade"
-              sub="Switch classes to preview curated study kits with chapter-wise notes, papers, and board-aligned books in one place."
+              sub="Switch classes to preview curated study kits — subjects and resource types update for each stage, from early years to Class 12."
             />
-          </div>
-          <div className="inline-flex max-w-max items-center gap-2 rounded-xl border border-blue-100 bg-blue-50/70 px-3 py-1.5 text-xs font-semibold text-blue-800">
-            <span className="h-2 w-2 rounded-full bg-blue-600" aria-hidden />
-            Showing kit for {activeGradeLabel}
           </div>
         </div>
 
         <div className="relative z-[1] mt-6 md:mt-10">
-          <div className="flex snap-x snap-mandatory items-center gap-2 overflow-x-auto rounded-2xl border border-blue-100/90 bg-blue-50/60 p-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:inline-flex md:flex-nowrap md:justify-start md:overflow-visible">
+          <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-blue-950/50 md:hidden">
+            Swipe classes — →
+          </p>
+          <div
+            className={[
+              "flex touch-pan-x snap-x snap-mandatory items-stretch gap-2 overflow-x-auto overscroll-x-contain rounded-2xl border border-blue-100/90 bg-blue-50/60 p-2 [-ms-overflow-style:none] [scrollbar-width:none] [scroll-padding-inline:10px]",
+              "[&::-webkit-scrollbar]:hidden md:inline-flex md:snap-none md:flex-nowrap md:items-center md:justify-start md:overflow-visible",
+            ].join(" ")}
+            aria-label="Select class or grade"
+          >
             {GRADES.map((g) => {
               const isActive = activeGrade === g.id;
               return (
                 <button
                   key={g.id}
                   type="button"
+                  aria-pressed={isActive}
                   onClick={() => setActiveGrade(g.id)}
                   className={[
-                    "inline-flex shrink-0 snap-start items-center gap-1.5 rounded-xl px-3.5 py-2.5 text-[13px] font-semibold transition-all",
+                    "inline-flex min-h-[44px] shrink-0 snap-start items-center justify-center gap-1.5 rounded-xl px-3.5 py-2.5 text-left text-[13px] font-semibold transition-all",
+                    "active:scale-[0.98] motion-reduce:active:scale-100",
                     isActive
                       ? "bg-blue-600 text-white shadow-md shadow-blue-500/30"
                       : "text-blue-950/85 hover:bg-white hover:text-blue-950",
@@ -170,47 +528,90 @@ export function ExploreCoursesSection() {
           </div>
         </div>
 
-        <div className="relative z-[1] mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-blue-950/70">
-            Study materials
-          </h3>
+        <div className="relative z-[1] mt-7 flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="min-w-0">
+            <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-blue-950/70">
+              Study materials
+            </h3>
+            <p className="mt-1 text-pretty text-[13px] leading-snug text-slate-600">
+              <span className="font-semibold text-blue-950">{gradeLabel}</span>
+              {" — "}
+              {subjects.length} resource {subjects.length === 1 ? "type" : "types"}
+              {compact.length > 0 ? " (featured + grid below)." : "."}
+            </p>
+          </div>
           <span className="hidden h-px flex-1 bg-gradient-to-r from-transparent via-blue-200/80 to-transparent sm:block" />
         </div>
 
-        <div className="relative z-[1] mt-4">
-          <div className="grid grid-cols-1 gap-3 pt-1 sm:grid-cols-2 md:grid-cols-3 md:gap-4 lg:grid-cols-5">
-            {materials.map((m) => (
-              <a
-                key={m.title}
-                href="#services"
+        <div className="relative z-[1] mt-5 min-w-0" key={activeGrade}>
+          {featured ? (
+            <div className="flex min-w-0 flex-col gap-3 lg:min-h-[260px] lg:flex-row lg:items-stretch lg:gap-4">
+              <div
                 className={[
-                  "group relative flex min-h-[10.5rem] flex-col rounded-2xl border border-black/[0.06] p-4 md:min-h-[11rem] md:p-5",
-                  "shadow-[0_2px_12px_rgba(15,23,42,0.04)] transition",
-                  "hover:border-blue-300/40 hover:shadow-[0_12px_28px_rgba(37,99,235,0.1)]",
-                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40",
-                  m.panel,
+                  "min-h-0 min-w-0 lg:flex lg:min-w-0",
+                  compact.length > 0 ? "lg:w-[min(100%,26rem)] lg:max-w-[46%] lg:flex-shrink-0" : "lg:w-full",
                 ].join(" ")}
               >
-                <div
-                  className={[
-                    "flex h-14 w-14 items-center justify-center rounded-2xl transition group-hover:scale-[1.03]",
-                    m.iconWrap,
-                  ].join(" ")}
+                <a
+                  href="#services"
+                  className="group relative flex h-full min-h-[200px] w-full min-w-0 flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-700 p-5 shadow-[0_16px_40px_-12px_rgba(37,99,235,0.45)] transition [-webkit-tap-highlight-color:transparent] hover:brightness-[1.03] active:brightness-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2 motion-reduce:transition-none sm:min-h-[240px] sm:rounded-[1.35rem] sm:p-6 md:p-8 lg:min-h-full lg:rounded-3xl"
                 >
-                  {m.art}
-                </div>
-                <p className="mt-4 text-left text-[15px] font-bold leading-snug text-blue-950">
-                  {m.title}
-                </p>
-                <span className="mt-auto pt-3 inline-flex items-center gap-1 text-xs font-semibold text-blue-600 opacity-90 group-hover:opacity-100">
-                  Open
-                  <svg className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <path d="M6 12h12M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </a>
-            ))}
-          </div>
+                  <div className="pointer-events-none absolute -right-16 top-0 h-56 w-56 rounded-full bg-white/10 blur-3xl" aria-hidden />
+                  <div className="pointer-events-none absolute -bottom-10 left-1/4 h-36 w-56 rounded-full bg-indigo-400/25 blur-2xl" aria-hidden />
+                  <ResourceIconSquircle size="featured" theme={resourceThemeForSubjectId(featured.id)} />
+                  <div className="relative mt-6 flex flex-1 flex-col">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-blue-100/90">
+                      Featured for {gradeLabel}
+                    </p>
+                    <p className="mt-2 text-balance break-words text-xl font-extrabold leading-tight tracking-tight text-white sm:text-2xl md:text-[1.65rem]">
+                      {featured.title}
+                    </p>
+                    <p className="mt-3 max-w-md text-pretty text-sm font-medium leading-relaxed text-blue-100/95">{featured.sub}</p>
+                    <span className="mt-auto inline-flex items-center gap-2 pt-8 text-sm font-bold text-white">
+                      Open in library
+                      <svg className="h-4 w-4 transition group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" aria-hidden>
+                        <path d="M6 12h12M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  </div>
+                </a>
+              </div>
+
+              {compact.length > 0 ? (
+                <ul
+                  className={[
+                    "list-none grid min-h-0 min-w-0 flex-1 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-2 lg:gap-4 xl:grid-cols-3",
+                    compact.length <= 2 ? "lg:content-start xl:grid-cols-2" : "",
+                  ].join(" ")}
+                  aria-label={`More resources for ${gradeLabel}`}
+                >
+                  {compact.map((m) => (
+                    <li key={`${activeGrade}-${m.id}`} className="min-h-0 min-w-0">
+                      <a
+                        href="#services"
+                        className={[
+                          "group flex h-full min-h-[min(160px,44vw)] flex-col rounded-2xl border border-slate-200/95 bg-white p-4 shadow-[0_4px_14px_rgba(15,23,42,0.06)] transition [-webkit-tap-highlight-color:transparent] sm:min-h-[152px] sm:p-5 lg:rounded-[1.25rem]",
+                          "hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-[0_14px_28px_-10px_rgba(37,99,235,0.18)]",
+                          "active:scale-[0.99] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100",
+                          "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 focus-visible:ring-offset-1 sm:focus-visible:ring-offset-2",
+                        ].join(" ")}
+                      >
+                        <ResourceIconSquircle size="compact" theme={resourceThemeForSubjectId(m.id)} />
+                        <p className="mt-3 text-balance break-words text-[14px] font-bold leading-snug text-slate-900 sm:text-[15px]">{m.title}</p>
+                        <p className="mt-1 flex-1 text-pretty text-[12px] leading-snug text-slate-600 line-clamp-4 sm:text-[13px] sm:line-clamp-3">{m.sub}</p>
+                        <span className="mt-3 inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wide text-blue-600 sm:text-xs">
+                          View
+                          <svg className="h-3 w-3 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
+                            <path d="M6 12h12M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

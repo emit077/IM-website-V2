@@ -87,6 +87,22 @@ export function SmartSearchBar({
 
           <div className="min-w-0 flex-1">
             <div className="flex min-w-0 items-center gap-2 overflow-x-auto pb-0.5 [scrollbar-width:thin] sm:gap-2.5 sm:pb-0">
+              <div className="w-[min(6.5rem,28vw)] shrink-0 sm:w-32">
+                <label className="sr-only" htmlFor="grade">
+                  Grade
+                </label>
+                <select
+                  id="grade"
+                  value={grade}
+                  onChange={(e) => setGrade(e.target.value)}
+                  className="h-11 w-full appearance-none rounded-2xl border border-blue-100/90 bg-white/80 px-2.5 text-xs font-semibold text-blue-950 outline-none transition sm:px-3 sm:text-sm focus:border-blue-400 focus:ring-4 focus:ring-blue-500/15 dark:border-blue-500/25 dark:bg-blue-950/30 dark:text-zinc-50"
+                >
+                  <option>Grade 1-5</option>
+                  <option>Grade 6-8</option>
+                  <option>Grade 9-10</option>
+                  <option>Grade 11-12</option>
+                </select>
+              </div>
               <div className="w-[min(9.5rem,40vw)] shrink-0 sm:w-40">
                 <label className="sr-only" htmlFor="subject">
                   Subject
@@ -102,23 +118,6 @@ export function SmartSearchBar({
                   <option>English</option>
                   <option>Computer Science</option>
                   <option>Social Science</option>
-                </select>
-              </div>
-
-              <div className="w-[min(6.5rem,28vw)] shrink-0 sm:w-32">
-                <label className="sr-only" htmlFor="grade">
-                  Grade
-                </label>
-                <select
-                  id="grade"
-                  value={grade}
-                  onChange={(e) => setGrade(e.target.value)}
-                  className="h-11 w-full appearance-none rounded-2xl border border-blue-100/90 bg-white/80 px-2.5 text-xs font-semibold text-blue-950 outline-none transition sm:px-3 sm:text-sm focus:border-blue-400 focus:ring-4 focus:ring-blue-500/15 dark:border-blue-500/25 dark:bg-blue-950/30 dark:text-zinc-50"
-                >
-                  <option>Grade 1-5</option>
-                  <option>Grade 6-8</option>
-                  <option>Grade 9-10</option>
-                  <option>Grade 11-12</option>
                 </select>
               </div>
 

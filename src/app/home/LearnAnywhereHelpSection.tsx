@@ -13,29 +13,43 @@ const QUICK_WINS = [
   "Progress you can track; support when you need it",
 ];
 
-function FloatingIcon({
-  children,
-  className,
-  delay = 0,
-}: {
-  children: ReactNode;
-  className: string;
-  delay?: number;
-}) {
-  const reduced = useReducedMotion();
+function FloatingIcon({ tone }: { tone: "purple" | "coral" }) {
+  const fills =
+    tone === "purple"
+      ? ["#D1C4E9", "#B39DDB", "#9575CD"]
+      : ["#FFCCBC", "#FF8A65", "#F4511E"];
   return (
-    <motion.div
-      className={`pointer-events-none absolute flex h-11 w-11 items-center justify-center rounded-2xl border border-white/80 bg-white/95 text-blue-600 shadow-lg shadow-blue-500/15 sm:h-12 sm:w-12 ${className}`}
-      initial={reduced ? false : { opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ delay, duration: 0.45, ease: "easeOut" }}
-      aria-hidden
-    >
-      {children}
-    </motion.div>
+    <svg viewBox="0 0 80 80" className="h-10 w-10" aria-hidden>
+      <rect x="20" y="28" width="36" height="44" rx="4" fill={fills[0]} transform="rotate(-10 38 50)" />
+      <rect x="24" y="24" width="36" height="44" rx="4" fill={fills[1]} transform="rotate(6 42 46)" />
+      <rect x="22" y="20" width="36" height="44" rx="4" fill={fills[2]} />
+      <path d="M28 34h24M28 42h16M28 50h20" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.8" />
+    </svg>
   );
 }
+// function FloatingIcon({
+//   children,
+//   className,
+//   delay = 0,
+// }: {
+//   children: ReactNode;
+//   className: string;
+//   delay?: number;
+// }) {
+//   const reduced = useReducedMotion();
+//   return (
+//     <motion.div
+//       className={`pointer-events-none absolute flex h-11 w-11 items-center justify-center rounded-2xl border border-white/80 bg-white/95 text-blue-600 shadow-lg shadow-blue-500/15 sm:h-12 sm:w-12 ${className}`}
+//       initial={reduced ? false : { opacity: 0, scale: 0.9 }}
+//       whileInView={{ opacity: 1, scale: 1 }}
+//       viewport={{ once: true }}
+//       transition={{ delay, duration: 0.45, ease: "easeOut" }}
+//       aria-hidden
+//     >
+//       {children}
+//     </motion.div>
+//   );
+// }
 
 export function LearnAnywhereHelpSection() {
   const reduced = useReducedMotion();

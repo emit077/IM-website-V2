@@ -4,8 +4,35 @@ import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
 import { withBasePath } from "@/lib/withBasePath";
 
+function HeroSecondLineUnderline({ className }: { className?: string }) {
+    return (
+        <svg
+            className={className}
+            viewBox="0 0 400 36"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden
+            preserveAspectRatio="none"
+        >
+            {/* Single arc: low → rises toward centre → returns low (slightly darker stroke) */}
+            <path
+                d="M 5 26 Q 200 7 386 26"
+                stroke="#FFCF59"
+                strokeWidth="10"
+                // strokeLinecap="round"
+                // strokeLinejoin="round"
+                fill="none"
+                vectorEffect="non-scaling-stroke"
+            />
+        </svg>
+    );
+}
+
 type Slide = {
+    /** Use `\n` in the string for a manual line break. */
     headline: string;
+    /** Second line with decorative underline; `\n` is respected for breaks inside this line. */
+    headlineSecondLine: string;
     subheadline: string;
     tagline: string;
     supportingText: string;
@@ -30,7 +57,8 @@ export function HeroSlider({
     const slides = useMemo<Slide[]>(
         () => [
             {
-                headline: "Personalised Learning for Academic Success",
+                headline: "Find the \nPerfect Tutor ",
+                headlineSecondLine: "for Your Child",
                 subheadline: "India’s Trusted Platform for Verified Home & Online Tutors",
                 tagline: "Guiding Every Student Towards Academic Excellence",
                 supportingText:
@@ -42,7 +70,8 @@ export function HeroSlider({
                 imageAlt: "Student with study materials",
             },
             {
-                headline: "Stronger Concepts. Better Grades. Brighter Future.",
+                headline: "Stronger Concepts. Better Grades.",
+                headlineSecondLine: "Brighter Future.",
                 subheadline: "1:1 Personalised Learning Designed for Academic Excellence",
                 tagline: "Indian Mentors - Where Learning Meets Mentorship",
                 supportingText:
@@ -54,7 +83,8 @@ export function HeroSlider({
                 imageAlt: "Student with study materials",
             },
             {
-                headline: "Learn from Verified & Background-Checked Tutors",
+                headline: "Learn from our & Background",
+                headlineSecondLine: "Checked Tutors",
                 subheadline: "Safety, Quality & Transparency in Every Session",
                 tagline: "Building Strong Foundations for Lifelong Learning",
                 supportingText:
@@ -150,8 +180,12 @@ export function HeroSlider({
                                     <p className="mb-4 text-balance text-[11px] font-medium leading-relaxed text-blue-800 sm:mb-5 sm:text-xs sm:text-blue-900 md:mb-0 md:inline-block md:max-w-2xl md:rounded-2xl md:border md:border-blue-200/90 md:bg-white/80 md:px-4 md:py-2.5 md:text-left md:font-semibold md:leading-snug md:tracking-[0.04em] md:text-blue-900">
                                         {slide.subheadline}
                                     </p>
-                                    <h1 className="mt-4 text-balance text-[1.4rem] font-bold leading-[1.3] tracking-[-0.02em] text-blue-950 sm:mt-5 sm:text-4xl sm:font-extrabold sm:leading-[1.2] sm:tracking-normal md:mt-5 lg:text-[3rem] lg:leading-[1.1]">
-                                        {slide.headline}
+                                    <h1 className="mt-4 text-balance text-[1.4rem] font-bold leading-[1.3] tracking-[-0.02em] sm:mt-5 sm:text-4xl sm:font-extrabold sm:leading-[1.2] sm:tracking-normal md:mt-5 lg:text-[3rem] lg:leading-[1.1]">
+                                        <span className="block whitespace-pre-line text-blue-950">{slide.headline}</span>
+                                        <span className="relative mt-1.5 inline-block max-w-full pb-4 text-[1.35rem] font-extrabold leading-tight tracking-[-0.02em] text-[#2466fb] sm:mt-2 sm:pb-5 sm:text-4xl sm:leading-[1.15] lg:pb-3 lg:text-[2.95rem]">
+                                            <span className="relative z-10 whitespace-pre-line">{slide.headlineSecondLine}</span>
+                                            <HeroSecondLineUnderline className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[0.52em] min-h-[14px] w-full sm:h-[0.48em] sm:min-h-[16px]" />
+                                        </span>
                                     </h1>
                                     <p className="mt-5 text-[0.9375rem] font-medium text-blue-800 sm:mt-6 sm:text-base md:mt-6 md:text-lg">
                                         {slide.tagline}
