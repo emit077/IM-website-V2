@@ -187,7 +187,7 @@ export function TrustScaleSection() {
               </div>
             </div>
             <Link
-              href="/contact"
+              href={withBasePath("/contact")}
               className="inline-flex shrink-0 items-center gap-2 rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-700"
             >
               Book Free Demo

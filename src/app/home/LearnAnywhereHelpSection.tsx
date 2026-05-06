@@ -187,7 +187,7 @@ export function LearnAnywhereHelpSection() {
                 no spam, just clear next steps.
               </p>
               <a
-                href="#contact"
+                href={withBasePath("/#contact")}
                 className="mt-5 inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-2.5 text-xs font-extrabold text-white shadow-lg transition hover:bg-slate-900 md:mt-5 md:px-6 md:py-3 md:text-sm"
               >
                 Speak to an expert

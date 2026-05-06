@@ -368,7 +368,7 @@ export default function StudentPage() {
       <Navbar onPrimaryCTA={() => {}} />
 
       {/* ── Hero ── */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-blue-800 via-blue-700 to-indigo-900 pb-24 pt-28 md:pb-20 md:pt-32">
+      <div className="relative overflow-hidden bg-gradient-to-br from-blue-800 via-blue-700 to-indigo-900 pb-24 pt-12 md:pb-20 md:pt-16">
         {/* Dot pattern decoration */}
         <div
           className="pointer-events-none absolute -right-24 top-1/4 h-[420px] w-[420px] rounded-full opacity-30 md:right-0"

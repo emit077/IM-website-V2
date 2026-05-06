@@ -327,7 +327,7 @@ const dashboardModules = [
 
 export default function InstitutesPage() {
   return (
-    <main className="bg-gradient-to-b from-blue-50/80 via-white to-indigo-50/50 px-4 pb-20 pt-28 md:pt-32">
+    <main className="bg-gradient-to-b from-blue-50/80 via-white to-indigo-50/50 px-4 pb-20 pt-0">
       <Navbar
         onPrimaryCTA={() => {
           window.location.href = "/#contact";

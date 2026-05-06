@@ -4,7 +4,7 @@ import { Poppins } from "next/font/google";
 import { Navbar } from "@/app/home/Navbar";
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { HeroSlider } from "@/components/home-3/heroSlider";
+import { HeroSection } from "@/components/home/HeroSection";
 import { TutorsCard } from "@/app/home/TutorsCard";
 import { VideoTestimonialsSection } from "@/app/home/VideoTestimonialsSection";
 import { TeacherRecruitmentSection } from "@/app/home/TeacherRecruitmentSection";
@@ -16,6 +16,7 @@ import { WhyChooseIndianMentorsSection } from "@/app/home/WhyChooseIndianMentors
 import { WhatsNewOnIndianMentorsSection } from "@/app/home/WhatsNewOnIndianMentorsSection";
 import { ExploreCoursesSection } from "@/app/home/ExploreCoursesSection";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import type { ReactNode } from "react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -24,70 +25,110 @@ const poppins = Poppins({
 });
 
 /* ─── service types ─────────────────────────────────────────── */
-const services = [
+type ServiceItem = {
+  title: string;
+  tagline: string;
+  iconBg: string;
+  icon: (gradientId: string) => ReactNode;
+};
+
+const services: ServiceItem[] = [
   {
     title: "Home Tutor",
     tagline: "1-on-1 at your pace",
-    iconBg: "bg-blue-600",
-    icon: (
-      <path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-10.5z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    iconBg: "bg-gradient-to-br from-sky-100 via-white to-blue-100",
+    icon: (gid) => (
+      <>
+        <defs>
+          <linearGradient id={gid} x1="4" y1="4" x2="20" y2="20" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#2563eb" />
+            <stop offset="0.55" stopColor="#6366f1" />
+            <stop offset="1" stopColor="#0891b2" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-10.5z"
+          fill="none"
+          stroke={`url(#${gid})`}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </>
     ),
   },
   {
     title: "Online Tutor",
     tagline: "Live classes anywhere",
-    iconBg: "bg-indigo-600",
-    icon: (
+    iconBg: "bg-gradient-to-br from-indigo-100 via-white to-cyan-50",
+    icon: () => (
       <>
-        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" fill="none" stroke="currentColor" strokeWidth="1.5" />
+        <circle cx="12" cy="12" r="10" fill="none" stroke="#4f46e5" strokeWidth="1.5" />
+        <path d="M2 12h20" fill="none" stroke="#0ea5e9" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" fill="none" stroke="#a855f7" strokeWidth="1.5" />
       </>
     ),
   },
   {
     title: "Shadow Tutor",
     tagline: "Extra focus & depth",
-    iconBg: "bg-blue-700",
-    icon: (
-      <>
-        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.5" />
-        <path d="m12 7 5 5-5 5-5-5 5-5z" fill="currentColor" stroke="none" />
-      </>
-    ),
+    iconBg: "bg-gradient-to-br from-violet-100 via-white to-amber-50",
+    icon: (gid) => {
+      const diamondId = `${gid}-diamond`;
+      return (
+        <>
+          <defs>
+            <linearGradient id={diamondId} x1="12" y1="7" x2="12" y2="17" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#fbbf24" />
+              <stop offset="1" stopColor="#ea580c" />
+            </linearGradient>
+          </defs>
+          <circle cx="12" cy="12" r="9" fill="none" stroke="#7c3aed" strokeWidth="1.5" />
+          <path d="m12 7 5 5-5 5-5-5 5-5z" fill={`url(#${diamondId})`} stroke="#c2410c" strokeWidth="0.75" strokeLinejoin="round" />
+        </>
+      );
+    },
   },
   {
     title: "Travel Tutor",
     tagline: "Mentors at your location",
-    iconBg: "bg-indigo-700",
-    icon: (
+    iconBg: "bg-gradient-to-br from-cyan-50 via-white to-blue-100",
+    icon: () => (
       <>
-        <path d="M6 17h12M4 17V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10" fill="none" stroke="currentColor" strokeWidth="1.5" />
-        <circle cx="8" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
-        <circle cx="16" cy="17" r="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M8 7h8M8 11h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M6 17h12M4 17V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10" fill="none" stroke="#1d4ed8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="8" cy="17" r="2" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.5" />
+        <circle cx="16" cy="17" r="2" fill="#fed7aa" stroke="#ea580c" strokeWidth="1.5" />
+        <path d="M8 7h8M8 11h8" stroke="#0891b2" strokeWidth="1.5" strokeLinecap="round" />
       </>
     ),
   },
   {
     title: "Live-In Tutor",
     tagline: "Daily immersive coaching",
-    iconBg: "bg-blue-500",
-    icon: (
+    iconBg: "bg-gradient-to-br from-blue-100 via-white to-emerald-50",
+    icon: () => (
       <>
-        <path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-10.5z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M12 12v6M9 15h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path
+          d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-10.5z"
+          fill="none"
+          stroke="#2563eb"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path d="M12 12v6M9 15h6" stroke="#059669" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </>
     ),
   },
   {
     title: "Home Schooling",
     tagline: "Structured at-home learning",
-    iconBg: "bg-indigo-500",
-    icon: (
+    iconBg: "bg-gradient-to-br from-amber-50 via-white to-indigo-100",
+    icon: () => (
       <>
-        <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H20v14H6.5A2.5 2.5 0 0 0 4 20.5V6.5z" fill="none" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M4 7h2.5A2.5 2.5 0 0 1 9 9.5V20" fill="none" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M11 8h6M11 11h6M11 14h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H20v14H6.5A2.5 2.5 0 0 0 4 20.5V6.5z" fill="none" stroke="#9333ea" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M4 7h2.5A2.5 2.5 0 0 1 9 9.5V20" fill="none" stroke="#0d9488" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M11 8h6M11 11h6M11 14h4" stroke="#ea580c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </>
     ),
   },
@@ -149,8 +190,10 @@ function ServicesStrip() {
               transition={{ delay: 0.35 + i * 0.06, duration: 0.45 }}
               className="group flex flex-col items-center gap-2 rounded-2xl border border-transparent bg-blue-50/70 px-2.5 py-4 text-center transition duration-200 hover:-translate-y-1 hover:border-blue-200/80 hover:bg-white hover:shadow-lg hover:shadow-blue-500/10 sm:gap-2.5 sm:px-3 sm:py-5"
             >
-              <span className={`flex h-12 w-12 items-center justify-center rounded-xl ${s.iconBg} text-white shadow-md ring-2 ring-white/50 transition group-hover:scale-110 group-hover:shadow-lg`}>
-                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden>{s.icon}</svg>
+              <span className={`flex h-12 w-12 items-center justify-center rounded-xl ${s.iconBg} shadow-md ring-2 ring-white/70 transition group-hover:scale-110 group-hover:shadow-lg group-hover:ring-blue-200/60`}>
+                <svg className="h-6 w-6 overflow-visible" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  {s.icon(`offer-icon-${i}`)}
+                </svg>
               </span>
               <div>
                 <p className="text-xs font-bold text-blue-950 sm:text-sm">{s.title}</p>
@@ -192,7 +235,7 @@ export default function HomePage() {
 
       <main>
         <div className="">
-          <HeroSlider className="relative z-0 h-auto w-full min-h-[min(100svh,620px)] sm:min-h-[min(100svh,800px)] md:min-h-[650px] md:h-[680px]" />
+          <HeroSection className="relative z-0 h-auto w-full min-h-[min(100svh,620px)] sm:min-h-[min(100svh,800px)] md:min-h-[650px] md:h-[680px]" />
         </div>
       </main>
       <ServicesStrip />

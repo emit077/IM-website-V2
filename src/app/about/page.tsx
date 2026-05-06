@@ -3,17 +3,14 @@
 import { Poppins } from "next/font/google";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Navbar } from "@/app/home/Navbar";
-import {
-  ShieldIcon,
-  UsersIcon,
-  ChalkboardStatIcon,
-  ClockIcon,
-  CheckMiniIcon,
-  ArrowRightIcon,
-} from "@/components/shared/SvgIcons";
+import { TrustScaleSection } from "@/app/home/TrustScaleSection";
+import { LearnAnywhereHelpSection } from "@/app/home/LearnAnywhereHelpSection";
+import { SectionHeading } from "@/components/shared/SectionHeading";
+import { CheckMiniIcon, ArrowRightIcon } from "@/components/shared/SvgIcons";
+import { withBasePath } from "@/lib/withBasePath";
 import { aboutTimeline, teamMembers, type TeamMember } from "./content";
 
 const poppins = Poppins({
@@ -36,28 +33,6 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
-function useCountUp(target: number, play: boolean) {
-  const [n, setN] = useState(0);
-  useEffect(() => {
-    if (!play) return;
-    let raf = 0;
-    const t0 = performance.now();
-    const ms = 1100;
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - t0) / ms);
-      setN(Math.round(target * (1 - (1 - t) ** 3)));
-      if (t < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [play, target]);
-  return n;
-}
-
-function INR(n: number) {
-  return new Intl.NumberFormat("en-IN").format(n);
-}
-
 function initialsFromName(name: string) {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   const a = parts[0]?.[0] ?? "";
@@ -67,64 +42,14 @@ function initialsFromName(name: string) {
 
 /* ─────────────────────────── sub-components ────────────────────── */
 
-const STATS = [
-  { value: 50_000, suffix: "+", label: "Students Empowered", icon: UsersIcon },
-  { value: 500_000, suffix: "+", label: "Registered Tutors", icon: ChalkboardStatIcon },
-  { value: 5_000_000, suffix: "+", label: "Sessions Delivered", icon: ClockIcon },
-  { value: 50_000, suffix: "+", label: "Tutor Reviews", icon: ShieldIcon },
-];
-
-function StatCard({
-  value,
-  suffix,
-  label,
-  icon: Icon,
-  reduced,
-}: (typeof STATS)[number] & { reduced: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  const play = inView && !reduced;
-  const animated = useCountUp(value, play);
-  const shown = reduced && inView ? value : animated;
-
-  return (
-    <div
-      ref={ref}
-      className="flex flex-col items-center rounded-3xl border border-slate-200/70 bg-white/95 p-8 text-center shadow-[0_8px_30px_rgba(15,23,42,0.07)] backdrop-blur-sm"
-    >
-      <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-md shadow-blue-500/30 [&_svg]:h-6 [&_svg]:w-6">
-        <Icon />
-      </div>
-      <p className="text-4xl font-extrabold tabular-nums tracking-tight text-[#1a2744]">
-        {INR(shown)}
-        <span className="text-blue-600">{suffix}</span>
-      </p>
-      <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-        {label}
-      </p>
-    </div>
-  );
-}
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-blue-600/90">
-      {children}
-    </p>
-  );
-}
-
-function SectionHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-[#1a2744] sm:text-4xl">
-      {children}
-    </h2>
-  );
-}
+const homeCard =
+  "rounded-3xl border border-blue-100/90 bg-white/98 shadow-[0_24px_60px_rgba(37,99,235,0.08)] ring-1 ring-blue-500/5 backdrop-blur-sm";
 
 function TeamProfileCard({ member }: { member: TeamMember }) {
   return (
-    <article className="group flex flex-col rounded-3xl border border-slate-200/70 bg-white/95 p-6 shadow-[0_8px_30px_rgba(15,23,42,0.07)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
+    <article
+      className={`group flex flex-col p-6 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(37,99,235,0.14)] ${homeCard}`}
+    >
       <div className="flex items-start gap-4">
         {member.image ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -172,7 +97,7 @@ function RoleBlock({
   roles: { role: string; desc: string }[];
 }) {
   return (
-    <div className="rounded-3xl border border-slate-200/70 bg-white/95 p-6 shadow-[0_8px_30px_rgba(15,23,42,0.07)]">
+    <div className={`p-6 ${homeCard}`}>
       <div className="flex items-center gap-3 mb-4">
         <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-50 text-xl">
           {emoji}
@@ -220,85 +145,85 @@ export default function AboutPage() {
   );
 
   return (
-    <div className={`${poppins.className} min-h-screen bg-slate-50 text-slate-900`}>
+    <div
+      className={`${poppins.className} min-h-screen overflow-x-clip bg-gradient-to-b from-blue-50/90 via-[#f0f7ff] to-white text-blue-950`}
+    >
       <Navbar onPrimaryCTA={() => { }} />
 
-      {/* ── Hero ── */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-blue-800 via-blue-700 to-indigo-900 pb-24 pt-28 md:pb-20 md:pt-32">
-        {/* dot pattern */}
+      {/* ── Hero (home-style soft shell + gradient headline) ── */}
+      <header className="relative overflow-hidden px-4 pb-10 pt-10 md:pb-14 md:pt-14">
         <div
-          className="pointer-events-none absolute -right-24 top-1/4 h-[420px] w-[420px] rounded-full opacity-30 md:right-0"
-          style={{
-            background: "radial-gradient(circle, rgba(255,255,255,0.55) 1.5px, transparent 1.5px)",
-            backgroundSize: "14px 14px",
-            maskImage: "radial-gradient(circle at center, black 35%, transparent 70%)",
-            WebkitMaskImage: "radial-gradient(circle at center, black 35%, transparent 70%)",
-          }}
+          className="pointer-events-none absolute -left-20 top-10 h-64 w-64 rounded-full bg-sky-300/25 blur-3xl"
           aria-hidden
         />
-        <div className="relative z-10 mx-auto max-w-[1200px] px-4">
+        <div
+          className="pointer-events-none absolute -right-16 top-32 h-72 w-72 rounded-full bg-indigo-300/20 blur-3xl"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute bottom-0 left-1/3 h-48 w-48 rounded-full bg-blue-200/25 blur-3xl"
+          aria-hidden
+        />
+        <div className="relative z-[1] mx-auto max-w-[1200px] text-center">
           <motion.div
-            initial={reduced ? false : { opacity: 0, y: 22 }}
+            initial={reduced ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="mb-4 inline-flex rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/95 shadow-sm backdrop-blur-sm md:text-xs">
-              Indian Mentors · About Us
+            <p className="text-xs font-extrabold uppercase tracking-[0.25em] text-blue-600/90">
+              About Indian Mentors
             </p>
-            <h1 className="text-4xl font-extrabold leading-[1.12] text-[#FFD600] drop-shadow-sm sm:text-5xl lg:text-[3.25rem]">
-              Building Futures Through{" "}
-              <span className="relative inline-block whitespace-nowrap text-white">
-                Personalised
-                <svg
-                  className="pointer-events-none absolute left-0 w-full text-white"
-                  style={{ bottom: "-8px" }}
-                  viewBox="0 0 260 12"
-                  preserveAspectRatio="none"
-                  aria-hidden
-                >
-                  <path d="M4 8C70 2 190 2 256 8" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
-                </svg>
-              </span>{" "}
-              Education
+            <h1 className="mx-auto mt-4 max-w-4xl text-balance text-4xl font-extrabold leading-[1.12] tracking-tight sm:text-5xl lg:text-[3.15rem]">
+              <span className="bg-gradient-to-r from-slate-900 via-blue-700 to-indigo-600 bg-clip-text text-transparent">
+                Building futures through personalised education
+              </span>
             </h1>
-            <p className="mt-6 max-w-2xl text-base font-semibold leading-relaxed text-white/85 sm:text-lg">
-              A trusted educational ecosystem connecting students, parents, tutors, and
-              institutions through structured, transparent, and technology-enabled
-              academic mentorship.
+            <p className="mx-auto mt-6 max-w-2xl text-pretty text-base font-semibold leading-relaxed text-slate-600 sm:text-lg">
+              A trusted educational ecosystem connecting students, parents, tutors, and institutions
+              through structured, transparent, and technology-enabled academic mentorship.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link
-                href="/#contact"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#FFD600] px-6 text-sm font-bold text-neutral-900 shadow-lg shadow-amber-600/25 transition hover:bg-[#ffcc00] hover:shadow-xl hover:shadow-amber-600/20"
+                href={withBasePath("/#contact")}
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-blue-600 px-6 text-sm font-extrabold text-white shadow-md shadow-blue-500/25 transition hover:bg-blue-700"
               >
-                Book Free Demo
+                Book free demo
               </Link>
               <Link
-                href="/contact"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 text-sm font-bold text-white backdrop-blur-sm transition hover:bg-white/20"
+                href={withBasePath("/contact")}
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-slate-300/90 bg-white px-6 text-sm font-bold text-slate-800 shadow-sm transition hover:border-blue-300 hover:shadow-md"
               >
-                Talk to Counsellor
+                Talk to counsellor
               </Link>
             </div>
           </motion.div>
         </div>
-      </div>
+      </header>
 
-      {/* ── About video section ── */}
-      <div className="relative z-20 mx-auto mt-[-28px] max-w-[1200px] px-4 sm:mt-[-32px]">
-        <div className="rounded-3xl border border-slate-200/70 bg-white/95 p-6 shadow-[0_20px_50px_rgba(15,23,42,0.1)] backdrop-blur-sm md:p-8">
-          <div className="grid gap-8 lg:grid-cols-12 ">
-            <div className="lg:col-span-5">
-              <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-[#1a2744] sm:text-3xl">
-                Inside Indian Mentors
-              </h2>
-              <p className="mt-4 text-sm font-semibold leading-relaxed text-slate-600">
-                Watch how Indian Mentors combines verified tutors, structured processes, and
-                technology-backed reporting to deliver personalised, measurable academic progress.
-              </p>
+      {/* ── About video (services-strip style card) ── */}
+      <div className="relative z-20 mx-auto -mt-2 max-w-[1200px] px-4 sm:-mt-4">
+        <motion.div
+          className={`p-5 sm:p-6 md:p-8 ${homeCard}`}
+          initial={reduced ? false : { opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+        >
+          <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
+            <div className="lg:col-span-5 lg:pt-1">
+              <SectionHeading
+                id="about-video-heading"
+                align="left"
+                label="See how we work"
+                title="Inside Indian Mentors"
+                sub="Watch how we combine verified tutors, structured processes, and technology-backed reporting to deliver personalised, measurable academic progress."
+                className="[&_h2]:text-left [&_h2]:text-2xl [&_h2]:sm:text-3xl [&_p]:mx-0 [&_p]:max-w-none"
+                titleClassName="!bg-none !bg-clip-border !text-slate-900"
+                subClassName="text-left text-sm font-semibold leading-relaxed text-slate-600"
+              />
             </div>
             <div className="lg:col-span-7">
-              <div className="overflow-hidden rounded-2xl border border-blue-100 bg-slate-900 shadow-[0_12px_36px_rgba(15,23,42,0.2)]">
+              <div className="overflow-hidden rounded-2xl border border-blue-100/90 bg-slate-900 shadow-[0_12px_36px_rgba(37,99,235,0.15)] ring-1 ring-blue-500/10">
                 <div className="aspect-video w-full mx-auto">
                   {isAboutVideoPlaying ? (
                     <iframe
@@ -349,58 +274,26 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
-      {/* ── Impact Stats ── */}
-      <motion.section
-        aria-labelledby="impact-heading"
-        className="mt-16 border-y border-zinc-200/90 bg-zinc-50/80 py-16"
-        {...(reduced ? {} : fadeUp())}
-      >
-        <div className="mx-auto max-w-[1200px] px-4">
-          <div className="mb-10 text-center">
-            <SectionLabel>Our impact</SectionLabel>
-            <SectionHeading>Trusted at scale across India</SectionHeading>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600">
-              Structured growth, trusted partnerships, and sustained academic engagement.
-            </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {STATS.map((s, i) => (
-              <motion.div key={s.label} {...(reduced ? {} : fadeUp(i * 0.08))}>
-                <StatCard {...s} reduced={reduced} />
-              </motion.div>
-            ))}
-          </div>
-          <motion.div
-            className="mt-6 flex flex-wrap justify-center gap-4 text-sm font-semibold text-slate-600"
-            {...(reduced ? {} : fadeUp(0.35))}
-          >
-            {[
-              { icon: "🏆", text: "500+ Rewards & Recognitions" },
-              { icon: "⭐", text: "50,000+ Tutor Reviews" },
-              { icon: "🌍", text: "Expanding Global Presence" },
-            ].map(({ icon, text }) => (
-              <div
-                key={text}
-                className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2"
-              >
-                <span>{icon}</span>
-                <span>{text}</span>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </motion.section>
+      {/* ── Impact (same block as home TrustScaleSection) ── */}
+      <div className="mt-12 md:mt-16">
+        <TrustScaleSection />
+      </div>
 
       {/* ── Mission & Vision ── */}
-      <section aria-labelledby="mission-heading" className="py-16">
-        <div className="mx-auto max-w-[1200px] px-4">
-          <div className="mb-10 text-center">
-            <SectionLabel>Mission & vision</SectionLabel>
-            <SectionHeading>Why we exist and where we&apos;re going</SectionHeading>
-          </div>
+      <section aria-labelledby="mission-heading" className="px-4 py-14 md:py-20">
+        <div className="mx-auto max-w-[1200px]">
+          <SectionHeading
+            id="mission-heading"
+            align="center"
+            label="Mission & vision"
+            title="Why we exist and where we&apos;re going"
+            sub="Structured mentorship, transparent operations, and technology that keeps families, tutors, and institutions aligned."
+            className="mx-auto mb-10 max-w-3xl md:mb-12 [&_h2]:text-center [&_p]:mx-auto [&_p]:max-w-2xl [&_p]:text-center"
+            subClassName="!mx-auto text-center text-[15px] leading-relaxed text-slate-600"
+          />
           <div className="grid gap-6 lg:grid-cols-2">
             {/* Mission */}
             <motion.div
@@ -435,10 +328,7 @@ export default function AboutPage() {
               </ul>
             </motion.div>
             {/* Vision */}
-            <motion.div
-              className="rounded-3xl border border-slate-200/70 bg-white/95 p-8 shadow-[0_8px_30px_rgba(15,23,42,0.07)]"
-              {...(reduced ? {} : fadeUp(0.1))}
-            >
+            <motion.div className={`p-8 ${homeCard}`} {...(reduced ? {} : fadeUp(0.1))}>
               <div className="mb-4 inline-flex rounded-2xl bg-blue-50 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.18em] text-blue-700">
                 🌍 Our Vision
               </div>
@@ -468,16 +358,16 @@ export default function AboutPage() {
               </ul>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  href="/#contact"
-                  className="inline-flex h-11 items-center gap-2 rounded-2xl bg-[#1a2744] px-5 text-sm font-extrabold text-white shadow-md transition hover:opacity-90"
+                  href={withBasePath("/#contact")}
+                  className="inline-flex h-11 items-center gap-2 rounded-full bg-blue-600 px-5 text-sm font-extrabold text-white shadow-md shadow-blue-500/25 transition hover:bg-blue-700"
                 >
-                  Book Free Demo <ArrowRightIcon />
+                  Book free demo <ArrowRightIcon />
                 </Link>
                 <Link
-                  href="/channel-partner"
-                  className="inline-flex h-11 items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-5 text-sm font-extrabold text-slate-800 transition hover:bg-slate-100"
+                  href={withBasePath("/channel-partner")}
+                  className="inline-flex h-11 items-center gap-2 rounded-full border border-slate-300/90 bg-white px-5 text-sm font-extrabold text-slate-800 shadow-sm transition hover:border-blue-300"
                 >
-                  Partner With Us
+                  Partner with us
                 </Link>
               </div>
             </motion.div>
@@ -485,20 +375,31 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Our Journey ── */}
+      {/* ── Our Journey (home TrustScale-style surface) ── */}
       <section
         aria-labelledby="journey-heading"
-        className="border-y border-zinc-200/90 bg-zinc-50/80 py-16"
+        className="relative overflow-hidden border-y border-blue-100/70 bg-[#f8fafc] px-4 py-14 md:py-20"
       >
-        <div className="mx-auto max-w-[1200px] px-4">
-          <motion.div className="mb-12 text-center" {...(reduced ? {} : fadeUp())}>
-            <SectionLabel>Our journey</SectionLabel>
-            <SectionHeading>Milestones That Shaped Indian Mentors</SectionHeading>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600">
-              The growth of Indian Mentors reflects a continuous effort to improve
-              personalised education support.
-            </p>
-          </motion.div>
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.35]"
+          style={{
+            backgroundImage: "radial-gradient(#cbd5e1 1px, transparent 1px)",
+            backgroundSize: "20px 20px",
+            maskImage: "radial-gradient(ellipse 80% 70% at 50% 0%, black 20%, transparent 75%)",
+            WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 50% 0%, black 20%, transparent 75%)",
+          }}
+          aria-hidden
+        />
+        <div className="relative mx-auto max-w-[1200px]">
+          <SectionHeading
+            id="journey-heading"
+            align="center"
+            label="Our journey"
+            title="Milestones that shaped Indian Mentors"
+            sub="The growth of Indian Mentors reflects a continuous effort to improve personalised education support."
+            className="mx-auto mb-10 max-w-3xl md:mb-14 [&_h2]:text-center [&_p]:mx-auto [&_p]:max-w-2xl [&_p]:text-center"
+            subClassName="!mx-auto text-center text-[15px] leading-relaxed text-slate-600"
+          />
 
           <div className="space-y-8">
             {Object.entries(yearGroups).map(([year, entries], yi) => (
@@ -513,7 +414,7 @@ export default function AboutPage() {
                   {entries.map((entry, ei) => (
                     <div
                       key={entry.timeline_id}
-                      className="group relative overflow-hidden rounded-3xl border border-slate-200/70 bg-white/95 p-6 shadow-[0_4px_20px_rgba(15,23,42,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(15,23,42,0.1)]"
+                      className={`group relative overflow-hidden p-6 transition hover:-translate-y-0.5 hover:shadow-[0_24px_60px_rgba(37,99,235,0.12)] ${homeCard}`}
                     >
                       <div className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-xl bg-blue-50 text-xs font-extrabold text-blue-500">
                         {String(ei + 1).padStart(2, "0")}
@@ -534,21 +435,21 @@ export default function AboutPage() {
       </section>
 
       {/* ── Leadership Structure ── */}
-      <section aria-labelledby="leadership-heading" className="py-16">
-        <div className="mx-auto max-w-[1200px] px-4">
-          <motion.div className="mb-12 text-center" {...(reduced ? {} : fadeUp())}>
-            <SectionLabel>Our team</SectionLabel>
-            <SectionHeading>A Structured Team Powering Academic Excellence</SectionHeading>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600">
-              Every student engagement is backed by coordination, monitoring, compliance,
-              and continuous improvement — ensuring consistency across cities and academic
-              levels.
-            </p>
-          </motion.div>
+      <section aria-labelledby="leadership-heading" className="px-4 py-14 md:py-20">
+        <div className="mx-auto max-w-[1200px]">
+          <SectionHeading
+            id="leadership-heading"
+            align="center"
+            label="Our team"
+            title="A structured team powering academic excellence"
+            sub="Every student engagement is backed by coordination, monitoring, compliance, and continuous improvement — ensuring consistency across cities and academic levels."
+            className="mx-auto mb-10 max-w-3xl md:mb-12 [&_h2]:text-center [&_p]:mx-auto [&_p]:max-w-2xl [&_p]:text-center"
+            subClassName="!mx-auto text-center text-[15px] leading-relaxed text-slate-600"
+          />
 
           {/* Highlight: Founder */}
           <motion.div
-            className="mb-6 flex flex-col items-start gap-4 rounded-3xl border border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 sm:flex-row sm:items-center sm:p-8"
+            className="mb-6 flex flex-col items-start gap-4 rounded-3xl border border-blue-100/90 bg-gradient-to-r from-blue-50/90 to-indigo-50/90 p-6 shadow-[0_18px_44px_rgba(37,99,235,0.08)] ring-1 ring-blue-500/5 sm:flex-row sm:items-center sm:p-8"
             {...(reduced ? {} : fadeUp(0))}
           >
             <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-2xl shadow-lg shadow-blue-500/30">
@@ -566,10 +467,10 @@ export default function AboutPage() {
               </p>
             </div>
             <Link
-              href="/career"
-              className="inline-flex h-11 shrink-0 items-center gap-2 rounded-2xl bg-blue-600 px-5 text-sm font-extrabold text-white shadow-md shadow-blue-500/30 transition hover:bg-blue-700"
+              href={withBasePath("/career")}
+              className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-blue-600 px-5 text-sm font-extrabold text-white shadow-md shadow-blue-500/30 transition hover:bg-blue-700"
             >
-              Join Our Team <ArrowRightIcon />
+              Join our team <ArrowRightIcon />
             </Link>
           </motion.div>
 
@@ -661,18 +562,18 @@ export default function AboutPage() {
       {activeTeam.length > 0 && (
         <section
           aria-labelledby="managing-heading"
-          className="border-t border-zinc-200/90 bg-zinc-50/80 py-16"
+          className="border-t border-blue-100/70 bg-gradient-to-b from-blue-50/40 to-white px-4 py-14 md:py-20"
         >
-          <div className="mx-auto max-w-[1200px] px-4">
-            <motion.div className="mb-12 text-center" {...(reduced ? {} : fadeUp())}>
-              <SectionLabel>Managing team</SectionLabel>
-              <SectionHeading>Leadership & Management</SectionHeading>
-              <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600">
-                Experienced professionals committed to building a responsible mentorship
-                ecosystem — combining expertise in education, operations, academic
-                counselling, and technology.
-              </p>
-            </motion.div>
+          <div className="mx-auto max-w-[1200px]">
+            <SectionHeading
+              id="managing-heading"
+              align="center"
+              label="Managing team"
+              title="Leadership & management"
+              sub="Experienced professionals committed to building a responsible mentorship ecosystem — combining expertise in education, operations, academic counselling, and technology."
+              className="mx-auto mb-10 max-w-3xl md:mb-12 [&_h2]:text-center [&_p]:mx-auto [&_p]:max-w-2xl [&_p]:text-center"
+              subClassName="!mx-auto text-center text-[15px] leading-relaxed text-slate-600"
+            />
             <div className="grid gap-6 lg:grid-cols-2">
               {activeTeam.map((member, i) => (
                 <motion.div key={member.team_id} {...(reduced ? {} : fadeUp(i * 0.08))}>
@@ -684,56 +585,7 @@ export default function AboutPage() {
         </section>
       )}
 
-      {/* ── CTA Banner ── */}
-      <motion.section
-        className="py-16"
-        {...(reduced ? {} : fadeUp())}
-      >
-        <div className="mx-auto max-w-[1200px] px-4">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-800 via-blue-700 to-indigo-900 p-8 text-center shadow-[0_20px_50px_rgba(37,99,235,0.3)] sm:p-12">
-            <div
-              className="pointer-events-none absolute -left-16 -top-16 h-[320px] w-[320px] rounded-full opacity-20"
-              style={{
-                background: "radial-gradient(circle, rgba(255,255,255,0.55) 1.5px, transparent 1.5px)",
-                backgroundSize: "14px 14px",
-                maskImage: "radial-gradient(circle at center, black 35%, transparent 70%)",
-                WebkitMaskImage: "radial-gradient(circle at center, black 35%, transparent 70%)",
-              }}
-              aria-hidden
-            />
-            <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-white/70">
-              Ready to begin?
-            </p>
-            <h2 className="mt-3 text-3xl font-extrabold text-[#FFD600] sm:text-4xl">
-              Indian Mentors — Where Learning Meets Leadership
-            </h2>
-            <p className="mx-auto mt-4 max-w-xl text-base font-semibold leading-relaxed text-white/85">
-              Book a free demo today and get matched with a verified mentor tailored to
-              your academic goals.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Link
-                href="/#contact"
-                className="inline-flex h-12 items-center gap-2 rounded-full bg-[#FFD600] px-7 text-sm font-bold text-neutral-900 shadow-lg shadow-amber-600/30 transition hover:bg-[#ffcc00] hover:shadow-xl"
-              >
-                Book Free Demo
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex h-12 items-center gap-2 rounded-full border border-white/25 bg-white/10 px-7 text-sm font-bold text-white backdrop-blur-sm transition hover:bg-white/20"
-              >
-                Talk to Counsellor
-              </Link>
-              <Link
-                href="/channel-partner"
-                className="inline-flex h-12 items-center gap-2 rounded-full border border-white/25 bg-white/10 px-7 text-sm font-bold text-white backdrop-blur-sm transition hover:bg-white/20"
-              >
-                Partner With Us
-              </Link>
-            </div>
-          </div>
-        </div>
-      </motion.section>
+      <LearnAnywhereHelpSection />
     </div>
   );
 }

@@ -109,7 +109,7 @@ function toWhatsApp(phone: string) {
 export default function ContactPage() {
   return (
     <>
-      <main className="bg-gradient-to-b from-blue-50/80 via-white to-indigo-50/60 px-4 pb-20 pt-28 md:pt-32">
+      <main className="bg-gradient-to-b from-blue-50/80 via-white to-indigo-50/60 px-4 pb-20 pt-0">
         <Navbar
           onPrimaryCTA={() => {
             window.location.href = "/#contact";

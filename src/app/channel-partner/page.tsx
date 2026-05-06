@@ -183,7 +183,7 @@ const revenueSplit = [
 
 export default function ChannelPartnerPage() {
   return (
-    <main className="bg-gradient-to-b from-blue-50/70 via-white to-blue-50/40 px-4 pb-20 pt-28 md:pt-32">
+    <main className="bg-gradient-to-b from-blue-50/70 via-white to-blue-50/40 px-4 pb-20 pt-0">
       <Navbar onPrimaryCTA={() => { window.location.href = "/#contact"; }} />
       <div className="mx-auto max-w-[1200px]">
         <section className="relative  sm:px-10 sm:py-12">

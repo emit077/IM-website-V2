@@ -28,6 +28,18 @@ function HeroSecondLineUnderline({ className }: { className?: string }) {
     );
 }
 
+function StarRating() {
+    return (
+        <div className="flex items-center gap-0.5 text-amber-500" aria-label="Rated 4.9 out of 5">
+            {Array.from({ length: 5 }).map((_, i) => (
+                <svg key={i} viewBox="0 0 20 20" className="h-3.5 w-3.5 fill-current" aria-hidden>
+                    <path d="M10 1.8l2.42 4.9 5.4.78-3.91 3.8.92 5.37L10 14.2l-4.83 2.45.92-5.37-3.91-3.8 5.4-.78L10 1.8z" />
+                </svg>
+            ))}
+        </div>
+    );
+}
+
 type Slide = {
     /** Use `\n` in the string for a manual line break. */
     headline: string;
@@ -57,7 +69,7 @@ export function HeroSlider({
     const slides = useMemo<Slide[]>(
         () => [
             {
-                headline: "Find the \nPerfect Tutor ",
+                headline: "Find the Perfect Tutor ",
                 headlineSecondLine: "for Your Child",
                 subheadline: "India’s Trusted Platform for Verified Home & Online Tutors",
                 tagline: "Guiding Every Student Towards Academic Excellence",
@@ -68,31 +80,7 @@ export function HeroSlider({
                 visualDirection: "Digital books, glowing particles and academic grid motion",
                 imageSrc: "/assets/home/hero/hero-1.png",
                 imageAlt: "Student with study materials",
-            },
-            {
-                headline: "Stronger Concepts. Better Grades.",
-                headlineSecondLine: "Brighter Future.",
-                subheadline: "1:1 Personalised Learning Designed for Academic Excellence",
-                tagline: "Indian Mentors - Where Learning Meets Mentorship",
-                supportingText:
-                    "From foundation to advanced levels, we ensure measurable academic improvement.",
-                primaryCTA: "Book Your Free Demo",
-                theme: "purple",
-                visualDirection: "Rising progress charts, floating subject icons and motion blur",
-                imageSrc: "/assets/home/hero/hero-2.png",
-                imageAlt: "Student with study materials",
-            },
-            {
-                headline: "Learn from our & Background",
-                headlineSecondLine: "Checked Tutors",
-                subheadline: "Safety, Quality & Transparency in Every Session",
-                tagline: "Building Strong Foundations for Lifelong Learning",
-                supportingText:
-                    "Every tutor undergoes structured verification and performance monitoring.",
-                primaryCTA: "Book Your Free Demo",
-                theme: "green",
-                visualDirection: "Floating verification badges and shield pulse animation",
-            },
+            }
         ],
         []
     );
@@ -195,13 +183,56 @@ export function HeroSlider({
                                     </p>
                                     {/* CTA + search */}
                                     {slide.primaryCTA ? (
-                                        <div className="mt-6 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center md:justify-start">
-                                            <button
-                                                type="button"
-                                                className="inline-flex w-full max-w-sm items-center justify-center self-start rounded-full bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-md shadow-blue-500/30 transition hover:bg-blue-700 sm:w-auto sm:max-w-none sm:py-3"
-                                            >
-                                                {slide.primaryCTA}
-                                            </button>
+                                        <div className="mt-6 flex flex-col gap-3 sm:mt-8 md:justify-start">
+                                            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                                                <button
+                                                    type="button"
+                                                    className="inline-flex w-full max-w-sm items-center justify-center self-start  bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-md shadow-blue-500/30 transition hover:bg-blue-700 sm:w-auto sm:max-w-none sm:py-3"
+                                                >
+                                                    {slide.primaryCTA}
+                                                </button>
+                                                <div className="flex self-start items-center gap-3.5 text-xs text-slate-700 sm:text-sm">
+                                                    <div className="flex items-center -space-x-2" aria-hidden>
+                                                        {["AP", "NK", "RS", "MJ"].map((initials) => (
+                                                            <span
+                                                                key={initials}
+                                                                className="inline-flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-slate-200 text-[10px] font-bold text-slate-700 shadow-sm"
+                                                            >
+                                                                {initials}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                    <div className="flex flex-col leading-tight">
+                                                        <StarRating />
+                                                        <p className="mt-0.5 text-[11px] font-semibold text-slate-700 sm:text-xs">
+                                                            Rated 4.9 by 14k+ parents
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="flex self-start flex-wrap items-center gap-x-4 gap-y-2 pt-1 text-[11px] font-medium text-slate-600 sm:text-xs">
+                                                <span className="inline-flex items-center gap-1.5">
+                                                    <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 text-slate-500" fill="none" aria-hidden>
+                                                        <path d="M10 2.5 4.5 4.8v4.1c0 3.6 2.2 6.8 5.5 8.1 3.3-1.3 5.5-4.5 5.5-8.1V4.8L10 2.5Z" stroke="currentColor" strokeWidth="1.5" />
+                                                        <path d="m7.6 9.8 1.7 1.7 3.2-3.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                    </svg>
+                                                    Background Checked
+                                                </span>
+                                                <span className="inline-flex items-center gap-1.5">
+                                                    <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 text-slate-500" fill="none" aria-hidden>
+                                                        <circle cx="10" cy="10" r="7" stroke="currentColor" strokeWidth="1.5" />
+                                                        <path d="m7.4 10.2 1.6 1.6 3.6-3.6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                    </svg>
+                                                    Subject Verified
+                                                </span>
+                                                <span className="inline-flex items-center gap-1.5">
+                                                    <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 text-slate-500" fill="none" aria-hidden>
+                                                        <rect x="3.5" y="4.5" width="13" height="11" rx="2.5" stroke="currentColor" strokeWidth="1.5" />
+                                                        <path d="m7.4 10 1.7 1.7 3.3-3.3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                    </svg>
+                                                    Demo Evaluated
+                                                </span>
+                                            </div>
                                         </div>
                                     ) : null}
                                 </div>
