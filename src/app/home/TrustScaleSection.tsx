@@ -188,7 +188,7 @@ export function TrustScaleSection() {
             </div>
             <Link
               href={withBasePath("/contact")}
-              className="inline-flex shrink-0 items-center gap-2 rounded-2xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-700"
+              className="inline-flex shrink-0 items-center gap-2 rounded-2xl border border-blue-100/70 bg-gradient-to-r from-white via-blue-50 to-indigo-100 px-6 py-3 text-sm font-extrabold text-blue-900 shadow-[0_14px_34px_rgba(15,23,42,0.26)] transition hover:from-blue-50 hover:via-indigo-50 hover:to-indigo-100 hover:text-blue-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-800"
             >
               Book Free Demo
               <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
